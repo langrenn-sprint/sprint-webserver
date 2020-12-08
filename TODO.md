@@ -1,3 +1,5 @@
 - [ ] Vurdere å endre til [aiohttp](https://docs.aiohttp.org/) som vil skalere betre
 - [ ] Trenger antagelegvis database, sidan in-memory vil fungere dårlig i multithread oppsett
 - [ ] Sette opp endepunkt som man kan POSTe nye filer til
+- [ ] Konfigurere FLASK til å håndtere statiske html filer - Heming har lastet et par filer opp på /src, men de må nok flyttes?
+- [ ] Lage et eksempel på en .py fil som leser innholdet i en fil.
