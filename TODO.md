@@ -1,0 +1,3 @@
+- [ ] Vurdere å endre til [aiohttp](https://docs.aiohttp.org/) som vil skalere betre
+- [ ] Trenger antagelegvis database, sidan in-memory vil fungere dårlig i multithread oppsett
+- [ ] Sette opp endepunkt som man kan POSTe nye filer til
