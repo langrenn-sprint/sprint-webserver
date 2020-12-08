@@ -4,6 +4,9 @@ Her finner du en enkel webserver som generer html basert på csv-filer i test-da
 
 ## Slik går du fram for å kjøre dette lokalt
 
+## installer python (hvis det ikke allerede er gjort)
+% sudo apt-get install python3.6
+
 ### Lag virtuelt miljø og installer Flask
 Følgende instruksjoner er tilpassa til linux, men vil med enkle justeringer fungere både på Windows og Mac
 ```
