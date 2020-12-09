@@ -9,23 +9,25 @@
     <li class=dropdown>
       <a href=javascript:void(0) class=dropbtn>Startlister</a>
       <div class=dropdown-content>
-        <a href=Start.html#SA1>9:00 MJ Semifinaler</a>
-        <a href=Start.html#SA1>9:06 KJ Semifinaler</a>
-        <a href=Start.html#FB>9:21 MJ Finaler</a>
-        <a href=Start.html#FB>9:27 KJ Finaler</a>
+        {% for heat in kjoreplan %}
+          <a href=start?heat={{ heat.index }}>{{ heat.starttid }} {{ heat.klasse }} {{ heat.runde }}</a>
+        {% endfor %}
       </div>
     </li>
     <li class=dropdown>
       <a href=javascript:void(0) class=dropbtn>Resultater</a>
       <div class=dropdown-content>
-        <a href=Resultater_KJ.html>Kvinner junior</a>
+        {% for klasse in klasser %}
+          <a href=resultat?klasse={{ klasse.lopsklasse}}>{{ klasse.klasse}}</a>
+        {% endfor %}
       </div>
     </li>
     <li class=dropdown>
       <a href=javascript:void(0) class=dropbtn>Live</a>
       <div class=dropdown-content>
-        <a href=Live_KJ.html>Kvinner junior</a>
-        <a href=Live_G16.html>G 16</a>
+        {% for klasse in klasser %}
+          <a href=live?klasse={{ klasse.lopsklasse}}>{{ klasse.klasse}}</a>
+        {% endfor %}
       </div>
     </li>
   </ul>
