@@ -4,19 +4,51 @@ Her finner du en enkel webserver som generer html basert på csv-filer i test-da
 
 ## Slik går du fram for å kjøre dette lokalt
 
-## installer python (hvis det ikke allerede er gjort)
-% sudo apt-get install python3.6
+## Develop and run locally
+### Requirements
+- [pyenv](https://github.com/pyenv/pyenv) (recommended)
+- [poetry](https://python-poetry.org/)
+- [nox](https://nox.thea.codes/en/stable/)
+- [nox-poetry](https://pypi.org/project/nox-poetry/)
 
-### Lag virtuelt miljø og installer Flask
-Følgende instruksjoner er tilpassa til linux, men vil med enkle justeringer fungere både på Windows og Mac
+### Install software:
 ```
-% python3 -m venv venv
-% . venv/bin/activate
-% pip install Flask
+% git clone https://github.com/Informasjonsforvaltning/dcat-ap-no-validator-service.git
+% cd dcat-ap-no-validator-service
+% pyenv install 3.9.0
+% pyenv local 3.9.0
+% python get-poetry.py
+% pipx install nox
+% pipx inject nox nox-poetry
+% poetry install
 ```
-### Start webserver
+### Running the API locally
+Start the server locally:
 ```
-% FLASK_APP=src/webserver.py  FLASK_ENV=development flask run --port=8080
+% poetry shell
+% adev runserver src/dcat_ap_no_validator_service
+```
+## Running the API in a wsgi-server (gunicorn)
+```
+% poetry shell
+% gunicorn dcat_ap_no_validator_service:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
+```
+## Running the wsgi-server in Docker
+To build and run the api in a Docker container:
+```
+% docker build -t digdir/dcat-ap-no-validator-service:latest .
+% docker run --env-file .env -p 8080:8080 -d digdir/dcat-ap-no-validator-service:latest
+```
+The easier way would be with docker-compose:
+```
+docker-compose up --build
+```
+## Running tests
+We use [pytest](https://docs.pytest.org/en/latest/) for contract testing.
+
+To run linters, checkers and tests:
+```
+% nox
 ```
 
 ### Teste manuelt
