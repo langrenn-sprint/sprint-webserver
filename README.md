@@ -38,8 +38,7 @@ Enten åpne din nettleser på http://localhost:8080/
 
 Eller via curl:
 ```
-% curl -i http://localhost:8080/
-% curl -i http://localhost:8080/bye
+% curl -i http://localhost:8000/
 ```
 
 Når du endrer koden i webserver.py, vil webserveren laste applikasjonen på nytt autoamtisk ved lagring.
