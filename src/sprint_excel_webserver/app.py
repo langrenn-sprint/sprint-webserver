@@ -12,7 +12,7 @@ from .views import Ping, Ready, Main, Start, Resultat, Live
 async def create_app() -> web.Application:
     """Create an web application."""
     app = web.Application()
-    template_path = os.path.join(os.getcwd(), "src/webserver/templates")
+    template_path = os.path.join(os.getcwd(), "src/sprint_excel_webserver/templates")
     aiohttp_jinja2.setup(
         app,
         enable_async=True,

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "sprint-excel-webserver"
+name = "sprint_excel_webserver"
 version = "0.1.0"
 description = "Webserver serving startlists and results"
 authors = ["Stig B. Dørmænen <stigbd@gmail.com>", "Heming Harnæs <heming.harnaes@gmail.com"]
@@ -49,7 +49,7 @@ source = ["src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = false
-source = ["dcat_ap_no_validator_service"]
+source = ["webserver"]
 omit = ["*gunicorn_config.py"]
 
 [tool.coverage.report]

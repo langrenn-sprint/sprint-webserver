@@ -13,11 +13,11 @@ Her finner du en enkel webserver som generer html basert på csv-filer i test-da
 
 ### Install software:
 ```
-% git clone https://github.com/Informasjonsforvaltning/dcat-ap-no-validator-service.git
-% cd dcat-ap-no-validator-service
+% git clone https://github.com/heming-langrenn/sprint-excel.git
+% cd sprint-excel/webserver
 % pyenv install 3.9.0
 % pyenv local 3.9.0
-% python get-poetry.py
+% pipx install poetry
 % pipx install nox
 % pipx inject nox nox-poetry
 % poetry install
@@ -26,12 +26,13 @@ Her finner du en enkel webserver som generer html basert på csv-filer i test-da
 Start the server locally:
 ```
 % poetry shell
-% adev runserver src/dcat_ap_no_validator_service
+% adev runserver src/webserver
 ```
 ## Running the API in a wsgi-server (gunicorn)
 ```
+%
 % poetry shell
-% gunicorn dcat_ap_no_validator_service:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
+% gunicorn webserver:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
 ```
 ## Running the wsgi-server in Docker
 To build and run the api in a Docker container:
