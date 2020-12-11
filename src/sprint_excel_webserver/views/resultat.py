@@ -11,4 +11,6 @@ class Resultat(web.View):
 
     async def get(self) -> web.Response:
         """Get route function."""
-        return "Resultat! Heat: " + self.request.args.get("heat") + ".\n"
+        return web.Response(
+            text="Resultat! Heat: " + self.request.rel_url.query["klasse"] + ".\n"
+        )

@@ -11,4 +11,6 @@ class Live(web.View):
 
     async def get(self) -> web.Response:
         """Get route function."""
-        return "Live! Heat: " + self.request.args.get("heat") + ".\n"
+        return web.Response(
+            text="Live! Heat: " + self.request.rel_url.query["klasse"] + ".\n"
+        )

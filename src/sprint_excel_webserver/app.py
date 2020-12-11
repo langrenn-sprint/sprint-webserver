@@ -12,6 +12,9 @@ from .views import Ping, Ready, Main, Start, Resultat, Live
 async def create_app() -> web.Application:
     """Create an web application."""
     app = web.Application()
+    # Set up static path
+    static_path = os.path.join(os.getcwd(), "src/sprint_excel_webserver/static")
+    # Set up template path
     template_path = os.path.join(os.getcwd(), "src/sprint_excel_webserver/templates")
     aiohttp_jinja2.setup(
         app,
@@ -27,6 +30,7 @@ async def create_app() -> web.Application:
             web.view("/start", Start),
             web.view("/resultat", Resultat),
             web.view("/live", Live),
+            web.static("/static", static_path),
         ]
     )
     # logging configurataion:

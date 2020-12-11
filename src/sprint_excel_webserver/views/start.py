@@ -11,4 +11,6 @@ class Start(web.View):
 
     async def get(self) -> web.Response:
         """Get route function."""
-        return "Start! Heat: " + self.request.args.get("heat") + ".\n"
+        return web.Response(
+            text="Start! Heat: " + self.request.rel_url.query["heat"] + ".\n"
+        )

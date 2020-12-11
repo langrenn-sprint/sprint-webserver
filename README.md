@@ -30,28 +30,9 @@ Start the server locally:
 ```
 ## Running the API in a wsgi-server (gunicorn)
 ```
-%
 % poetry shell
 % gunicorn sprint_excel_webserver:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
 ```
-## Running the wsgi-server in Docker
-To build and run the api in a Docker container:
-```
-% docker build -t digdir/dcat-ap-no-validator-service:latest .
-% docker run --env-file .env -p 8080:8080 -d digdir/dcat-ap-no-validator-service:latest
-```
-The easier way would be with docker-compose:
-```
-docker-compose up --build
-```
-## Running tests
-We use [pytest](https://docs.pytest.org/en/latest/) for contract testing.
-
-To run linters, checkers and tests:
-```
-% nox
-```
-
 ### Teste manuelt
 Enten åpne din nettleser på http://localhost:8080/
 
