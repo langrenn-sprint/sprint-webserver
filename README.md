@@ -26,13 +26,13 @@ Her finner du en enkel webserver som generer html basert på csv-filer i test-da
 Start the server locally:
 ```
 % poetry shell
-% adev runserver src/webserver
+% adev runserver src/sprint_excel_webserver
 ```
 ## Running the API in a wsgi-server (gunicorn)
 ```
 %
 % poetry shell
-% gunicorn webserver:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
+% gunicorn sprint_excel_webserver:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
 ```
 ## Running the wsgi-server in Docker
 To build and run the api in a Docker container:
