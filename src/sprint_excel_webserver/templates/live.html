@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sprint - live resultater</title>
+    <link rel="stylesheet" type="text/css" href="static/styles.css">
+  </head>
+  <body>
+    <ul>
+      <li class=dropdown id=topborder>
+        <a href=javascript:void(0) class=dropbtn>...</a>
+        <div class=dropdown-content>
+          <a href=#Kvart>Kvartfinaler</a>
+          <a href=#Semi>Semifinaler</a>
+          <a href=#Finale>Finaler</a>
+          <a href=/>Tilbake</a>
+        </div>
+      </li>
+      <li class=dropdown>
+        <a href=javascript:void(0) class=dropbtn>Velg løper</a>
+        <div class=dropdown-content>
+          <a href=live?klasse={{ klasse }}&startnr=28>28 Lars Michael Saab Bjertnæs</a>
+          <a href=live?klasse={{ klasse }}&startnr=31>31 Eirik Bjørk Halvorsen</a>
+          <a href=live?klasse={{ klasse }}&startnr=25>25 Andreas Riisen Auring</a>
+        </div>
+      </li>
+    </ul>
+    <div class=Row>
+      <div class=col-4 id=Kvart>
+        <table id=ramme>
+          <tr>
+            <td id=tittel colspan=6>{{ klasse }} {{ listetype_kvart }}</td>
+          </tr>
+          {% for heat in heatliste_kvart %}
+            <tr id=header>
+              <td colspan=3>{{ heat.runde }}</td>
+              <td colspan=3>Kl. {{ heat.starttid }}</td>
+            </tr>
+            <tr id=subheader>
+              <td>Pos</td>
+              <td>Nr</td>
+              <td>Navn</td>
+              <td>Klubb</td>
+              <td>Plass</td>
+              <td>Videre til</td>
+            </tr>
+
+            {% for loper in startliste_innl_heat %}
+              {% if loper.nr == startnr %}
+                <tr id=fremhev>
+              {% else %}
+                <tr>
+              {% endif %}
+              <td>{{ loper.pos }}</td>
+              <td><div id={{ loper.nr }}>{{ loper.nr }}</div></td>
+              <td>{{ loper.navn }}</td>
+              <td>{{ loper.klubb }}</td>
+              <td>{{ loper.plass }}</td>
+              <td>{{ loper.videre_til }}</td>
+            </tr>
+
+            {% endfor %}
+            <tr>
+              <td id=spacer colspan=6> </td>
+            </tr>
+
+          {% endfor %}
+        </table>
+      </div>
+    <div class=Row><div class=col-12><div id=tittel>Test eksport 2020</div></div></div>
+  </body>
+</html>

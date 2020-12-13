@@ -11,8 +11,8 @@ klasser = [
     {"klasse": "G 16 år", "lopsklasse": "G16", "rekkefolge": "2"},
 ]
 
-# TODO: kjoreplan objektet bør leses fra csv fil.
-kjoreplan = [
+# TODO: objektet bør leses fra csv fil.
+heatliste = [
     {
         "lopsklasse": "MJ",
         "index": "MJSA1",
@@ -36,5 +36,5 @@ class Main(web.View):
         return await aiohttp_jinja2.render_template_async(
             "index.html",
             self.request,
-            {"klasser": klasser, "kjoreplan": kjoreplan},
+            {"klasser": klasser, "heatliste": heatliste},
         )
