@@ -45,3 +45,18 @@ Når du endrer koden i webserver.py, vil webserveren laste applikasjonen på nyt
 
 # Referanser
 Flask: https://flask.palletsprojects.com/en/1.1.x/
+
+# Datamodell
+(pri 1) Lopsklasser
+4 Kolonner: Klasse  Løpsklasse (nøkkel)  Rekkefølge  "Antall deltakere"
+
+(pri 4) Kjoreplan (heat lagt ut i tid)
+    5 kolonner: Lopsklasse  Heat    Index (unik nøkkel for heat)  Runde   Start
+
+(pri 2) Startliste pr Heat
+6 kolonner: Pos Nr Navn Klubb Plass "Videre til"
+
+(pri 3) Resultatliste pr Heat
+5 kolonner: Plass "Videre til" Nr Navn Klubb
+
+(pri 5) Resultatliste pr Klasse

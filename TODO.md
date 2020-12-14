@@ -6,3 +6,6 @@
 - [x] Finne ut hvordan .css fila skal håndteres.
 - [ ] Skrive tester og køyre disse med nox
 - [ ] Vurdere å putte server inn i docker for deployment
+- [ ] Ny versjon av csv (heming)
+- [ ] Prototype på database med innhol, inkl mapper på datamodell og repository (stig)
+- [ ] Oppdatere gui på live data (heming)
