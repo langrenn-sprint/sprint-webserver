@@ -5,10 +5,14 @@ from aiohttp import web
 class Ready(web.View):
     """Class representing ready resource."""
 
-    @staticmethod
-    async def get() -> web.Response:
+    async def get(self) -> web.Response:
         """Ready route function."""
-        return web.Response(text="OK")
+        db = self.request.app['db']
+        result = await db.command("ping")
+        print(result)
+        if result["ok"] == 1:
+            return web.Response(text="OK")
+        raise web.HTTPInternalServerError
 
 
 class Ping(web.View):

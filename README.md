@@ -4,14 +4,14 @@ Her finner du en enkel webserver som generer html basert på csv-filer i test-da
 
 ## Slik går du fram for å kjøre dette lokalt
 
-## Develop and run locally
-### Requirements
+## Utvikle og kjøre lokalt
+### Krav til programvare
 - [pyenv](https://github.com/pyenv/pyenv) (recommended)
 - [poetry](https://python-poetry.org/)
 - [nox](https://nox.thea.codes/en/stable/)
 - [nox-poetry](https://pypi.org/project/nox-poetry/)
 
-### Install software:
+### Installere programvare:
 ```
 % git clone https://github.com/heming-langrenn/sprint-excel.git
 % cd sprint-excel/webserver
@@ -22,8 +22,12 @@ Her finner du en enkel webserver som generer html basert på csv-filer i test-da
 % pipx inject nox nox-poetry
 % poetry install
 ```
-### Running the API locally
-Start the server locally:
+### Kjøre webserver lokalt
+Start en mongodb instans, feks i docker:
+```
+% docker run --rm --name my-mongo -it -p 27017:27017 mongo:latest
+```
+Start lokal webserver mha aiohttp-devtools(adev):
 ```
 % poetry shell
 % adev runserver src/sprint_excel_webserver
@@ -44,7 +48,7 @@ Eller via curl:
 Når du endrer koden i webserver.py, vil webserveren laste applikasjonen på nytt autoamtisk ved lagring.
 
 # Referanser
-Flask: https://flask.palletsprojects.com/en/1.1.x/
+aiohttp: https://docs.aiohttp.org/
 
 # Datamodell
 (pri 1) Lopsklasser

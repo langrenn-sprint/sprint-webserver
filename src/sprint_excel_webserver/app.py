@@ -5,6 +5,7 @@ import os
 from aiohttp import web
 import aiohttp_jinja2
 import jinja2
+import motor.motor_asyncio
 
 from .views import Ping, Ready, Main, Start, Resultat, Live
 
@@ -22,6 +23,10 @@ async def create_app() -> web.Application:
         loader=jinja2.FileSystemLoader(template_path),
     )
     logging.error(template_path)
+    # Set up database connection:
+    client = motor.motor_asyncio.AsyncIOMotorClient()
+    db = client.test_database
+    app["db"] = db
     app.add_routes(
         [
             web.view("/ping", Ping),
