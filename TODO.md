@@ -2,7 +2,7 @@
 - [ ] Trenger antagelegvis database, sidan in-memory vil fungere dårlig i multithread oppsett
 - [ ] Sette opp endepunkt som man kan POSTe nye filer til
 - [x] Konfigurere FLASK til å håndtere statiske html filer - Heming har lastet et par filer opp på /src, men de må nok flyttes?
-- [ ] Lage et eksempel på en .py fil som leser innholdet i en fil.
+- [x] Lage et eksempel på en .py fil som leser innholdet i en fil.
 - [x] Finne ut hvordan .css fila skal håndteres.
 - [ ] Skrive tester og køyre disse med nox
 - [ ] Vurdere å putte server inn i docker for deployment
