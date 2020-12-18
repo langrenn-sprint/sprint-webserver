@@ -122,9 +122,14 @@ a {
     color: green;
 }
 
-#header {
+#headerblue {
     color: white;
     background-color: blue;
+}
+
+#headerblack {
+    color: white;
+    background-color: black;
 }
 
 #fremhev {

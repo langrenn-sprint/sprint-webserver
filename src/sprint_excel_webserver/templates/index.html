@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Sprint - statside</title>
-    <link rel="stylesheet" type="text/css" href="static/styles.css">
-  </head>
-  <body>
+{% extends "base.html" %}
+{% block title %}
+  Velkommen
+{% endblock %}
+{% block content %}
     <ul>
       <li class=dropdown id=topborder>
         <a href=javascript:void(0) class=dropbtn>Startlister</a>
@@ -31,7 +29,7 @@
         </div>
       </li>
     </ul>
-    <p id=tittel>Testsprinten 2021</p>
+    <p id=tittel>Testsprinten</p>
     <table>
       <tr>
         <td>
@@ -79,5 +77,4 @@
         <td>Oppdaterte startlister og resultater pr klasse. Også mulig å kun vise relevante heat for en løper.</td>
       </tr>
     </table>
-  </body>
-</html>
+{% endblock %}

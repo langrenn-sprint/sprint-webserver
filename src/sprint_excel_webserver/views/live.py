@@ -6,40 +6,28 @@ import aiohttp_jinja2
 
 
 # TODO: objektet bør leses fra csv fil.
-listetype_kvart = "Startliste"
-heatliste_kvart = [
-    {
-        "lopsklasse": "MJ",
-        "index": "MJSA1",
-        "runde": "Semifinale A - Heat 1",
-        "starttid": "09:00",
-    },
-    {
-        "lopsklasse": "MJ",
-        "index": "MJSA2",
-        "runde": "Semifinale A - Heat 2",
-        "starttid": "09:03",
-    },
+# 1. Hente opp heatlisten for gjeldende klasse
+# 2. Sjekke om filter på løper er på
+heatliste = [
+    { "lopsklasse": "MJ", "index": "MJSA1", "runde": "Semifinale A - Heat 1", "starttid": "09:00", "resultat_registrert": True,},
+    { "lopsklasse": "MJ", "index": "MJSA2", "runde": "Semifinale A - Heat 2", "starttid": "09:03", "resultat_registrert": True,},
+    { "lopsklasse": "MJ", "index": "MJFA", "runde": "Finale A", "starttid": "09:20", "resultat_registrert": False,},
 ]
 
-# todo - dette bør være et barn av  heat objektet og så bruke rekursiv for løkke
-startliste_innl_heat = [
-    {
-        "pos": "1",
-        "nr": "28",
-        "navn": "Lars Michael Saab",
-        "klubb": "Njård",
-        "plass": "1",
-        "videre_til": "SA1-1",
-    },
-    {
-        "pos": "2",
-        "nr": "31",
-        "navn": "Eirik Bjørk Halvorsen",
-        "klubb": "Kjelsås",
-        "plass": "2",
-        "videre_til": "Ute",
-    },
+# TODO: objektet bør leses fra csv fil.
+# 3. Loope gjennom alle heat
+# 3a. Hente løpere i heatet (resultat hvis det finnes, hvis ikke startende)
+# 3b. Bygge opp objekt med løpere i heatet - alltid minimum 6
+loperliste = [
+    { "heat": "MJSA1", "pos": "", "nr": "28", "navn": "Lars Michael Saab", "klubb": "Njård", "plass": "1", "videre_til": "FA-1", },
+    { "heat": "MJSA1", "pos": "", "nr": "29", "navn": "Ole H", "klubb": "Lyn", "plass": "2", "videre_til": "FA-2", },
+    { "heat": "MJSA1", "pos": "", "nr": "30", "navn": "Lars B", "klubb": "Njård", "plass": "3", "videre_til": "FA-3", },
+    { "heat": "MJSA2", "pos": "1", "nr": "31", "navn": "Eirik", "klubb": "Njård", "plass": "1", "videre_til": "FA-4", },
+    { "heat": "MJSA2", "pos": "2", "nr": "32", "navn": "Gunnar", "klubb": "Kjelsås", "plass": "2", "videre_til": "FA-5", },
+    { "heat": "MJSA2", "pos": "3", "nr": "33", "navn": "Lars B", "klubb": "Njård", "plass": "3", "videre_til": "FA-6", },
+    { "heat": "MJFA", "pos": "", "nr": "28", "navn": "Lars Michael Saab", "klubb": "Njård", "plass": "", "videre_til": "", },
+    { "heat": "MJFA", "pos": "", "nr": "29", "navn": "Ole H", "klubb": "Lyn", "plass": "", "videre_til": "", },
+    { "heat": "MJFA", "pos": "", "nr": "30", "navn": "Lars B", "klubb": "Njård", "plass": "", "videre_til": "", },
 ]
 
 
@@ -58,8 +46,7 @@ class Live(web.View):
             {
                 "klasse": klasse,
                 "startnr": startnr,
-                "listetype_kvart": listetype_kvart,
-                "heatliste_kvart": heatliste_kvart,
-                "startliste_innl_heat": startliste_innl_heat,
+                "heatliste": heatliste,
+                "loperliste": loperliste,
             },
         )

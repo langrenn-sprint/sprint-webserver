@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Sprint - live resultater</title>
-    <link rel="stylesheet" type="text/css" href="static/styles.css">
-  </head>
-  <body>
+{% extends "base.html" %}
+{% block title %}
+  Live
+{% endblock %}
+{% block content %}
     <ul>
       <li class=dropdown id=topborder>
         <a href=javascript:void(0) class=dropbtn>...</a>
@@ -28,37 +26,72 @@
       <div class=col-4 id=Kvart>
         <table id=ramme>
           <tr>
-            <td id=tittel colspan=6>{{ klasse }} {{ listetype_kvart }}</td>
+            <td id=tittel colspan=6>{{ klasse }}</td>
           </tr>
-          {% for heat in heatliste_kvart %}
-            <tr id=header>
-              <td colspan=3>{{ heat.runde }}</td>
-              <td colspan=3>Kl. {{ heat.starttid }}</td>
-            </tr>
-            <tr id=subheader>
-              <td>Pos</td>
-              <td>Nr</td>
-              <td>Navn</td>
-              <td>Klubb</td>
-              <td>Plass</td>
-              <td>Videre til</td>
-            </tr>
-
-            {% for loper in startliste_innl_heat %}
-              {% if loper.nr == startnr %}
-                <tr id=fremhev>
+          {% for heat in heatliste %}
+              {% if heat.resultat_registrert %}
+                <tr id=headerblack>
+                  <td colspan=3>{{ heat.runde }}</td>
+                  <td colspan=3>Resultater</td>
+                </tr>
+                <tr id=subheader>
+                  <td>Plass</td>
+                  <td>Nr</td>
+                  <td>Navn</td>
+                  <td>Klubb</td>
+                  <td></td>
+                  <td>Videre til</td>
+                </tr>
               {% else %}
-                <tr>
+                <tr id=headerblue>
+                  <td colspan=3>{{ heat.runde }}</td>
+                  <td colspan=3>Start kl. {{ heat.starttid }}</td>
+                </tr>
+                <tr id=subheader>
+                  <td>Pos</td>
+                  <td>Nr</td>
+                  <td>Navn</td>
+                  <td>Klubb</td>
+                  {% if heat.runde[0] == "F" %}
+                      <td></td>
+                      <td></td>
+                    {% else %}
+                      <td>Plass</td>
+                      <td>Videre til</td>
+                    {% endif %}
+                </tr>
               {% endif %}
-              <td>{{ loper.pos }}</td>
-              <td><div id={{ loper.nr }}>{{ loper.nr }}</div></td>
-              <td>{{ loper.navn }}</td>
-              <td>{{ loper.klubb }}</td>
-              <td>{{ loper.plass }}</td>
-              <td>{{ loper.videre_til }}</td>
-            </tr>
+
+            {% for loper in loperliste %}
+
+              {% if heat.index == loper.heat %}
+
+                  {% if loper.nr == startnr %}
+                    <tr id=fremhev>
+                  {% else %}
+                    <tr>
+                  {% endif %}
+
+                  {% if heat.resultat_registrert %}
+                    <td>{{ loper.plass }}</td>
+                    <td><div id={{ loper.nr }}>{{ loper.nr }}</div></td>
+                    <td>{{ loper.navn }}</td>
+                    <td>{{ loper.klubb }}</td>
+                    <td></td>
+                    <td>{{ loper.videre_til }}</td>
+                  {% else %}
+                  <td>{{ loper.pos }}</td>
+                  <td><div id={{ loper.nr }}>{{ loper.nr }}</div></td>
+                  <td>{{ loper.navn }}</td>
+                  <td>{{ loper.klubb }}</td>
+                  <td>{{ loper.plass }}</td>
+                  <td>{{ loper.videre_til }}</td>
+                  {% endif %}
+                  </tr>
+              {% endif %}
 
             {% endfor %}
+
             <tr>
               <td id=spacer colspan=6> </td>
             </tr>
@@ -66,6 +99,4 @@
           {% endfor %}
         </table>
       </div>
-    <div class=Row><div class=col-12><div id=tittel>Test eksport 2020</div></div></div>
-  </body>
-</html>
+{% endblock %}
