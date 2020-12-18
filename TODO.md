@@ -1,11 +1,16 @@
 - [x] Vurdere å endre til [aiohttp](https://docs.aiohttp.org/) som vil skalere betre
-- [ ] Trenger antagelegvis database, sidan in-memory vil fungere dårlig i multithread oppsett
-- [ ] Sette opp endepunkt som man kan POSTe nye filer til
+- [/] Trenger antagelegvis database, sidan in-memory vil fungere dårlig i multithread oppsett
+- [x] Sette opp endepunkt som man kan POSTe nye filer til
 - [x] Konfigurere FLASK til å håndtere statiske html filer - Heming har lastet et par filer opp på /src, men de må nok flyttes?
 - [x] Lage et eksempel på en .py fil som leser innholdet i en fil.
 - [x] Finne ut hvordan .css fila skal håndteres.
-- [ ] Skrive tester og køyre disse med nox
+- [ ] Skrive tester og køyre disse med nox for
 - [ ] Vurdere å putte server inn i docker for deployment
 - [ ] Ny versjon av csv (heming)
 - [ ] Prototype på database med innhol, inkl mapper på datamodell og repository (stig)
 - [ ] Oppdatere gui på live data (heming)
+- [ ] Implementer lopsklasser (Klasser) datamodell (Prio 1)
+- [ ] Implementer startliste pr heat (Start) (Prio 2)
+- [ ] Implementer Resultatliste pr heat (Resultat) (Prio 3)
+- [ ] Implementer Kjøpreplan (heat lagt ut i tid) (Prio 4)
+- [ ] Implementer Resultatliste pr klasse (Prio 5)
