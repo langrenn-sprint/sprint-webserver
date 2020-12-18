@@ -5,7 +5,7 @@ from aiohttp import web
 import aiohttp_jinja2
 
 
-# TODO: klasser objektet bør leses fra csv fil.
+# TODO: klasser objektet skal leses fra db.
 klasser = [
     {"klasse": "Menn junior", "lopsklasse": "MJ", "rekkefolge": "1"},
     {"klasse": "G 16 år", "lopsklasse": "G16", "rekkefolge": "2"},

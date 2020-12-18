@@ -4,15 +4,19 @@ import os
 
 from aiohttp import web
 import aiohttp_jinja2
+from dotenv import load_dotenv
 import jinja2
 import motor.motor_asyncio
 
-from .views import Ping, Ready, Main, Start, Resultat, Live
+from .views import Klasser, Live, Main, Ping, Ready, Resultat, Start
 
 
 async def create_app() -> web.Application:
     """Create an web application."""
     app = web.Application()
+    load_dotenv()
+    LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", "INFO")
+    logging.basicConfig(level=LOGGING_LEVEL)
     # Set up static path
     static_path = os.path.join(os.getcwd(), "src/sprint_excel_webserver/static")
     # Set up template path
@@ -36,9 +40,9 @@ async def create_app() -> web.Application:
             web.view("/resultat", Resultat),
             web.view("/live", Live),
             web.static("/static", static_path),
+            web.view("/klasser", Klasser),
         ]
     )
     # logging configurataion:
     # TODO: get level from environment and set default to INFO
-    logging.basicConfig(level=logging.INFO)
     return app

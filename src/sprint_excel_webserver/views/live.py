@@ -22,7 +22,7 @@ heatliste_kvart = [
     },
 ]
 
-#todo - dette bør være et barn av  heat objektet og så bruke rekursiv for løkke
+# todo - dette bør være et barn av  heat objektet og så bruke rekursiv for løkke
 startliste_innl_heat = [
     {
         "pos": "1",
@@ -55,5 +55,11 @@ class Live(web.View):
         return await aiohttp_jinja2.render_template_async(
             "live.html",
             self.request,
-            {"klasse": klasse, "startnr": startnr, "listetype_kvart": listetype_kvart, "heatliste_kvart": heatliste_kvart, "startliste_innl_heat": startliste_innl_heat},
+            {
+                "klasse": klasse,
+                "startnr": startnr,
+                "listetype_kvart": listetype_kvart,
+                "heatliste_kvart": heatliste_kvart,
+                "startliste_innl_heat": startliste_innl_heat,
+            },
         )
