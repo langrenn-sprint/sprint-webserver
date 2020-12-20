@@ -14,6 +14,7 @@ from .views import Klasser, Live, Main, Ping, Ready, Resultat, Start
 async def create_app() -> web.Application:
     """Create an web application."""
     app = web.Application()
+    # Set up logging
     load_dotenv()
     LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", "INFO")
     logging.basicConfig(level=LOGGING_LEVEL)
