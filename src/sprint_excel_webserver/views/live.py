@@ -25,9 +25,6 @@ loperliste = [
     { "heat": "MJSA2", "pos": "1", "nr": "31", "navn": "Eirik", "klubb": "Njård", "plass": "1", "videre_til": "FA-4", },
     { "heat": "MJSA2", "pos": "2", "nr": "32", "navn": "Gunnar", "klubb": "Kjelsås", "plass": "2", "videre_til": "FA-5", },
     { "heat": "MJSA2", "pos": "3", "nr": "33", "navn": "Lars B", "klubb": "Njård", "plass": "3", "videre_til": "FA-6", },
-    { "heat": "MJFA", "pos": "", "nr": "28", "navn": "Lars Michael Saab", "klubb": "Njård", "plass": "", "videre_til": "", },
-    { "heat": "MJFA", "pos": "", "nr": "29", "navn": "Ole H", "klubb": "Lyn", "plass": "", "videre_til": "", },
-    { "heat": "MJFA", "pos": "", "nr": "30", "navn": "Lars B", "klubb": "Njård", "plass": "", "videre_til": "", },
 ]
 
 # TODO: objektet bør leses fra csv fil.
@@ -52,7 +49,7 @@ class Live(web.View):
             valgt_startnr = self.request.rel_url.query["startnr"]
         except:
             valgt_startnr ="";
-            
+
 
 
         """Get route function."""

@@ -60,6 +60,7 @@ li a, .dropbtn {
   text-align: center;
   padding: 8px 8px;
   text-decoration: none;
+  font-size: 150%;
 }
 
 li a:hover, .dropdown:hover .dropbtn {
@@ -103,18 +104,19 @@ li.dropdown {
 
 h1 {
   text-align: center;
+  padding: 4px 4px 4px 4px;
 }
 h2 {
   text-align: center;
+  padding: 4px 4px 4px 4px;
 }
 
 table {
 	border-spacing: 0;
-  min-width: 500px;
+  min-width: 600px;
 }
 
 td {
-
   padding-left: 5px;
 }
 
@@ -144,11 +146,9 @@ a {
     background-color: yellow;
 }
 
-
 #spacer {
   height: 10px;
 }
-
 
 #bredde {
   vertical-align: top;
@@ -160,6 +160,6 @@ a {
 
 #ramme  {
   background-color: white;
-  border: 1px solid black;
-  outline: 4px solid lightgrey;
+  border: 2px solid black;
+  outline: 1px solid lightgrey;
 }

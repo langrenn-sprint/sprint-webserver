@@ -35,28 +35,28 @@ loperliste = [
 class Start(web.View):
     """Class representing the start view."""
 
-    try:
-        valgt_klasse = self.request.rel_url.query["klasse"]
-    except:
-        valgt_klasse ="";
-
-    try:
-        valgt_klubb = self.request.rel_url.query["klubb"]
-    except:
-        valgt_klubb ="";
-
-    try:
-        valgt_heat = self.request.rel_url.query["heat"]
-    except:
-        valgt_heat ="";
-
 
     async def get(self) -> web.Response:
+
+        try:
+            valgt_klasse = self.request.rel_url.query["klasse"]
+        except:
+            valgt_klasse ="";
+        try:
+            valgt_klubb = self.request.rel_url.query["klubb"]
+        except:
+            valgt_klubb ="";
+        try:
+            valgt_heat = self.request.rel_url.query["heat"]
+        except:
+            valgt_heat ="";
+
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(
             "start.html",
             self.request,
             {
+                "valgt_klubb": valgt_klubb,
                 "klasser": klasser,
                 "klubber": klubber,
                 "heatliste": heatliste,
