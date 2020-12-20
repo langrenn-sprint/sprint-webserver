@@ -16,18 +16,17 @@
       <li class=dropdown>
         <a href=javascript:void(0) class=dropbtn>Velg løper</a>
         <div class=dropdown-content>
-          <a href=live?klasse={{ klasse }}&startnr=28>28 Lars Michael Saab Bjertnæs</a>
-          <a href=live?klasse={{ klasse }}&startnr=31>31 Eirik Bjørk Halvorsen</a>
-          <a href=live?klasse={{ klasse }}&startnr=25>25 Andreas Riisen Auring</a>
+          {% for deltaker in deltakere %}
+            <a href=live?klasse={{ valgt_klasse }}&startnr={{ deltaker.nr }}>{{ deltaker.nr }} {{ deltaker.navn }}</a>
+          {% endfor %}
         </div>
       </li>
     </ul>
+
+    <h2>{{ valgt_klasse }} - live resultater</h2>
     <div class=Row>
       <div class=col-4 id=Kvart>
         <table id=ramme>
-          <tr>
-            <td id=tittel colspan=6>{{ klasse }}</td>
-          </tr>
           {% for heat in heatliste %}
               {% if heat.resultat_registrert %}
                 <tr id=headerblack>
@@ -66,7 +65,7 @@
 
               {% if heat.index == loper.heat %}
 
-                  {% if loper.nr == startnr %}
+                  {% if loper.nr == valgt_startnr %}
                     <tr id=fremhev>
                   {% else %}
                     <tr>

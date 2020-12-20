@@ -30,22 +30,39 @@ loperliste = [
     { "heat": "MJFA", "pos": "", "nr": "30", "navn": "Lars B", "klubb": "Njård", "plass": "", "videre_til": "", },
 ]
 
+# TODO: objektet bør leses fra csv fil.
+# Deltakere er alle løpere i gjeldende klasse
+deltakere = [
+    { "nr": "28", "navn": "Lars Michael Saab", "klubb": "Njård", "klasse": "MJ",},
+    { "nr": "29", "navn": "Heming H", "klubb": "Kjelsås", "klasse": "MJ",},
+    { "nr": "51", "navn": "Stig BD", "klubb": "Lyn", "klasse": "G16",},
+]
+
 
 class Live(web.View):
     """Class representing the live view."""
 
     async def get(self) -> web.Response:
-        # TODO - må bruke klasse for å hente heatliste
-        klasse = self.request.rel_url.query["klasse"]
-        startnr = self.request.rel_url.query["startnr"]
+
+        try:
+            valgt_klasse = self.request.rel_url.query["klasse"]
+        except:
+            valgt_klasse ="";
+        try:
+            valgt_startnr = self.request.rel_url.query["startnr"]
+        except:
+            valgt_startnr ="";
+            
+
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(
             "live.html",
             self.request,
             {
-                "klasse": klasse,
-                "startnr": startnr,
+                "valgt_klasse": valgt_klasse,
+                "valgt_startnr": valgt_startnr,
+                "deltakere": deltakere,
                 "heatliste": heatliste,
                 "loperliste": loperliste,
             },
