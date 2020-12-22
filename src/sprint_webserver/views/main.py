@@ -13,9 +13,27 @@ klasser = [
 
 # TODO: objektet bør leses fra csv fil.
 heatliste = [
-    { "lopsklasse": "MJ", "index": "MJSA1", "runde": "Semifinale A - Heat 1", "starttid": "09:00", "resultat_registrert": True,},
-    { "lopsklasse": "MJ", "index": "MJSA2", "runde": "Semifinale A - Heat 2", "starttid": "09:03", "resultat_registrert": True,},
-    { "lopsklasse": "MJ", "index": "MJFA", "runde": "Finale A", "starttid": "09:20", "resultat_registrert": False,},
+    {
+        "lopsklasse": "MJ",
+        "index": "MJSA1",
+        "runde": "Semifinale A - Heat 1",
+        "starttid": "09:00",
+        "resultat_registrert": True,
+    },
+    {
+        "lopsklasse": "MJ",
+        "index": "MJSA2",
+        "runde": "Semifinale A - Heat 2",
+        "starttid": "09:03",
+        "resultat_registrert": True,
+    },
+    {
+        "lopsklasse": "MJ",
+        "index": "MJFA",
+        "runde": "Finale A",
+        "starttid": "09:20",
+        "resultat_registrert": False,
+    },
 ]
 
 

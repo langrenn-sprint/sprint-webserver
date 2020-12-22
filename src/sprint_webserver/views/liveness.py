@@ -7,7 +7,7 @@ class Ready(web.View):
 
     async def get(self) -> web.Response:
         """Ready route function."""
-        db = self.request.app['db']
+        db = self.request.app["db"]
         result = await db.command("ping")
         print(result)
         if result["ok"] == 1:

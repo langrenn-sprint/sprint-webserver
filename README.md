@@ -30,12 +30,12 @@ Start en mongodb instans, feks i docker:
 Start lokal webserver mha aiohttp-devtools(adev):
 ```
 % poetry shell
-% adev runserver src/sprint_excel_webserver
+% adev runserver src/sprint_webserver
 ```
 ## Running the API in a wsgi-server (gunicorn)
 ```
 % poetry shell
-% gunicorn sprint_excel_webserver:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
+% gunicorn sprint_webserver:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
 ```
 ### Teste manuelt
 Enten åpne din nettleser på http://localhost:8080/
