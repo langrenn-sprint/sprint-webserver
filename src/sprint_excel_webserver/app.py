@@ -27,7 +27,8 @@ async def create_app() -> web.Application:
         enable_async=True,
         loader=jinja2.FileSystemLoader(template_path),
     )
-    logging.error(template_path)
+    logging.debug(f"template_path: {template_path}")
+    logging.debug(f"static_path: {static_path}")
     # Set up database connection:
     client = motor.motor_asyncio.AsyncIOMotorClient()
     db = client.test_database
