@@ -4,12 +4,8 @@
 from aiohttp import web
 import aiohttp_jinja2
 
+from sprint_webserver.services import KlasserService
 
-# TODO: klasser objektet skal leses fra db.
-klasser = [
-    {"klasse": "Menn junior", "lopsklasse": "MJ", "rekkefolge": "1"},
-    {"klasse": "G 16 år", "lopsklasse": "G16", "rekkefolge": "2"},
-]
 
 # TODO: objektet bør leses fra csv fil.
 heatliste = [
@@ -42,6 +38,8 @@ class Main(web.View):
 
     async def get(self) -> web.Response:
         """Get route function."""
+        klasser = await KlasserService().get_all_klasser(self.request.app["db"])
+
         return await aiohttp_jinja2.render_template_async(
             "index.html",
             self.request,

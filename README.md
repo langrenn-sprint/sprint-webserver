@@ -29,8 +29,7 @@ Start en mongodb instans, feks i docker:
 ```
 Start lokal webserver mha aiohttp-devtools(adev):
 ```
-% poetry shell
-% adev runserver src/sprint_webserver
+% poetry run adev runserver src/sprint_webserver
 ```
 ## Running the API in a wsgi-server (gunicorn)
 ```
