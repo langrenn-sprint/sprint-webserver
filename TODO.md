@@ -7,9 +7,9 @@
 - [ ] Skrive tester og køyre disse med nox for
 - [ ] Vurdere å putte server inn i docker for deployment
 - [ ] Ny versjon av csv (heming)
-- [ ] Prototype på database med innhol, inkl mapper på datamodell og repository (stig)
+- [x] Prototype på database med innhol, inkl mapper på datamodell og repository (stig)
 - [ ] Oppdatere gui på live data (heming)
-- [ ] Implementer lopsklasser (Klasser) datamodell (Prio 1)
+- [x] Implementer lopsklasser (Klasser) datamodell (Prio 1)
 - [ ] Implementer startliste pr heat (Start) (Prio 2)
 - [ ] Implementer Resultatliste pr heat (Resultat) (Prio 3)
 - [ ] Implementer Kjøpreplan (heat lagt ut i tid) (Prio 4)

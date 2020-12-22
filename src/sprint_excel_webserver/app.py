@@ -45,6 +45,4 @@ async def create_app() -> web.Application:
             web.view("/klasser", Klasser),
         ]
     )
-    # logging configurataion:
-    # TODO: get level from environment and set default to INFO
     return app
