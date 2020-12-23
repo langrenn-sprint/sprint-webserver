@@ -100,19 +100,19 @@ class Start(web.View):
     """Class representing the start view."""
 
     async def get(self) -> web.Response:
-
+        """Get route function that return the startlister page."""
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
-        except:
-            valgt_klasse = ""
+        except Exception:
+            valgt_klasse = ""  # noqa: F841
         try:
             valgt_klubb = self.request.rel_url.query["klubb"]
-        except:
+        except Exception:
             valgt_klubb = ""
         try:
             valgt_heat = self.request.rel_url.query["heat"]
-        except:
-            valgt_heat = ""
+        except Exception:
+            valgt_heat = ""  # noqa: F841
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(

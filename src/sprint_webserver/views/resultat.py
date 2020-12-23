@@ -34,13 +34,10 @@ deltakere = [
 class Resultat(web.View):
     """Class representing the resultat view."""
 
-    try:
-        valgt_klasse = self.request.rel_url.query["klasse"]
-    except:
-        valgt_klasse = ""
-
     async def get(self) -> web.Response:
         """Get route function."""
-        return web.Response(
-            text="Resultat! Heat: " + self.request.rel_url.query["klasse"] + ".\n"
-        )
+        try:
+            valgt_klasse = self.request.rel_url.query["klasse"]
+        except Exception:
+            valgt_klasse = ""
+        return web.Response(text="Resultat! Heat: " + valgt_klasse + ".\n")

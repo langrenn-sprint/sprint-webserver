@@ -121,14 +121,15 @@ class Live(web.View):
     """Class representing the live view."""
 
     async def get(self) -> web.Response:
-
+        """Get route function that return the live result page."""
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
-        except:
+        except Exception:
+
             valgt_klasse = ""
         try:
             valgt_startnr = self.request.rel_url.query["startnr"]
-        except:
+        except Exception:
             valgt_startnr = ""
 
         """Get route function."""

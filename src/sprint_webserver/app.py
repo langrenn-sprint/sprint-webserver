@@ -10,18 +10,21 @@ import motor.motor_asyncio
 
 from .views import Klasse, Klasser, Live, Main, Ping, Ready, Resultat, Start
 
+load_dotenv()
+LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", "INFO")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = int(os.getenv("DB_PORT", 27017))
+
 
 async def create_app() -> web.Application:
     """Create an web application."""
     app = web.Application()
     # Set up logging
-    load_dotenv()
-    LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", "INFO")
     logging.basicConfig(level=LOGGING_LEVEL)
     # Set up static path
-    static_path = os.path.join(os.getcwd(), "src/sprint_webserver/static")
+    static_path = os.path.join(os.getcwd(), "sprint_webserver/static")
     # Set up template path
-    template_path = os.path.join(os.getcwd(), "src/sprint_webserver/templates")
+    template_path = os.path.join(os.getcwd(), "sprint_webserver/templates")
     aiohttp_jinja2.setup(
         app,
         enable_async=True,
@@ -30,7 +33,7 @@ async def create_app() -> web.Application:
     logging.debug(f"template_path: {template_path}")
     logging.debug(f"static_path: {static_path}")
     # Set up database connection:
-    client = motor.motor_asyncio.AsyncIOMotorClient()
+    client = motor.motor_asyncio.AsyncIOMotorClient(DB_HOST, DB_PORT)
     db = client.test_database
     app["db"] = db
     app.add_routes(

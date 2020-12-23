@@ -11,7 +11,7 @@ class Klasser(web.View):
     """Class representing the klasser resource."""
 
     async def get(self) -> web.Response:
-        """Get route function."""
+        """Get route function that returns all klasses."""
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
         body = json.dumps(klasser, default=str, ensure_ascii=False)
         logging.debug(body)
@@ -22,7 +22,7 @@ class Klasser(web.View):
         )
 
     async def post(self) -> web.Response:
-        """Post route function."""
+        """Post route function that creates a collection of klasses."""
         body = await self.request.json()
         logging.debug(f"Got request-body {body} of type {type(body)}")
         await KlasserService().create_klasser(self.request.app["db"], body)
@@ -38,7 +38,7 @@ class Klasse(web.View):
     """Class representing a single klasse resource."""
 
     async def get(self) -> web.Response:
-        """Shape route function."""
+        """Get route function that returns a single klasse."""
         lopsklasse = self.request.match_info["lopsklasse"]
         logging.debug(f"Got request for lopsklasse {lopsklasse}")
         klasse = await KlasserService().get_klasse_by_lopsklasse(

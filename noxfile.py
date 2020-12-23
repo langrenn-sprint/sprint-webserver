@@ -8,19 +8,54 @@ import nox_poetry  # noqa: F401
 package = "sprint_webserver"
 locations = "src", "tests", "noxfile.py"
 nox.options.stop_on_first_error = True
-nox.options.sessions = ("black", "lint", "mypy", "pytype", "tests")
+nox.options.sessions = (
+    "black",
+    "lint",
+    "mypy",
+    "pytype",
+    # "integration_tests",
+    "contract_tests",
+)
 
 
 @nox.session(python=["3.7", "3.9"])
-def tests(session: Session) -> None:
-    """Run the test suite."""
+def integration_tests(session: Session) -> None:
+    """Run the integration test suite."""
     args = session.posargs or ["--cov"]
     session.install(".")
-    session.install("coverage[toml]", "pytest", "pytest-cov", "pytest-mock", "deepdiff")
+    session.install(
+        "coverage[toml]",
+        "pytest",
+        "pytest-cov",
+        "pytest-mock",
+        "pytest-aiohttp",
+    )
     session.run(
         "pytest",
+        "-m integration",
         "-rA",
         *args,
+        env={},
+    )
+
+
+@nox.session(python=["3.7", "3.9"])
+def contract_tests(session: Session) -> None:
+    """Run the contract test suite."""
+    args = session.posargs
+    session.install(".")
+    session.install(
+        "pytest",
+        "pytest-docker",
+        "pytest_mock",
+        "pytest-asyncio",
+    )
+    session.run(
+        "pytest",
+        "-m contract",
+        "-rA",
+        *args,
+        env={},
     )
 
 

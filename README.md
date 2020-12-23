@@ -29,15 +29,15 @@ Start en mongodb instans, feks i docker:
 ```
 Start lokal webserver mha aiohttp-devtools(adev):
 ```
-% poetry run adev runserver src/sprint_webserver
+% cd src && poetry run adev runserver sprint_webserver
 ```
 ## Running the API in a wsgi-server (gunicorn)
 ```
-% poetry shell
-% gunicorn sprint_webserver:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
+% cd src
+% poetry run gunicorn sprint_webserver:create_app --bind localhost:8000 --worker-class aiohttp.GunicornWebWorker
 ```
 ### Teste manuelt
-Enten åpne din nettleser på http://localhost:8080/
+Enten åpne din nettleser på http://localhost:8000/
 
 Eller via curl:
 ```

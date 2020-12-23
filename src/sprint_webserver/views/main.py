@@ -37,7 +37,7 @@ class Main(web.View):
     """Class representing the main view."""
 
     async def get(self) -> web.Response:
-        """Get route function."""
+        """Get route function that return the main page."""
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
 
         return await aiohttp_jinja2.render_template_async(
