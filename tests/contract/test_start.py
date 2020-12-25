@@ -1,4 +1,4 @@
-"""Contract test cases for main."""
+"""Contract test cases for start."""
 from typing import Any
 
 import pytest
@@ -6,9 +6,9 @@ import requests
 
 
 @pytest.mark.contract
-def test_main(http_service: Any) -> None:
-    """Should return 200 and html."""
-    url = f"{http_service}"
+def test_start(http_service: Any) -> None:
+    """Should return status 200 and html."""
+    url = f"{http_service}/start"
     response = requests.get(url)
 
     assert response.status_code == 200
