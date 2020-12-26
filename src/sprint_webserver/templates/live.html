@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-  {{ valgt_klasse }} Live resultater
+  {{ valgt_klasse }} Live scroll
 {% endblock %}
 {% block content %}
     <script>
@@ -9,13 +9,15 @@
         elmnt.scrollIntoView();
       }
     </script>
-    <h2 id=headerblue>{{ valgt_klasse }} Live resultater</h2>
+    <h2 id=headerblue>{{ valgt_klasse }} Live scroll</h2>
     <ul>
       <li class=dropdown id=topborder>
         <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
         <div class=dropdown-content>
           {% for klasse in klasser %}
-            <a href=live?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+            {% if klasse.Resultatliste %}
+              <a href=live?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+            {% endif %}
           {% endfor %}
         </div>
       </li>
@@ -36,7 +38,7 @@
         </div>
       </li>
     </ul>
-
+{{ klasser }}
     <table id=ramme>
       {% for heat in heatliste %}
           <div id={{ heat.runde[0] }} >

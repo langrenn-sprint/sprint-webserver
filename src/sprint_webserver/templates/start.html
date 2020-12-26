@@ -9,14 +9,8 @@
         elmnt.scrollIntoView();
       }
     </script>
-    <h2 id=headerblue>{{ valgt_klasse }} Startlister</h2>
+    <h2 id=headerblue>{{ valgt_klubb }}{{ valgt_klasse }} Startlister</h2>
     <ul>
-      <li class=dropdown id=topborder>
-        <a href=javascript:void(0) class=dropbtn>...</a>
-        <div class=dropdown-content>
-          <a href=/>Hjem</a>
-        </div>
-      </li>
       <li class=dropdown id=topborder>
         <a href=javascript:void(0) class=dropbtn>Heat</a>
         <div class=dropdown-content>
@@ -33,7 +27,7 @@
           {% endfor %}
         </div>
       </li>
-      <li class=dropdown>
+      <li class=dropdown id=topborder>
         <a href=javascript:void(0) class=dropbtn>Klubb</a>
         <div class=dropdown-content>
           {% for klubb in klubber %}
@@ -41,7 +35,7 @@
           {% endfor %}
         </div>
       </li>
-      <li class=dropdown>
+      <li class=dropdown id=topborder>
         <a href=javascript:void(0) class=dropbtn>Runde</a>
         <div class=dropdown-content>
             <a href=javascript:naviger("K")>Kvartfinaler</a>

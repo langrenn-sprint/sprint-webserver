@@ -118,6 +118,8 @@ class Start(web.View):
             self.request,
             {
                 "valgt_klubb": valgt_klubb,
+                "valgt_klasse": valgt_klasse,
+                "valgt_heat": valgt_heat,
                 "klasser": klasser,
                 "klubber": klubber,
                 "heatliste": heatliste,
