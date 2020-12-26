@@ -9,14 +9,17 @@
         elmnt.scrollIntoView();
       }
     </script>
+    <h2 id=headerblue>{{ valgt_klasse }} Live resultater</h2>
     <ul>
       <li class=dropdown id=topborder>
-        <a href=javascript:void(0) class=dropbtn>...</a>
+        <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
         <div class=dropdown-content>
-          <a href=/>Hjem</a>
+          {% for klasse in klasser %}
+            <a href=live?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+          {% endfor %}
         </div>
       </li>
-      <li class=dropdown>
+      <li class=dropdown id=topborder>
         <a href=javascript:void(0) class=dropbtn>Velg runde</a>
         <div class=dropdown-content>
             <a href=javascript:naviger("K")>Kvartfinaler</a>
@@ -24,7 +27,7 @@
             <a href=javascript:naviger("F")>Finaler</a>
         </div>
       </li>
-      <li class=dropdown>
+      <li class=dropdown id=topborder>
         <a href=javascript:void(0) class=dropbtn>Velg løper</a>
         <div class=dropdown-content>
           {% for deltaker in deltakere %}
@@ -34,7 +37,6 @@
       </li>
     </ul>
 
-    <h2>{{ valgt_klasse }} Live resultater</h2>
     <table id=ramme>
       {% for heat in heatliste %}
           <div id={{ heat.runde[0] }} >

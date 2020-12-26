@@ -9,6 +9,7 @@
         elmnt.scrollIntoView();
       }
     </script>
+    <h2 id=headerblue>{{ valgt_klasse }} Startlister</h2>
     <ul>
       <li class=dropdown id=topborder>
         <a href=javascript:void(0) class=dropbtn>...</a>
@@ -25,10 +26,10 @@
         </div>
       </li>
       <li class=dropdown id=topborder>
-        <a href=javascript:void(0) clasubbopbtn>Klasse</a>
+        <a href=javascript:void(0) class=dropbtn>Klasse</a>
         <div class=dropdown-content>
           {% for klasse in klasser %}
-            <a href=start?klasse={{ klasse.lopsklasse }}>{{ klasse.klasse }}</a>
+            <a href=start?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
           {% endfor %}
         </div>
       </li>
@@ -50,8 +51,7 @@
       </li>
     </ul>
 
-    <h2>Startlister {{ valgt_klubb }}{{ valgt_klasse }} </h2>
-    <table id=ramme>
+    <table>
       {% for heat in heatliste %}
         <div id={{ heat.runde[0] }} >
           <tr id=headerblue id={{ heat.index }}>

@@ -4,11 +4,7 @@
 from aiohttp import web
 import aiohttp_jinja2
 
-# TODO: klasser objektet skal leses fra db.
-klasser = [
-    {"klasse": "Menn junior", "lopsklasse": "MJ", "rekkefolge": "1"},
-    {"klasse": "G 16 år", "lopsklasse": "G16", "rekkefolge": "2"},
-]
+from sprint_webserver.services import KlasserService
 
 klubber = ["Lyn", "Kjelsås", "Njård"]
 
@@ -113,6 +109,8 @@ class Start(web.View):
             valgt_heat = self.request.rel_url.query["heat"]
         except Exception:
             valgt_heat = ""  # noqa: F841
+
+        klasser = await KlasserService().get_all_klasser(self.request.app["db"])
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(

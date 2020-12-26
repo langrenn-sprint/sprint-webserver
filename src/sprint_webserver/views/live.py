@@ -4,6 +4,8 @@
 from aiohttp import web
 import aiohttp_jinja2
 
+from sprint_webserver.services import KlasserService
+
 
 # TODO: objektet bør leses fra csv fil.
 # 1. Hente opp heatlisten for gjeldende klasse
@@ -132,6 +134,8 @@ class Live(web.View):
         except Exception:
             valgt_startnr = ""
 
+        klasser = await KlasserService().get_all_klasser(self.request.app["db"])
+
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(
             "live.html",
@@ -139,6 +143,7 @@ class Live(web.View):
             {
                 "valgt_klasse": valgt_klasse,
                 "valgt_startnr": valgt_startnr,
+                "klasser": klasser,
                 "deltakere": deltakere,
                 "heatliste": heatliste,
                 "loperliste": loperliste,

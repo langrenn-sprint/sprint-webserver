@@ -63,3 +63,5 @@ aiohttp: https://docs.aiohttp.org/
 5 kolonner: Plass "Videre til" Nr Navn Klubb
 
 (pri 5) Resultatliste pr Klasse
+
+(pri 6) Innstillinger for renn (nøkkelparametre som navn, dato ..)
