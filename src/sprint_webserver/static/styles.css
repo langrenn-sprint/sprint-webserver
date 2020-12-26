@@ -1,15 +1,30 @@
+/*********************************
+* stiler for sprint nettsider    *
+*
+* Lyn farger: Rød vanlig:  #A30013
+*             Rød mørk (hover) #75000e
+              Grå mørk #3D3D3D
+              Grå #999ca5
+              Grå lys #f1f2f7
+              Blå #1f3d8e
+*
+* Kjelsås farger:
+              Blå
+*********************************/
+
+
 body {
-    background-color: lightskyblue;
-    font-family: Arial, Verdana;
-    margin: auto;
+    background-color: #f1f2f7;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: auto;
 }
+
 * {
   box-sizing: border-box;
   margin: auto;
 }
 
 .row::after {
-  content: "";
   clear: both;
   display: table;
 }
@@ -46,7 +61,7 @@ ul {
     top: 0;
     margin: 0;
     padding: 0;
-		background-color: blue;
+		background-color: #75000e;
 }
 
 #topborder {
@@ -58,9 +73,9 @@ li a, .dropbtn {
   display: inline-block;
   color: white;
   text-align: center;
-  padding: 8px 8px;
+  padding: 4px 4px;
   text-decoration: none;
-  font-size: 150%;
+  font-size: 120%;
 }
 
 li a:hover, .dropdown:hover .dropbtn {
@@ -84,13 +99,13 @@ li.dropdown {
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
-  box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
 .dropdown-content a {
-  color: black;
-  padding: 4px 4px;
+  color: #3D3D3D;
+  padding: 2px 2px;
   text-decoration: none;
   display: block;
   text-align: left;
@@ -112,34 +127,32 @@ h2 {
 }
 
 table {
+  width: 100%;
+  outline: 1px solid lightgrey;
+  border: 2px solid #999ca5;
 	border-spacing: 0;
-  min-width: 600px;
+  padding: 4px 4px 4px 4px;
 }
 
+tr:nth-child(even){background-color: #f2f2f2;}
+
 td {
-  padding-left: 5px;
+  padding-left: 5px;
+  padding: 4px 2px 2px 2px;
 }
 
 a {
-  color: black;
-}
-
-#error {
-	color: red;
-}
-
-#success {
-    color: green;
+  color: #3D3D3D;
 }
 
 #headerblue {
     color: white;
-    background-color: blue;
+    background-color: #A30013;
 }
 
 #headerblack {
     color: white;
-    background-color: black;
+    background-color: #3D3D3D;
 }
 
 #fremhev {
@@ -158,8 +171,47 @@ a {
     background-color: lightgrey;
 }
 
-#ramme  {
-  background-color: white;
-  border: 2px solid black;
-  outline: 1px solid lightgrey;
+/*********************************
+* stiler for mobil navbar        *
+*********************************/
+/* Style the navigation menu */
+.topnav {
+  overflow: hidden;
+  background-color: #999ca5;
+  position: relative;
+}
+
+/* Hide the links inside the navigation menu (except for logo/home) */
+.topnav #myLinks {
+  display: none;
+}
+
+/* Style navigation menu links */
+.topnav a {
+  font-size: 120%;
+  color: white;
+  padding: 4px 4px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Style the hamburger menu */
+.topnav a.icon {
+  background: #A30013;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* Add a grey background color on mouse-over */
+.topnav a:hover {
+  background-color: #75000e;
+  color: black;
+}
+
+/* Style the active link (or home/logo) */
+.active {
+  background-color: #75000e;
+  color: white;
 }
