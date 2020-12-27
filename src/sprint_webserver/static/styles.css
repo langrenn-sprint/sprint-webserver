@@ -206,7 +206,7 @@ a {
 
 /* Add a grey background color on mouse-over */
 .topnav a:hover {
-  background-color: #75000e;
+  background-color: #f1f2f7;
   color: black;
 }
 

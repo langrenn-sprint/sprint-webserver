@@ -1,7 +1,47 @@
 {% extends "base.html" %}
-{% block title %}
+{% block titleheader %}
   Startlister {{ valgt_klubb }}{{ valgt_klasse }}
 {% endblock %}
+
+{% block titlemain %}
+  Startlister {{ valgt_klubb }}{{ valgt_klasse }}
+{% endblock %}
+
+{% block menu %}
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg heat</a>
+    <div class=dropdown-content>
+      {% for heat in heatliste %}
+        <a href=start#{{ heat.index }}>{{ heat.starttid }} {{ heat.lopsklasse }} {{ heat.runde }}</a>
+      {% endfor %}
+    </div>
+  </li>
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
+    <div class=dropdown-content>
+      {% for klasse in klasser %}
+        <a href=start?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+      {% endfor %}
+    </div>
+  </li>
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg klubb</a>
+    <div class=dropdown-content>
+      {% for klubb in klubber %}
+        <a href=start?klubb={{ klubb }}>{{ klubb }}</a>
+      {% endfor %}
+    </div>
+  </li>
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Runde</a>
+    <div class=dropdown-content>
+        <a href=javascript:naviger("K")>Kvartfinaler</a>
+        <a href=javascript:naviger("S")>Semifinaler</a>
+        <a href=javascript:naviger("F")>Finaler</a>
+    </div>
+  </li>
+{% endblock %}
+
 {% block content %}
     <script>
       function naviger(id) {
@@ -9,41 +49,6 @@
         elmnt.scrollIntoView();
       }
     </script>
-    <h2 id=headerblue>{{ valgt_klubb }}{{ valgt_klasse }} Startlister</h2>
-    <ul>
-      <li class=dropdown id=topborder>
-        <a href=javascript:void(0) class=dropbtn>Heat</a>
-        <div class=dropdown-content>
-          {% for heat in heatliste %}
-            <a href=start#{{ heat.index }}>{{ heat.starttid }} {{ heat.lopsklasse }} {{ heat.runde }}</a>
-          {% endfor %}
-        </div>
-      </li>
-      <li class=dropdown id=topborder>
-        <a href=javascript:void(0) class=dropbtn>Klasse</a>
-        <div class=dropdown-content>
-          {% for klasse in klasser %}
-            <a href=start?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
-          {% endfor %}
-        </div>
-      </li>
-      <li class=dropdown id=topborder>
-        <a href=javascript:void(0) class=dropbtn>Klubb</a>
-        <div class=dropdown-content>
-          {% for klubb in klubber %}
-            <a href=start?klubb={{ klubb }}>{{ klubb }}</a>
-          {% endfor %}
-        </div>
-      </li>
-      <li class=dropdown id=topborder>
-        <a href=javascript:void(0) class=dropbtn>Runde</a>
-        <div class=dropdown-content>
-            <a href=javascript:naviger("K")>Kvartfinaler</a>
-            <a href=javascript:naviger("S")>Semifinaler</a>
-            <a href=javascript:naviger("F")>Finaler</a>
-        </div>
-      </li>
-    </ul>
 
     <table>
       {% for heat in heatliste %}

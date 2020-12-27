@@ -1,26 +1,27 @@
 {% extends "base.html" %}
-{% block title %}
+{% block titleheader %}
   Velkommen
 {% endblock %}
+{% block titlemain %}
+  Velkommen
+{% endblock %}
+
 {% block content %}
-
-        <h2>Kjøreplan</h2>
-        <table>
-          <tr id=headerblue>
-            <td>Starttid</td>
-            <td>Klasse</td>
-            <td>Runde</td>
-            <td>Resultat</td>
-          </tr>
-          {% for heat in heatliste %}
-              <tr>
-                <td>{{ heat.starttid }}</td>
-                <td>{{ heat.lopsklasse }}</td>
-                <td>{{ heat.runde }}</td>
-                <td>{{ heat.resultat }}</td>
-              </tr>
-          {% endfor %}
-        </table>
-    <div id=spacer></div>
-
+  <h3>Kjøreplan for testsprinten. Benytt valg i menyen for å gå til startlister, live scroll eller resultatlister.</h3>
+    <table>
+      <tr id=headerblue>
+        <td>Starttid</td>
+        <td>Klasse</td>
+        <td>Runde</td>
+        <td>Resultat</td>
+      </tr>
+      {% for heat in heatliste %}
+          <tr>
+            <td>{{ heat.starttid }}</td>
+            <td>{{ heat.lopsklasse }}</td>
+            <td>{{ heat.runde }}</td>
+            <td>{{ heat.resultat }}</td>
+          </tr>
+      {% endfor %}
+    </table>
 {% endblock %}

@@ -1,7 +1,41 @@
 {% extends "base.html" %}
-{% block title %}
+{% block titleheader %}
   {{ valgt_klasse }} Live scroll
 {% endblock %}
+
+{% block titlemain %}
+  {{ valgt_klasse }} Live scroll
+{% endblock %}
+
+{% block menu %}
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
+    <div class=dropdown-content>
+      {% for klasse in klasser %}
+        {% if klasse.Resultatliste %}
+          <a href=live?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </li>
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg runde</a>
+    <div class=dropdown-content>
+        <a href=javascript:naviger("K")>Kvartfinaler</a>
+        <a href=javascript:naviger("S")>Semifinaler</a>
+        <a href=javascript:naviger("F")>Finaler</a>
+    </div>
+  </li>
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg løper</a>
+    <div class=dropdown-content>
+      {% for deltaker in deltakere %}
+        <a href=live?klasse={{ valgt_klasse }}&startnr={{ deltaker.Startnr }}>{{ deltaker.Startnr }} {{ deltaker.Navn }}</a>
+      {% endfor %}
+    </div>
+  </li>
+{% endblock %}
+
 {% block content %}
     <script>
       function naviger(id) {
@@ -9,36 +43,6 @@
         elmnt.scrollIntoView();
       }
     </script>
-    <h2 id=headerblue>{{ valgt_klasse }} Live scroll</h2>
-    <ul>
-      <li class=dropdown id=topborder>
-        <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
-        <div class=dropdown-content>
-          {% for klasse in klasser %}
-            {% if klasse.Resultatliste %}
-              <a href=live?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </li>
-      <li class=dropdown id=topborder>
-        <a href=javascript:void(0) class=dropbtn>Velg runde</a>
-        <div class=dropdown-content>
-            <a href=javascript:naviger("K")>Kvartfinaler</a>
-            <a href=javascript:naviger("S")>Semifinaler</a>
-            <a href=javascript:naviger("F")>Finaler</a>
-        </div>
-      </li>
-      <li class=dropdown id=topborder>
-        <a href=javascript:void(0) class=dropbtn>Velg løper</a>
-        <div class=dropdown-content>
-          {% for deltaker in deltakere %}
-            <a href=live?klasse={{ valgt_klasse }}&startnr={{ deltaker.nr }}>{{ deltaker.nr }} {{ deltaker.navn }}</a>
-          {% endfor %}
-        </div>
-      </li>
-    </ul>
-{{ klasser }}
     <table id=ramme>
       {% for heat in heatliste %}
           <div id={{ heat.runde[0] }} >

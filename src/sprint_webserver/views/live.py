@@ -4,8 +4,8 @@
 from aiohttp import web
 import aiohttp_jinja2
 
+from sprint_webserver.services import DeltakereService
 from sprint_webserver.services import KlasserService
-
 
 # TODO: objektet bør leses fra csv fil.
 # 1. Hente opp heatlisten for gjeldende klasse
@@ -95,29 +95,6 @@ loperliste = [
     },
 ]
 
-# TODO: objektet bør leses fra csv fil.
-# Deltakere er alle løpere i gjeldende klasse
-deltakere = [
-    {
-        "nr": "28",
-        "navn": "Lars Michael Saab",
-        "klubb": "Njård",
-        "klasse": "MJ",
-    },
-    {
-        "nr": "29",
-        "navn": "Heming H",
-        "klubb": "Kjelsås",
-        "klasse": "MJ",
-    },
-    {
-        "nr": "51",
-        "navn": "Stig BD",
-        "klubb": "Lyn",
-        "klasse": "G16",
-    },
-]
-
 
 class Live(web.View):
     """Class representing the live view."""
@@ -135,6 +112,7 @@ class Live(web.View):
             valgt_startnr = ""
 
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
+        deltakere = await DeltakereService().get_deltakere_by_lopsklasse(self.request.app["db"], valgt_klasse )
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(
