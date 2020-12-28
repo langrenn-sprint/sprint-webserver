@@ -112,7 +112,9 @@ class Live(web.View):
             valgt_startnr = ""
 
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
-        deltakere = await DeltakereService().get_deltakere_by_lopsklasse(self.request.app["db"], valgt_klasse )
+        deltakere = await DeltakereService().get_deltakere_by_lopsklasse(
+            self.request.app["db"], valgt_klasse
+        )
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(

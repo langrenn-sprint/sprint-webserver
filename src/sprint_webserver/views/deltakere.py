@@ -33,6 +33,7 @@ class Deltakere(web.View):
         # TODO: legge inn database-kall
         raise web.HTTPNotImplemented
 
+
 class Deltaker(web.View):
     """Class representing a single deltaker resource."""
 

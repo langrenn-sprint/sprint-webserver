@@ -8,7 +8,18 @@ from dotenv import load_dotenv
 import jinja2
 import motor.motor_asyncio
 
-from .views import Deltaker, Deltakere, Klasse, Klasser, Live, Main, Ping, Ready, Resultat, Start
+from .views import (
+    Deltaker,
+    Deltakere,
+    Klasse,
+    Klasser,
+    Live,
+    Main,
+    Ping,
+    Ready,
+    Resultat,
+    Start,
+)
 
 load_dotenv()
 LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", "INFO")

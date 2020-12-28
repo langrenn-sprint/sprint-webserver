@@ -59,7 +59,7 @@ def contract_tests(session: Session) -> None:
     )
 
 
-@nox.session(python=["3.7"])
+@nox.session(python=["3.7", "3.9"])
 def black(session: Session) -> None:
     """Run black code formatter."""
     args = session.posargs or locations
