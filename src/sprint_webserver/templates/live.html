@@ -19,19 +19,23 @@
     </div>
   </li>
   <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg løper</a>
+    <div class=dropdown-content>
+      {% if valgt_klasse == "" %}
+        <a href=live>Velg klasse først</a>
+      {% else %}
+        {% for deltaker in deltakere %}
+          <a href=live?klasse={{ valgt_klasse }}&startnr={{ deltaker.Startnr }}>{{ deltaker.Startnr }} {{ deltaker.Navn }}</a>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </li>
+  <li class=dropdown id=topborder>
     <a href=javascript:void(0) class=dropbtn>Velg runde</a>
     <div class=dropdown-content>
         <a href=javascript:naviger("K")>Kvartfinaler</a>
         <a href=javascript:naviger("S")>Semifinaler</a>
         <a href=javascript:naviger("F")>Finaler</a>
-    </div>
-  </li>
-  <li class=dropdown id=topborder>
-    <a href=javascript:void(0) class=dropbtn>Velg løper</a>
-    <div class=dropdown-content>
-      {% for deltaker in deltakere %}
-        <a href=live?klasse={{ valgt_klasse }}&startnr={{ deltaker.Startnr }}>{{ deltaker.Startnr }} {{ deltaker.Navn }}</a>
-      {% endfor %}
     </div>
   </li>
 {% endblock %}
