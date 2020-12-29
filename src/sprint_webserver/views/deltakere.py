@@ -1,10 +1,12 @@
 """Resource module for resultat view."""
-import json
 import logging
 
 from aiohttp import web
+import aiohttp_jinja2
 
-from sprint_webserver.services import DeltakereService
+from sprint_webserver.services import DeltakereService, KlasserService
+
+klubber = ["Lyn", "Kjelsås", "Njård"]
 
 
 class Deltakere(web.View):
@@ -12,13 +14,33 @@ class Deltakere(web.View):
 
     async def get(self) -> web.Response:
         """Get route function that returns all deltakers."""
+        try:
+            valgt_klasse = self.request.rel_url.query["klasse"]
+        except Exception:
+            valgt_klasse = ""  # noqa: F841
+        try:
+            valgt_klubb = self.request.rel_url.query["klubb"]
+        except Exception:
+            valgt_klubb = ""
+        try:
+            valgt_heat = self.request.rel_url.query["heat"]
+        except Exception:
+            valgt_heat = ""  # noqa: F841
+
+        klasser = await KlasserService().get_all_klasser(self.request.app["db"])
         deltakere = await DeltakereService().get_all_deltakere(self.request.app["db"])
-        body = json.dumps(deltakere, default=str, ensure_ascii=False)
-        logging.debug(body)
-        return web.Response(
-            status=200,
-            body=body,
-            content_type="application/json",
+
+        """Get route function."""
+        return await aiohttp_jinja2.render_template_async(
+            "deltakere.html",
+            self.request,
+            {
+                "valgt_klubb": valgt_klubb,
+                "valgt_klasse": valgt_klasse,
+                "klasser": klasser,
+                "klubber": klubber,
+                "deltakere": deltakere,
+            },
         )
 
     async def post(self) -> web.Response:

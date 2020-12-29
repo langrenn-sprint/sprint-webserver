@@ -10,7 +10,7 @@ class DeltakereService:
         """Get all deltakere function."""
         deltakere = []
         cursor = db.deltakere_collection.find()
-        for document in await cursor.to_list(length=100):
+        for document in await cursor.to_list(length=2000):
             deltakere.append(document)
             logging.debug(document)
         return deltakere

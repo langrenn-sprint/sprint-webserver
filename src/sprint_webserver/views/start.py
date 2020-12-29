@@ -34,60 +34,10 @@ heatliste = [
     },
     {
         "lopsklasse": "G16",
-        "index": "G16FA",
-        "runde": "Finale A",
+        "index": "G16KA1",
+        "runde": "Kvartfinale 1",
         "starttid": "09:30",
         "resultat_registrert": False,
-    },
-]
-
-# TODO: objektet bør leses fra csv fil.
-# TODO: loperlisten skal kun lopere i gjeldene klubb hvis valgt.
-loperliste = [
-    {
-        "heat": "MJSA1",
-        "pos": "1",
-        "nr": "28",
-        "navn": "Lars Michael Saab",
-        "klubb": "Njård",
-        "plass": "1",
-        "videre_til": "FA-1",
-    },
-    {
-        "heat": "MJSA1",
-        "pos": "2",
-        "nr": "29",
-        "navn": "Ole H",
-        "klubb": "Lyn",
-        "plass": "2",
-        "videre_til": "FA-2",
-    },
-    {
-        "heat": "MJSA2",
-        "pos": "1",
-        "nr": "31",
-        "navn": "Eirik",
-        "klubb": "Njård",
-        "plass": "1",
-        "videre_til": "FA-4",
-    },
-    {
-        "heat": "MJSA2",
-        "pos": "2",
-        "nr": "32",
-        "navn": "Gunnar",
-        "klubb": "Kjelsås",
-        "plass": "2",
-        "videre_til": "FA-5",
-    },
-    {
-        "heat": "MJSA2",
-        "pos": "3",
-        "nr": "33",
-        "navn": "Lars B",
-        "klubb": "Njård",
-        "plass": "3",
-        "videre_til": "FA-6",
     },
 ]
 
@@ -111,6 +61,9 @@ class Start(web.View):
             valgt_heat = ""  # noqa: F841
 
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
+        startliste = await StartListeService().get_all_startlister(
+            self.request.app["db"]
+        )
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(
@@ -123,7 +76,7 @@ class Start(web.View):
                 "klasser": klasser,
                 "klubber": klubber,
                 "heatliste": heatliste,
-                "loperliste": loperliste,
+                "startliste": startliste,
             },
         )
 

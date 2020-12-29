@@ -10,7 +10,7 @@ class StartListeService:
         """Get all startlister function."""
         startlister = []
         cursor = db.startliste_collection.find()
-        for document in await cursor.to_list(length=100):
+        for document in await cursor.to_list(length=1000):
             startlister.append(document)
             logging.debug(document)
         return startlister

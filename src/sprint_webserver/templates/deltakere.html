@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block titleheader %}
+  Påmeldte {{ valgt_klubb }}{{ valgt_klasse }}
+{% endblock %}
+
+{% block titlemain %}
+  Påmeldte {{ valgt_klubb }}{{ valgt_klasse }}
+{% endblock %}
+
+{% block menu %}
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
+    <div class=dropdown-content>
+      <a href=deltakere>Alle</a>
+      {% for klasse in klasser %}
+        <a href=deltakere?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+      {% endfor %}
+    </div>
+  </li>
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg klubb</a>
+    <div class=dropdown-content>
+      <a href=deltakere>Alle</a>
+      {% for klubb in klubber %}
+        <a href=deltakere?klubb={{ klubb }}>{{ klubb }}</a>
+      {% endfor %}
+    </div>
+  </li>
+{% endblock %}
+
+{% block content %}
+    <table>
+      <tr id=headerblue>
+        <td>Startnr</td>
+        <td>Navn</td>
+        <td>Klubb</td>
+        <td>Klasse</td>
+        <td>Krets</td>
+      </tr>
+      {% for deltaker in deltakere %}
+        {% if (deltaker.Løpsklasse == valgt_klasse) or (valgt_klasse == "") %}
+          {% if ( valgt_klubb in deltaker.Klubb ) or (valgt_klubb == "") %}
+            <tr>
+              <td>{{ deltaker.Startnr }}</td>
+              <td>{{ deltaker.Navn }}</td>
+              <td>{{ deltaker.Klubb }}</td>
+              <td>{{ deltaker.ÅrsKlasse }}</td>
+              <td>{{ deltaker.Krets }}</td>
+            </tr>
+            {% endif %}
+        {% endif %}
+      {% endfor %}
+      <tr>
+        <td id=spacer colspan=6> </td>
+      </tr>
+    </table>
+    {{ deltakere }}
+{% endblock %}

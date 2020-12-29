@@ -9,14 +9,6 @@
 
 {% block menu %}
   <li class=dropdown id=topborder>
-    <a href=javascript:void(0) class=dropbtn>Velg heat</a>
-    <div class=dropdown-content>
-      {% for heat in heatliste %}
-        <a href=start#{{ heat.index }}>{{ heat.starttid }} {{ heat.lopsklasse }} {{ heat.runde }}</a>
-      {% endfor %}
-    </div>
-  </li>
-  <li class=dropdown id=topborder>
     <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
     <div class=dropdown-content>
       {% for klasse in klasser %}
@@ -71,21 +63,21 @@
               {% endif %}
           </tr>
         </div>
-        {% for loper in loperliste %}
+        {% for loper in startliste %}
 
-          {% if heat.index == loper.heat %}
+          {% if heat.index == loper.Heat %}
 
             {% if loper.klubb == valgt_klubb %}
               <tr id=fremhev>
             {% else %}
               <tr>
             {% endif %}
-              <td>{{ loper.pos }}</td>
-              <td><div id={{ loper.nr }}>{{ loper.nr }}</div></td>
-              <td>{{ loper.navn }}</td>
-              <td>{{ loper.klubb }}</td>
-              <td>{{ loper.plass }}</td>
-              <td>{{ loper.videre_til }}</td>
+              <td>{{ loper.Pos }}</td>
+              <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
+              <td>{{ loper.Navn }}</td>
+              <td>{{ loper.Klubb }}</td>
+              <td>{{ loper.Plass }}</td>
+              <td>{{ loper.Videre_til }}</td>
             </tr>
           {% endif %}
 
@@ -97,5 +89,6 @@
 
       {% endfor %}
     </table>
+    {{ startliste }}
 
 {% endblock %}
