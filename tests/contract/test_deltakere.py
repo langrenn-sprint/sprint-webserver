@@ -1,4 +1,4 @@
-"""Contract test cases for start."""
+"""Contract test cases for klasser."""
 import json
 from typing import Any
 
@@ -7,10 +7,10 @@ import requests
 
 
 @pytest.mark.contract
-def test_create_startliste(http_service: Any) -> None:
+def test_create_deltakere(http_service: Any) -> None:
     """Should return status 201."""
-    url = f"{http_service}/start"
-    with open("tests/files/G11KvartStart.json") as json_file:
+    url = f"{http_service}/deltakere"
+    with open("tests/files/Deltakere.json") as json_file:
         data = json.load(json_file)
 
     headers = {"content-type": "application/json; charset=utf-8"}
@@ -19,12 +19,12 @@ def test_create_startliste(http_service: Any) -> None:
 
 
 @pytest.mark.contract
-def test_start(http_service: Any) -> None:
-    """Should return status 200 and html."""
-    url = f"{http_service}/start"
+def test_get_deltakere(http_service: Any) -> None:
+    """Should return status 200 and json."""
+    url = f"{http_service}/deltakere"
     response = requests.get(url)
 
     assert response.status_code == 200
-    assert response.headers["content-type"] == "text/html; charset=utf-8"
+    assert response.headers["content-type"] == "application/json"
 
     assert len(response.text) > 0

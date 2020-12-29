@@ -4,13 +4,14 @@
 - [x] Konfigurere FLASK til å håndtere statiske html filer - Heming har lastet et par filer opp på /src, men de må nok flyttes?
 - [x] Lage et eksempel på en .py fil som leser innholdet i en fil.
 - [x] Finne ut hvordan .css fila skal håndteres.
-- [ ] Skrive tester og køyre disse med nox for
-- [ ] Vurdere å putte server inn i docker for deployment
+- [x] Skrive kontraktstester og køyre disse med nox for
+- [x] Vurdere å putte server inn i docker for deployment
 - [ ] Ny versjon av csv (heming)
 - [x] Prototype på database med innhol, inkl mapper på datamodell og repository (stig)
 - [ ] Oppdatere gui på live data (heming)
 - [x] Implementer lopsklasser (Klasser) datamodell (Prio 1)
-- [ ] Implementer startliste pr heat (Start) (Prio 2)
+- [x] Implementer startliste pr heat (Start) (Prio 2)
 - [ ] Implementer Resultatliste pr heat (Resultat) (Prio 3)
-- [ ] Implementer Kjøpreplan (heat lagt ut i tid) (Prio 4)
+- [ ] Implementer Kjøreplan (heat lagt ut i tid) (Prio 4)
 - [ ] Implementer Resultatliste pr klasse (Prio 5)
+- [ ] Skrive integrasjonstester og måle coverage

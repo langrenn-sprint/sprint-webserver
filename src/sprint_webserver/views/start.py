@@ -1,10 +1,10 @@
 """Resource module for start resources."""
-# import logging
+import logging
 
 from aiohttp import web
 import aiohttp_jinja2
 
-from sprint_webserver.services import KlasserService
+from sprint_webserver.services import KlasserService, StartListeService
 
 klubber = ["Lyn", "Kjelsås", "Njård"]
 
@@ -126,3 +126,10 @@ class Start(web.View):
                 "loperliste": loperliste,
             },
         )
+
+    async def post(self) -> web.Response:
+        """Post route function that creates a collection of athletes."""
+        body = await self.request.json()
+        logging.debug(f"Got request-body {body} of type {type(body)}")
+        await StartListeService().create_startliste(self.request.app["db"], body)
+        return web.Response(status=201)
