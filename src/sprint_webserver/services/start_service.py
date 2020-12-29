@@ -17,12 +17,12 @@ class StartListeService:
 
     async def create_startliste(self, db: Any, body: Any) -> None:
         """Create startlister function."""
-        result = await db.starliste_collection.insert_many(body)
+        result = await db.startliste_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
 
     async def get_startliste_by_heat(self, db: Any, heat: str) -> dict:
         """Get one startliste by heat function."""
-        startliste = await db.starliste_collection.find_one({"Heat": heat})
+        startliste = await db.startliste_collection.find_one({"Heat": heat})
         return startliste
 
     async def get_startliste_by_klasse(self, db: Any, klasse: str) -> List:
