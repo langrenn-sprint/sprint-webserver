@@ -12,9 +12,7 @@
     <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
     <div class=dropdown-content>
       {% for klasse in klasser %}
-        {% if klasse.Resultatliste %}
           <a href=live?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
-        {% endif %}
       {% endfor %}
     </div>
   </li>
