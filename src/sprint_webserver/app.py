@@ -11,6 +11,7 @@ import motor.motor_asyncio
 from .views import (
     Deltaker,
     Deltakere,
+    Kjoreplan,
     Klasse,
     Klasser,
     Live,
@@ -60,6 +61,7 @@ async def create_app() -> web.Application:
             web.view("/deltakere/{startnr}", Deltaker),
             web.view("/klasser", Klasser),
             web.view("/klasser/{lopsklasse}", Klasse),
+            web.view("/kjoreplan", Kjoreplan),
         ]
     )
     return app
