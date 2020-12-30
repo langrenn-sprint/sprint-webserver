@@ -15,6 +15,15 @@ class KjoreplanService:
             logging.debug(document)
         return kjoreplan
 
+    async def get_heat_by_klasse(self, db: Any, lopsklasse: str) -> List:
+        """Get all heat / kjøreplan for a given klasse."""
+        kjoreplan = []
+        cursor = db.kjoreplan_collection.find({"Løpsklasse": lopsklasse})
+        for document in await cursor.to_list(length=100):
+            kjoreplan.append(document)
+            logging.debug(document)
+        return kjoreplan
+
     async def create_kjoreplan(self, db: Any, body: Any) -> None:
         """Create kjoreplan function."""
         result = await db.kjoreplan_collection.insert_many(body)

@@ -17,15 +17,7 @@
     </div>
   </li>
   <li class=dropdown id=topborder>
-    <a href=javascript:void(0) class=dropbtn>Velg klubb</a>
-    <div class=dropdown-content>
-      {% for klubb in klubber %}
-        <a href=start?klubb={{ klubb }}>{{ klubb }}</a>
-      {% endfor %}
-    </div>
-  </li>
-  <li class=dropdown id=topborder>
-    <a href=javascript:void(0) class=dropbtn>Runde</a>
+    <a href=javascript:void(0) class=dropbtn>Velg Runde</a>
     <div class=dropdown-content>
         <a href=javascript:naviger("K")>Kvartfinaler</a>
         <a href=javascript:naviger("S")>Semifinaler</a>
@@ -41,20 +33,19 @@
         elmnt.scrollIntoView();
       }
     </script>
-
+    {{ informasjon }}
     <table>
-      {% for heat in heatliste %}
-        <div id={{ heat.runde[0] }} >
-          <tr id=headerblue id={{ heat.index }}>
-            <td colspan=3>{{ heat.lopsklasse }} {{ heat.runde }}</td>
-            <td colspan=3>Start kl. {{ heat.starttid }}</td>
+      {% for heat in kjoreplan %}
+          <tr id=headerblue>
+            <td colspan=3>{{ heat.Løpsklasse }} {{ heat.Runde }}</td>
+            <td colspan=3>Start kl. {{ heat.Start }}</td>
           </tr>
           <tr id=subheader>
-            <td>Pos</td>
+            <td><div id={{ heat.Heat[0] }} >Pos</div></td>
             <td>Nr</td>
             <td>Navn</td>
             <td>Klubb</td>
-            {% if heat.runde[0] == "F" %}
+            {% if heat.Heat[0] == "F" %}
                 <td></td>
                 <td></td>
               {% else %}
@@ -62,16 +53,9 @@
                 <td>Videre til</td>
               {% endif %}
           </tr>
-        </div>
         {% for loper in startliste %}
-
-          {% if heat.index == loper.Heat %}
-
-            {% if loper.klubb == valgt_klubb %}
-              <tr id=fremhev>
-            {% else %}
-              <tr>
-            {% endif %}
+          {% if heat.Index == loper.Heat %}
+            <tr>
               <td>{{ loper.Pos }}</td>
               <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
               <td>{{ loper.Navn }}</td>
@@ -80,15 +64,10 @@
               <td>{{ loper.Videre_til }}</td>
             </tr>
           {% endif %}
-
         {% endfor %}
-
         <tr>
           <td id=spacer colspan=6> </td>
         </tr>
-
       {% endfor %}
     </table>
-    {{ startliste }}
-
 {% endblock %}
