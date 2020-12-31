@@ -4,7 +4,12 @@ import logging
 from aiohttp import web
 import aiohttp_jinja2
 
-from sprint_webserver.services import KjoreplanService, KlasserService, StartListeService
+from sprint_webserver.services import (
+    KjoreplanService,
+    KlasserService,
+    StartListeService,
+)
+
 
 class Start(web.View):
     """Class representing the start view."""
@@ -22,10 +27,12 @@ class Start(web.View):
         except Exception:
             valgt_heat = ""  # noqa: F841
 
-        kjoreplan = await KjoreplanService().get_heat_by_klasse(self.request.app["db"], valgt_klasse)
+        kjoreplan = await KjoreplanService().get_heat_by_klasse(
+            self.request.app["db"], valgt_klasse
+        )
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
         startliste = await StartListeService().get_all_startlister(
-            self.request.app["db"]
+            self.request.app["db"],
         )
 
         """Get route function."""

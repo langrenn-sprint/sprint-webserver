@@ -6,7 +6,19 @@ import aiohttp_jinja2
 
 from sprint_webserver.services import DeltakereService, KlasserService
 
-klubber = ["Lyn", "Kjelsås", "Njård"]
+klubber = [
+    "Bækkelaget",
+    "Heming",
+    "Kjelsås",
+    "Koll",
+    "Lillomarka",
+    "Lyn",
+    "Njård",
+    "Rustad",
+    "Røa",
+    "Try",
+    "Årvoll",
+]
 
 
 class Deltakere(web.View):

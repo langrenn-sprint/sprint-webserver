@@ -25,10 +25,10 @@ class StartListeService:
         startliste = await db.startliste_collection.find_one({"Heat": heat})
         return startliste
 
-    async def get_startliste_by_klasse(self, db: Any, klasse: str) -> List:
+    async def get_startliste_by_nr(self, db: Any, nr: str) -> List:
         """Get startlister by klasse function."""
         startlister = []
-        cursor = db.startliste_collection.find({"Klasse": klasse})
+        cursor = db.startliste_collection.find({"Nr": nr})
         for document in await cursor.to_list(length=100):
             startlister.append(document)
             logging.debug(document)
