@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block titleheader %}
-  {{ valgt_klasse }} Live scroll
+  {{ valgt_startnr }} {{ valgt_klasse }} Live scroll
 {% endblock %}
 
 {% block titlemain %}
-  {{ valgt_klasse }} Live scroll
+  {{ valgt_startnr }} {{ valgt_klasse }} Live scroll
 {% endblock %}
 
 {% block menu %}
@@ -84,12 +84,7 @@
           </div>
         {% for loper in startliste %}
           {% if heat.Index == loper.Heat %}
-            {% if loper.Nr == valgt_startnr %}
-              <tr id=fremhev>
-            {% else %}
               <tr>
-            {% endif %}
-
               {% if heat.resultat_registrert %}
                 <td>{{ loper.Plass }}</td>
                 <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
