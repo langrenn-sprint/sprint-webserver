@@ -25,6 +25,6 @@ def test_get_deltakere(http_service: Any) -> None:
     response = requests.get(url)
 
     assert response.status_code == 200
-    assert response.headers["content-type"] == "application/json"
+    assert response.headers["content-type"] == "text/html; charset=utf-8"
 
     assert len(response.text) > 0

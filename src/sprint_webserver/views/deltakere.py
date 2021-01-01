@@ -42,7 +42,6 @@ class Deltakere(web.View):
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
         deltakere = await DeltakereService().get_all_deltakere(self.request.app["db"])
 
-        """Get route function."""
         return await aiohttp_jinja2.render_template_async(
             "deltakere.html",
             self.request,
