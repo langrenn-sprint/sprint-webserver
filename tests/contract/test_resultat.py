@@ -12,6 +12,6 @@ def test_resultat(http_service: Any) -> None:
     response = requests.get(url)
 
     assert response.status_code == 200
-    assert response.headers["content-type"] == "text/plain; charset=utf-8"
+    assert response.headers["content-type"] == "text/html; charset=utf-8"
 
     assert len(response.text) > 0
