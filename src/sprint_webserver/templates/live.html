@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block titleheader %}
-  {{ valgt_startnr }} {{ valgt_klasse }} Live scroll
+  Live scroll {{ valgt_startnr }}{{ valgt_klasse }}
 {% endblock %}
 
 {% block titlemain %}
-  {{ valgt_startnr }} {{ valgt_klasse }} Live scroll
+  Live scroll {{ valgt_startnr }}{{ valgt_klasse }}
 {% endblock %}
 
 {% block menu %}
@@ -17,7 +17,7 @@
     </div>
   </li>
   <li class=dropdown id=topborder>
-    <a href=javascript:void(0) class=dropbtn>Velg runde</a>
+    <a href=javascript:void(0) class=dropbtn>Velg Runde</a>
     <div class=dropdown-content>
         <a href=javascript:naviger("K")>Kvartfinaler</a>
         <a href=javascript:naviger("S")>Semifinaler</a>
@@ -48,40 +48,38 @@
     </script>
     <table>
       {% for heat in kjoreplan %}
-          <div id={{ heat.Heat[0] }} >
-            {% if heat.resultat_registrert %}
-              <tr id=headerblack>
-                <td colspan=3>{{ heat.Runde }}</td>
-                <td colspan=3>Resultater</td>
-              </tr>
-              <tr id=subheader>
-                <td>Plass</td>
-                <td>Nr</td>
-                <td>Navn</td>
-                <td>Klubb</td>
+          {% if heat.resultat_registrert %}
+            <tr id=headerblack>
+              <td colspan=3>{{ heat.Runde }}</td>
+              <td colspan=3>Resultater</td>
+            </tr>
+            <tr id=subheader>
+              <td><div id={{ heat.Heat[0] }} >Plass</div></td>
+              <td>Nr</td>
+              <td>Navn</td>
+              <td>Klubb</td>
+              <td></td>
+              <td>Videre til</td>
+            </tr>
+          {% else %}
+            <tr id=headerblue>
+              <td colspan=3>{{ heat.Runde }}</td>
+              <td colspan=3>Start kl. {{ heat.Start }}</td>
+            </tr>
+            <tr id=subheader>
+              <td><div id={{ heat.Heat[0] }} >Pos</div></td>
+              <td>Nr</td>
+              <td>Navn</td>
+              <td>Klubb</td>
+              {% if heat.Heat[0] == "F" %}
                 <td></td>
+                <td></td>
+              {% else %}
+                <td>Plass</td>
                 <td>Videre til</td>
-              </tr>
-            {% else %}
-              <tr id=headerblue>
-                <td colspan=3>{{ heat.Runde }}</td>
-                <td colspan=3>Start kl. {{ heat.Start }}</td>
-              </tr>
-              <tr id=subheader>
-                <td>Pos</td>
-                <td>Nr</td>
-                <td>Navn</td>
-                <td>Klubb</td>
-                {% if heat.Heat[0] == "F" %}
-                  <td></td>
-                  <td></td>
-                {% else %}
-                  <td>Plass</td>
-                  <td>Videre til</td>
-                {% endif %}
-               </tr>
-            {% endif %}
-          </div>
+              {% endif %}
+             </tr>
+          {% endif %}
         {% for loper in startliste %}
           {% if heat.Index == loper.Heat %}
               <tr>

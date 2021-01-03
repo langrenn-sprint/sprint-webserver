@@ -33,15 +33,23 @@ class Live(web.View):
             self.request.app["db"], valgt_klasse
         )
 
+        startliste = []
         kjoreplan = []
         if valgt_startnr == "":
-            startliste = await StartListeService().get_all_startlister(
-                self.request.app["db"],
+            tmp = await StartListeService().get_startliste_by_klasse(
+                self.request.app["db"], valgt_klasse
             )
+            # filter out garbage
+            for start in tmp:
+                if str(start["Nr"]).isnumeric():
+                    startliste.append(start)
+
             kjoreplan = await KjoreplanService().get_heat_by_klasse(
                 self.request.app["db"], valgt_klasse
             )
         else:
+            # only selected racer
+            valgt_startnr = valgt_startnr.replace(".0", "")
             startliste = await StartListeService().get_startliste_by_nr(
                 self.request.app["db"],
                 valgt_startnr,
@@ -52,7 +60,7 @@ class Live(web.View):
                     heat["Heat"],
                 )
                 kjoreplan.append(tmp)
-            valgt_startnr = "Startnr: " + valgt_startnr
+            valgt_startnr = "Startnr: " + valgt_startnr + ", "
 
         # format time
         for heat in kjoreplan:

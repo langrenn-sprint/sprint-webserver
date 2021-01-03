@@ -10,7 +10,7 @@ class KjoreplanService:
         """Get all heat / kjøreplan function."""
         kjoreplan = []
         cursor = db.kjoreplan_collection.find()
-        for document in await cursor.to_list(length=100):
+        for document in await cursor.to_list(length=500):
             kjoreplan.append(document)
             logging.debug(document)
         return kjoreplan
@@ -19,7 +19,7 @@ class KjoreplanService:
         """Get all heat / kjøreplan for a given klasse."""
         kjoreplan = []
         cursor = db.kjoreplan_collection.find({"Løpsklasse": lopsklasse})
-        for document in await cursor.to_list(length=100):
+        for document in await cursor.to_list(length=500):
             kjoreplan.append(document)
             logging.debug(document)
         return kjoreplan
