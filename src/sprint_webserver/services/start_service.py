@@ -35,7 +35,7 @@ class StartListeService:
         return startliste
 
     async def get_startliste_by_nr(self, db: Any, nr: str) -> List:
-        """Get startlister by klasse function."""
+        """Get startlister by startnumber function."""
         startlister = []
         cursor = db.startliste_collection.find({"Nr": nr})
         for document in await cursor.to_list(length=100):

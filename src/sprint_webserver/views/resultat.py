@@ -1,33 +1,27 @@
 """Resource module for resultat view."""
-# import logging
+import logging
 
 from aiohttp import web
+import aiohttp_jinja2
 
-# import aiohttp_jinja2
+from sprint_webserver.services import (
+    KlasserService,
+    ResultatHeatService,
+    ResultatService,
+)
 
-# TODO: objektet bør leses fra csv fil.
-deltakere = [
-    {
-        "nr": "28",
-        "navn": "Lars Michael Saab",
-        "klubb": "Njård",
-        "klasse": "MJ",
-        "plass": "1",
-    },
-    {
-        "nr": "29",
-        "navn": "Heming H",
-        "klubb": "Kjelsås",
-        "klasse": "MJ",
-        "plass": "2",
-    },
-    {
-        "nr": "51",
-        "navn": "Stig BD",
-        "klubb": "Lyn",
-        "klasse": "G16",
-        "plass": "1",
-    },
+klubber = [
+    "Bækkelaget",
+    "Heming",
+    "Kjelsås",
+    "Koll",
+    "Lillomarka",
+    "Lyn",
+    "Njård",
+    "Rustad",
+    "Røa",
+    "Try",
+    "Årvoll",
 ]
 
 
@@ -36,8 +30,57 @@ class Resultat(web.View):
 
     async def get(self) -> web.Response:
         """Get route function."""
+        informasjon = ""
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
         except Exception:
-            valgt_klasse = ""
-        return web.Response(text="Resultat! Heat: " + valgt_klasse + ".\n")
+            informasjon = "Velg klasse for å se resultatlister."
+            valgt_klasse = ""  # noqa: F841
+        try:
+            valgt_klubb = self.request.rel_url.query["klubb"]
+        except Exception:
+            valgt_klubb = ""
+
+        klasser = await KlasserService().get_all_klasser(self.request.app["db"])
+
+        resultatliste = []
+        if valgt_klasse == "":
+            resultatliste = await ResultatService().get_resultatliste_by_klasse(
+                self.request.app["db"], valgt_klasse
+            )
+        else:
+            resultatliste = await ResultatService().get_resultatliste_by_klubb(
+                self.request.app["db"], valgt_klubb
+            )
+
+        """Get route function."""
+        return await aiohttp_jinja2.render_template_async(
+            "resultat.html",
+            self.request,
+            {
+                "informasjon": informasjon,
+                "valgt_klasse": valgt_klasse,
+                "valgt_klubb": valgt_klubb,
+                "klasser": klasser,
+                "klubber": klubber,
+                "resultatliste": resultatliste,
+            },
+        )
+
+    async def post(self) -> web.Response:
+        """Post route function that creates a collection of athletes."""
+        body = await self.request.json()
+        logging.debug(f"Got request-body {body} of type {type(body)}")
+        await ResultatService().create_resultatliste(self.request.app["db"], body)
+        return web.Response(status=201)
+
+
+class ResultatHeat(web.View):
+    """Class representing the resultat heat view."""
+
+    async def post(self) -> web.Response:
+        """Post route function that creates a collection of athletes."""
+        body = await self.request.json()
+        logging.debug(f"Got request-body {body} of type {type(body)}")
+        await ResultatHeatService().create_resultatheat(self.request.app["db"], body)
+        return web.Response(status=201)

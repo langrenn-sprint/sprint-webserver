@@ -19,6 +19,7 @@ from .views import (
     Ping,
     Ready,
     Resultat,
+    ResultatHeat,
     Start,
 )
 
@@ -55,6 +56,7 @@ async def create_app() -> web.Application:
             web.view("/", Main),
             web.view("/start", Start),
             web.view("/resultat", Resultat),
+            web.view("/resultat/heat", ResultatHeat),
             web.view("/live", Live),
             web.static("/static", static_path),
             web.view("/deltakere", Deltakere),
