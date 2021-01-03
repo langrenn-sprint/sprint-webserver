@@ -64,7 +64,7 @@ class Resultat(web.View):
     async def post(self) -> web.Response:
         """Post route function that creates a collection of athletes."""
         body = await self.request.json()
-        logging.info(f"Got request-body {body} of type {type(body)}")
+        logging.debug(f"Got request-body {body} of type {type(body)}")
         await ResultatService().create_resultatliste(self.request.app["db"], body)
         return web.Response(status=201)
 
@@ -75,6 +75,6 @@ class ResultatHeat(web.View):
     async def post(self) -> web.Response:
         """Post route function that creates a collection of athletes."""
         body = await self.request.json()
-        logging.info(f"Got request-body {body} of type {type(body)}")
+        logging.debug(f"Got request-body {body} of type {type(body)}")
         await ResultatHeatService().create_resultatheat(self.request.app["db"], body)
         return web.Response(status=201)

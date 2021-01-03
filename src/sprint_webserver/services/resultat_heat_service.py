@@ -29,7 +29,7 @@ class ResultatHeatService:
         result = await db.resultatheat_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
 
-    async def get_resultatheat_by_heat(self, db: Any, heat: str) -> dict:
+    async def get_resultatheat_by_heat(self, db: Any, heat: str) -> List:
         """Get one resultatheat by heat function."""
         resultatheat = await db.resultatheat_collection.find({"Heat": heat})
         return resultatheat
@@ -42,3 +42,9 @@ class ResultatHeatService:
             resultatheat.append(document)
             logging.debug(document)
         return resultatheat
+
+    async def get_resultatheat_by_nr_and_heat(self, db: Any, nr: str, heat: str) -> dict:
+        """Get resultatheat by klasse function."""
+        resultat = db.resultatheat_collection.find_one({"Nr": nr}, {"Heat": heat})
+        logging.debug(resultat)
+        return resultat
