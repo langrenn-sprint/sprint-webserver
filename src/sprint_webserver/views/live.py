@@ -36,11 +36,11 @@ class Live(web.View):
         startliste = []
         kjoreplan = []
         if valgt_startnr == "":
-            tmp = await StartListeService().get_startliste_by_klasse(
+            _liste = await StartListeService().get_startliste_by_klasse(
                 self.request.app["db"], valgt_klasse
             )
             # filter out garbage
-            for start in tmp:
+            for start in _liste:
                 if str(start["Nr"]).isnumeric():
                     startliste.append(start)
 
@@ -55,11 +55,11 @@ class Live(web.View):
                 valgt_startnr,
             )
             for heat in startliste:
-                tmp = await KjoreplanService().get_heat_by_index(
+                _heat = await KjoreplanService().get_heat_by_index(
                     self.request.app["db"],
                     heat["Heat"],
                 )
-                kjoreplan.append(tmp)
+                kjoreplan.append(_heat)
             valgt_startnr = "Startnr: " + valgt_startnr + ", "
 
         # format time
