@@ -11,18 +11,18 @@
   <li class=dropdown id=topborder>
     <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
     <div class=dropdown-content>
-      <a href=deltakere>Alle</a>
+      <a href=resultat>Alle</a>
       {% for klasse in klasser %}
-        <a href=deltakere?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+        <a href=resultat?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
       {% endfor %}
     </div>
   </li>
   <li class=dropdown id=topborder>
     <a href=javascript:void(0) class=dropbtn>Velg klubb</a>
     <div class=dropdown-content>
-      <a href=deltakere>Alle</a>
+      <a href=resultat>Alle</a>
       {% for klubb in klubber %}
-        <a href=deltakere?klubb={{ klubb }}>{{ klubb }}</a>
+        <a href=resultat?klubb={{ klubb }}>{{ klubb }}</a>
       {% endfor %}
     </div>
   </li>
@@ -33,22 +33,24 @@
     <table>
       <tr id=headerblue>
         <td>Plass</td>
+        <td>Startnr</td>
         <td>Navn</td>
         <td>Klubb</td>
         <td>Klasse</td>
-        <td>Krets</td>
       </tr>
       {% for deltaker in resultatliste %}
-        {% if (deltaker.Løpsklasse == valgt_klasse) or (valgt_klasse == "") %}
-          {% if ( valgt_klubb in deltaker.Klubb ) or (valgt_klubb == "") %}
-            <tr>
-              <td>{{ deltaker.Plass }}</td>
-              <td><a href=live?klasse={{ deltaker.Løpsklasse }}&startnr={{ deltaker.Startnr }}>{{ deltaker.Navn }}</a></td>
-              <td>{{ deltaker.Klubb }}</td>
-              <td>{{ deltaker.ÅrsKlasse }}</td>
-              <td>{{ deltaker.Krets }}</td>
-            </tr>
+        {% if (deltaker.Navn != "-") %}
+          {% if (deltaker.Løpsklasse == valgt_klasse) or (valgt_klasse == "") %}
+            {% if ( valgt_klubb in deltaker.Klubb ) or (valgt_klubb == "") %}
+              <tr>
+                <td>{{ deltaker.Plass }}</td>
+                <td>{{ deltaker.Nr }}</td>
+                <td><a href=live?klasse={{ deltaker.Løpsklasse }}&startnr={{ deltaker.Startnr }}>{{ deltaker.Navn }}</a></td>
+                <td>{{ deltaker.Klubb }}</td>
+                <td>{{ deltaker.Løpsklasse }}</td>
+              </tr>
             {% endif %}
+          {% endif %}
         {% endif %}
       {% endfor %}
       <tr>

@@ -43,15 +43,9 @@ class Resultat(web.View):
 
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
 
-        resultatliste = []
-        if valgt_klasse == "":
-            resultatliste = await ResultatService().get_resultatliste_by_klasse(
-                self.request.app["db"], valgt_klasse
-            )
-        else:
-            resultatliste = await ResultatService().get_resultatliste_by_klubb(
-                self.request.app["db"], valgt_klubb
-            )
+        resultatliste = await ResultatService().get_all_resultatlister(
+            self.request.app["db"],
+        )
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(
@@ -70,7 +64,7 @@ class Resultat(web.View):
     async def post(self) -> web.Response:
         """Post route function that creates a collection of athletes."""
         body = await self.request.json()
-        logging.debug(f"Got request-body {body} of type {type(body)}")
+        logging.info(f"Got request-body {body} of type {type(body)}")
         await ResultatService().create_resultatliste(self.request.app["db"], body)
         return web.Response(status=201)
 
@@ -81,6 +75,6 @@ class ResultatHeat(web.View):
     async def post(self) -> web.Response:
         """Post route function that creates a collection of athletes."""
         body = await self.request.json()
-        logging.debug(f"Got request-body {body} of type {type(body)}")
+        logging.info(f"Got request-body {body} of type {type(body)}")
         await ResultatHeatService().create_resultatheat(self.request.app["db"], body)
         return web.Response(status=201)
