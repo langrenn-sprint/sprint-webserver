@@ -8,6 +8,7 @@ from sprint_webserver.services import (
     DeltakereService,
     KjoreplanService,
     KlasserService,
+    ResultatHeatService,
     StartListeService,
 )
 
@@ -33,9 +34,15 @@ class Live(web.View):
             self.request.app["db"], valgt_klasse
         )
 
-        startliste = []
         kjoreplan = []
+        startliste = []
+        resultatliste = []
         if valgt_startnr == "":
+
+            kjoreplan = await KjoreplanService().get_heat_by_klasse(
+                self.request.app["db"], valgt_klasse
+            )
+
             _liste = await StartListeService().get_startliste_by_klasse(
                 self.request.app["db"], valgt_klasse
             )
@@ -44,9 +51,10 @@ class Live(web.View):
                 if str(start["Nr"]).isnumeric():
                     startliste.append(start)
 
-            kjoreplan = await KjoreplanService().get_heat_by_klasse(
+            _liste = await ResultatHeatService().get_resultatheat_by_klasse(
                 self.request.app["db"], valgt_klasse
             )
+
         else:
             # only selected racer
             valgt_startnr = valgt_startnr.replace(".0", "")
@@ -54,12 +62,19 @@ class Live(web.View):
                 self.request.app["db"],
                 valgt_startnr,
             )
-            for heat in startliste:
+            for start in startliste:
                 _heat = await KjoreplanService().get_heat_by_index(
                     self.request.app["db"],
-                    heat["Heat"],
+                    start["Heat"],
                 )
                 kjoreplan.append(_heat)
+
+            # check for resultat
+            resultatliste = await ResultatHeatService().get_resultatheat_by_nr(
+                self.request.app["db"],
+                valgt_startnr,
+            )
+
             valgt_startnr = "Startnr: " + valgt_startnr + ", "
 
         # format time
@@ -78,6 +93,7 @@ class Live(web.View):
                 "klasser": klasser,
                 "deltakere": deltakere,
                 "kjoreplan": kjoreplan,
+                "resultatliste": resultatliste,
                 "startliste": startliste,
             },
         )
