@@ -2,7 +2,7 @@
 import logging
 from typing import Any, List
 
-from sprint_webserver.services import KjoreplanService
+from .kjoreplan_service import KjoreplanService
 
 
 class ResultatHeatService:
@@ -27,7 +27,7 @@ class ResultatHeatService:
         return resultatheat
 
     async def create_resultatheat(self, db: Any, body: Any) -> None:
-        """Create resultatheat function and register result in kjøreplan"""
+        """Create resultatheat function and register result in kjøreplan."""
         result = await db.resultatheat_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
 
@@ -41,7 +41,6 @@ class ResultatHeatService:
             ):
                 _heat = loper["Heat"]
                 await KjoreplanService().update_registrer_resultat(db, _heat)
-
 
     async def get_resultatheat_by_heat(self, db: Any, heat: str) -> List:
         """Get one resultatheat by heat function."""
@@ -61,6 +60,6 @@ class ResultatHeatService:
         self, db: Any, nr: str, heat: str
     ) -> dict:
         """Get resultatheat by klasse function."""
-        resultat = db.resultatheat_collection.find_one( {"Nr": nr} , { "Heat": heat })
+        resultat = db.resultatheat_collection.find_one({"Nr": nr}, {"Heat": heat})
         logging.debug(resultat)
         return resultat

@@ -25,11 +25,11 @@ class KjoreplanService:
         return kjoreplan
 
     async def create_kjoreplan(self, db: Any, body: Any) -> None:
-        """Create kjoreplan function. Reset all results"""
+        """Create kjoreplan function. Reset all results."""
         result = await db.kjoreplan_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
         _newvalue = {"resultat_registrert": False}
-        result = await db.kjoreplan_collection.update_many( {} , {"$set": _newvalue})
+        result = await db.kjoreplan_collection.update_many({}, {"$set": _newvalue})
         logging.debug(result)
 
     async def update_registrer_resultat(self, db: Any, heat: str) -> None:

@@ -14,4 +14,4 @@
 - [ ] Implementer Resultatliste pr heat (Resultat) (Prio 3)
 - [ ] Implementer Kjøreplan (heat lagt ut i tid) (Prio 4)
 - [ ] Implementer Resultatliste pr klasse (Prio 5)
-- [ ] Skrive integrasjonstester og måle coverage
+- [ ] Skrive integrasjonstester, lage db-mock og måle coverage
