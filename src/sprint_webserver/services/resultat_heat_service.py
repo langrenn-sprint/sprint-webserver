@@ -43,7 +43,9 @@ class ResultatHeatService:
             logging.debug(document)
         return resultatheat
 
-    async def get_resultatheat_by_nr_and_heat(self, db: Any, nr: str, heat: str) -> dict:
+    async def get_resultatheat_by_nr_and_heat(
+        self, db: Any, nr: str, heat: str
+    ) -> dict:
         """Get resultatheat by klasse function."""
         resultat = db.resultatheat_collection.find_one({"Nr": nr}, {"Heat": heat})
         logging.debug(resultat)
