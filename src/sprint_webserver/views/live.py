@@ -54,6 +54,10 @@ class Live(web.View):
             _liste = await ResultatHeatService().get_resultatheat_by_klasse(
                 self.request.app["db"], valgt_klasse
             )
+            # filter out garbage
+            for res in _liste:
+                if str(res["Nr"]).isnumeric():
+                    resultatliste.append(res)
 
         else:
             # only selected racer

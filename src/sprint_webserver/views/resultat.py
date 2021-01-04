@@ -31,10 +31,10 @@ class Resultat(web.View):
     async def get(self) -> web.Response:
         """Get route function."""
         informasjon = ""
+        resultatliste = []
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
         except Exception:
-            informasjon = "Velg klasse for å se resultatlister."
             valgt_klasse = ""  # noqa: F841
         try:
             valgt_klubb = self.request.rel_url.query["klubb"]
@@ -43,9 +43,23 @@ class Resultat(web.View):
 
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
 
-        resultatliste = await ResultatService().get_all_resultatlister(
-            self.request.app["db"],
-        )
+        if (valgt_klasse == "") and (valgt_klubb == ""):
+            informasjon = "Velg klasse eller klubb for å vise resultater"
+        elif valgt_klasse == "":
+            resultatliste = await ResultatService().get_resultatliste_by_klubb(
+                self.request.app["db"],
+                valgt_klubb,
+            )
+        else:
+            # hack - convert from løpsklasse to klasse
+            _klasse = await KlasserService().get_klasse_by_lopsklasse(
+                self.request.app["db"],
+                valgt_klasse,
+            )
+            resultatliste = await ResultatService().get_resultatliste_by_klasse(
+                self.request.app["db"],
+                _klasse["Klasse"],
+            )
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(

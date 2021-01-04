@@ -40,17 +40,13 @@
       </tr>
       {% for deltaker in resultatliste %}
         {% if (deltaker.Navn != "-") %}
-          {% if (deltaker.Løpsklasse == valgt_klasse) or (valgt_klasse == "") %}
-            {% if ( valgt_klubb in deltaker.Klubb ) or (valgt_klubb == "") %}
               <tr>
                 <td>{{ deltaker.Plass }}</td>
                 <td>{{ deltaker.Nr }}</td>
-                <td><a href=live?klasse={{ deltaker.Løpsklasse }}&startnr={{ deltaker.Startnr }}>{{ deltaker.Navn }}</a></td>
+                <td><a alt="Heat resultater" href=live?startnr={{ deltaker.Startnr }}>{{ deltaker.Navn }}</a></td>
                 <td>{{ deltaker.Klubb }}</td>
-                <td>{{ deltaker.Løpsklasse }}</td>
+                <td>{{ deltaker.Klasse }}</td>
               </tr>
-            {% endif %}
-          {% endif %}
         {% endif %}
       {% endfor %}
       <tr>

@@ -51,15 +51,18 @@
           {% if heat.resultat_registrert %}
             <tr id=headerblack>
               <td colspan=3>{{ heat.Runde }}</td>
-              <td colspan=3>Resultater</td>
+              <td colspan=2>Resultater</td>
             </tr>
             <tr id=subheader>
               <td><div id={{ heat.Heat[0] }} >Plass</div></td>
               <td>Nr</td>
               <td>Navn</td>
               <td>Klubb</td>
-              <td></td>
-              <td>Videre til</td>
+              {% if heat.Heat[0] == "F" %}
+                <td></td>
+              {% else %}
+                <td>Videre til</td>
+              {% endif %}
             </tr>
             {% for loper in resultatliste %}
               {% if heat.Index == loper.Heat %}
@@ -68,7 +71,6 @@
                     <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
                     <td>{{ loper.Navn }}</td>
                     <td>{{ loper.Klubb }}</td>
-                    <td></td>
                     <td>{{ loper.Videre_til }}</td>
                   </tr>
                 {% endif %}
@@ -76,20 +78,14 @@
           {% else %}
             <tr id=headerblue>
               <td colspan=3>{{ heat.Runde }}</td>
-              <td colspan=3>Start kl. {{ heat.Start }}</td>
+              <td colspan=2>Start kl. {{ heat.Start }}</td>
             </tr>
             <tr id=subheader>
               <td><div id={{ heat.Heat[0] }} >Pos</div></td>
               <td>Nr</td>
               <td>Navn</td>
               <td>Klubb</td>
-              {% if heat.Heat[0] == "F" %}
-                <td></td>
-                <td></td>
-              {% else %}
-                <td>Plass</td>
-                <td>Videre til</td>
-              {% endif %}
+              <td></td>
              </tr>
              {% for loper in startliste %}
                {% if heat.Index == loper.Heat %}
@@ -98,20 +94,16 @@
                      <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
                      <td>{{ loper.Navn }}</td>
                      <td>{{ loper.Klubb }}</td>
-                     <td>{{ loper.Plass }}</td>
-                     <td>{{ loper.Videre_til }}</td>
+                     <td></td>
                    </tr>
                  {% endif %}
              {% endfor %}
           {% endif %}
 
         <tr>
-          <td id=spacer colspan=6> </td>
+          <td id=spacer colspan=5> </td>
         </tr>
 
       {% endfor %}
     </table>
-    Start: {{ startliste}}<br>
-    Resultat: {{ resultatliste }}<br>
-    Heat: {{ kjoreplan }}
 {% endblock %}

@@ -18,7 +18,7 @@ class ResultatService:
     async def get_resultatliste_by_klasse(self, db: Any, klasse: str) -> List:
         """Get all resultatlister function."""
         resultatlister = []
-        cursor = db.resultatliste_collection.find({"Løpsklasse": klasse})
+        cursor = db.resultatliste_collection.find({"Klasse": klasse})
         for document in await cursor.to_list(length=1000):
             resultatlister.append(document)
             logging.debug(document)
@@ -27,7 +27,8 @@ class ResultatService:
     async def get_resultatliste_by_klubb(self, db: Any, klubb: str) -> List:
         """Get all resultatlister function."""
         resultatlister = []
-        cursor = db.resultatliste_collection.find({"Klubb": klubb})
+        myquery = "^" + klubb
+        cursor = db.resultatliste_collection.find({"Klubb": {"$regex": myquery}})
         for document in await cursor.to_list(length=1000):
             resultatlister.append(document)
             logging.debug(document)

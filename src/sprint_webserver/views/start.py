@@ -17,6 +17,8 @@ class Start(web.View):
     async def get(self) -> web.Response:
         """Get route function that return the startlister page."""
         informasjon = ""
+        startliste = []
+
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
         except Exception:
@@ -31,9 +33,14 @@ class Start(web.View):
             self.request.app["db"], valgt_klasse
         )
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
-        startliste = await StartListeService().get_all_startlister(
-            self.request.app["db"],
+
+        _liste = await StartListeService().get_startliste_by_klasse(
+            self.request.app["db"], valgt_klasse
         )
+        # filter out garbage
+        for start in _liste:
+            if str(start["Nr"]).isnumeric():
+                startliste.append(start)
 
         # format time
         for heat in kjoreplan:
