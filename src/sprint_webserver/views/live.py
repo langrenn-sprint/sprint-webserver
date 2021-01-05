@@ -16,7 +16,8 @@ from sprint_webserver.services import (
 class Live(web.View):
     """Class representing the live view."""
 
-    async def get(self) -> web.Response:
+    # TODO: reduser kompleksistet i denne funksjonen
+    async def get(self) -> web.Response:  # noqa: C901
         """Get route function that return the live result page."""
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
