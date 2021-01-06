@@ -58,8 +58,8 @@ class Deltakere(web.View):
         """Post route function that creates a collection of deltakers."""
         body = await self.request.json()
         logging.debug(f"Got request-body {body} of type {type(body)}")
-        await DeltakereService().create_deltakere(self.request.app["db"], body)
-        return web.Response(status=201)
+        result = await DeltakereService().create_deltakere(self.request.app["db"], body)
+        return web.Response(status=result)
 
     async def put(self) -> web.Response:
         """Post route function."""

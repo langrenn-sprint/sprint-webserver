@@ -25,8 +25,8 @@ class Klasser(web.View):
         """Post route function that creates a collection of klasses."""
         body = await self.request.json()
         logging.debug(f"Got request-body {body} of type {type(body)}")
-        await KlasserService().create_klasser(self.request.app["db"], body)
-        return web.Response(status=201)
+        result = await KlasserService().create_klasser(self.request.app["db"], body)
+        return web.Response(status=result)
 
     async def put(self) -> web.Response:
         """Post route function."""

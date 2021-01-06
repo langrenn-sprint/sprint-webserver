@@ -34,10 +34,27 @@ class ResultatService:
             logging.debug(document)
         return resultatlister
 
-    async def create_resultatliste(self, db: Any, body: Any) -> None:
+    async def create_resultatliste(self, db: Any, body: Any) -> int:
+        """Create resultatliste function. After deletion of existing instances, if any."""
+        returncode = 201
+        collist = await db.list_collection_names()
+        logging.debug(collist)
+        if "resultatliste_collection" in collist:
+            _klasser: list = []
+            for resultat in body:
+                if str(resultat["Klasse"]) not in _klasser:
+                    returncode = 202
+                    result = await db.resultatliste_collection.delete_many(
+                        {"Klasse": str(resultat["Klasse"])}
+                    )
+                    logging.debug(result)
+                    logging.debug(_klasser)
+                    _klasser.append(str(resultat["Klasse"]))
+
         """Create resultatlister function."""
         result = await db.resultatliste_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
+        return returncode
 
     async def get_resultatliste_by_heat(self, db: Any, heat: str) -> dict:
         """Get one resultatliste by heat function."""

@@ -79,8 +79,10 @@ class Resultat(web.View):
         """Post route function that creates a collection of athletes."""
         body = await self.request.json()
         logging.debug(f"Got request-body {body} of type {type(body)}")
-        await ResultatService().create_resultatliste(self.request.app["db"], body)
-        return web.Response(status=201)
+        result = await ResultatService().create_resultatliste(
+            self.request.app["db"], body
+        )
+        return web.Response(status=result)
 
 
 class ResultatHeat(web.View):
@@ -90,5 +92,7 @@ class ResultatHeat(web.View):
         """Post route function that creates a collection of athletes."""
         body = await self.request.json()
         logging.debug(f"Got request-body {body} of type {type(body)}")
-        await ResultatHeatService().create_resultatheat(self.request.app["db"], body)
-        return web.Response(status=201)
+        result = await ResultatHeatService().create_resultatheat(
+            self.request.app["db"], body
+        )
+        return web.Response(status=result)

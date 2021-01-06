@@ -24,7 +24,16 @@ class DeltakereService:
             logging.debug(document)
         return deltakere
 
-    async def create_deltakere(self, db: Any, body: Any) -> None:
-        """Create deltakere function."""
+    async def create_deltakere(self, db: Any, body: Any) -> int:
+        """Create deltakere function. Delete existing deltakere, if any."""
+        returncode = 201
+        collist = await db.list_collection_names()
+        logging.debug(collist)
+        if "deltakere_collection" in collist:
+            returncode = 202
+            result = await db.deltakere_collection.delete_many({})
+            logging.debug(result)
+
         result = await db.deltakere_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
+        return returncode

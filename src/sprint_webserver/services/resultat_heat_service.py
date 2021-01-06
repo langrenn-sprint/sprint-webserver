@@ -26,11 +26,27 @@ class ResultatHeatService:
             logging.debug(document)
         return resultatheat
 
-    async def create_resultatheat(self, db: Any, body: Any) -> None:
-        """Create resultatheat function and register result in kjøreplan."""
+    async def create_resultatheat(self, db: Any, body: Any) -> int:
+        """Create resultatheat function. After deletion of existing instances, if any."""
+        returncode = 201
+        collist = await db.list_collection_names()
+        logging.debug(collist)
+        if "resultatheat_collection" in collist:
+            _heatliste: list = []
+            for resultat in body:
+                if str(resultat["Heat"]) not in _heatliste:
+                    returncode = 202
+                    result = await db.resultatheat_collection.delete_many(
+                        {"Heat": str(resultat["Heat"])}
+                    )
+                    logging.debug(result)
+                    logging.debug(_heatliste)
+                    _heatliste.append(str(resultat["Heat"]))
+
         result = await db.resultatheat_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
 
+        """Update kjoreplan - register that heat is completed."""
         _heat = ""
         for loper in body:
             _startnr = str(loper["Nr"])
@@ -41,6 +57,8 @@ class ResultatHeatService:
             ):
                 _heat = loper["Heat"]
                 await KjoreplanService().update_registrer_resultat(db, _heat)
+
+        return returncode
 
     async def get_resultatheat_by_heat(self, db: Any, heat: str) -> List:
         """Get one resultatheat by heat function."""

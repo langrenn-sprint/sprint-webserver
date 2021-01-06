@@ -24,10 +24,26 @@ class StartListeService:
             logging.debug(document)
         return startlister
 
-    async def create_startliste(self, db: Any, body: Any) -> None:
-        """Create startlister function."""
+    async def create_startliste(self, db: Any, body: Any) -> int:
+        """Create startliste function. After deletion of existing instances, if any."""
+        returncode = 201
+        collist = await db.list_collection_names()
+        logging.debug(collist)
+        if "startliste_collection" in collist:
+            _heatliste: list = []
+            for loper in body:
+                if str(loper["Heat"]) not in _heatliste:
+                    returncode = 202
+                    result = await db.startliste_collection.delete_many(
+                        {"Heat": str(loper["Heat"])}
+                    )
+                    logging.debug(result)
+                    logging.debug(_heatliste)
+                    _heatliste.append(str(loper["Heat"]))
+
         result = await db.startliste_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
+        return returncode
 
     async def get_startliste_by_heat(self, db: Any, heat: str) -> dict:
         """Get one startliste by heat function."""
