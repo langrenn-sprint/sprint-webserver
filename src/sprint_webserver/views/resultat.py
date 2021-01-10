@@ -34,6 +34,7 @@ class Resultat(web.View):
         resultatliste = []
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
+            logging.info(valgt_klasse)
         except Exception:
             valgt_klasse = ""  # noqa: F841
         try:
@@ -42,24 +43,32 @@ class Resultat(web.View):
             valgt_klubb = ""
 
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
+        # ensure web safe urls
+        for klasse in klasser:
+            klasse["KlasseWeb"] = klasse["Klasse"].replace(" ", "%20")
 
         if (valgt_klasse == "") and (valgt_klubb == ""):
             informasjon = "Velg klasse eller klubb for å vise resultater"
         elif valgt_klasse == "":
+            # get resultat by klubb
             resultatliste = await ResultatService().get_resultatliste_by_klubb(
                 self.request.app["db"],
                 valgt_klubb,
             )
+            # clean data
+            for loper in resultatliste:
+                loper["Nr"] = str(loper["Nr"]).replace(".0", "")
+                loper["Plass"] = str(loper["Plass"]).replace(".0", "")
         else:
-            # hack - convert from løpsklasse to klasse
-            _klasse = await KlasserService().get_klasse_by_lopsklasse(
+            # get resultat by klasse
+            resultatliste = await ResultatService().get_resultatliste_by_klasse(
                 self.request.app["db"],
                 valgt_klasse,
             )
-            resultatliste = await ResultatService().get_resultatliste_by_klasse(
-                self.request.app["db"],
-                _klasse["Klasse"],
-            )
+            # clean data
+            for loper in resultatliste:
+                loper["Nr"] = str(loper["Nr"]).replace(".0", "")
+                loper["Plass"] = str(loper["Plass"]).replace(".0", "")
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(

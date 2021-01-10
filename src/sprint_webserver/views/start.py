@@ -34,12 +34,17 @@ class Start(web.View):
         )
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
 
-        _liste = await StartListeService().get_startliste_by_klasse(
+        _liste = await StartListeService().get_startliste_by_lopsklasse(
             self.request.app["db"], valgt_klasse
         )
+        logging.debug(_liste)
+
         # filter out garbage
         for start in _liste:
-            if str(start["Nr"]).isnumeric():
+            start["Pos"] = str(start["Pos"]).replace(".0", "")
+            start["Nr"] = str(start["Nr"]).replace(".0", "")
+            logging.debug(start["Nr"])
+            if str(start["Nr"]).isnumeric() and (int(start["Nr"]) > 0):
                 startliste.append(start)
 
         # format time

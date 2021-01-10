@@ -39,8 +39,13 @@ class Deltakere(web.View):
         except Exception:
             valgt_heat = ""  # noqa: F841
 
-        klasser = await KlasserService().get_all_klasser(self.request.app["db"])
         deltakere = await DeltakereService().get_all_deltakere(self.request.app["db"])
+
+        # get klasser
+        klasser = await KlasserService().get_all_klasser(self.request.app["db"])
+        # ensure web safe urls
+        for klasse in klasser:
+            klasse["KlasseWeb"] = klasse["Klasse"].replace(" ", "%20")
 
         return await aiohttp_jinja2.render_template_async(
             "deltakere.html",

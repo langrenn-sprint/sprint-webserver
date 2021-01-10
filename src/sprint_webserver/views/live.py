@@ -21,6 +21,7 @@ class Live(web.View):
         """Get route function that return the live result page."""
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
+            logging.debug(valgt_klasse)
         except Exception:
 
             valgt_klasse = ""
@@ -44,20 +45,28 @@ class Live(web.View):
                 self.request.app["db"], valgt_klasse
             )
 
-            _liste = await StartListeService().get_startliste_by_klasse(
+            _liste = await StartListeService().get_startliste_by_lopsklasse(
                 self.request.app["db"], valgt_klasse
             )
-            # filter out garbage
+            logging.debug(_liste)
+
+            # filter out garbage and clean data
             for start in _liste:
-                if str(start["Nr"]).isnumeric():
+                start["Pos"] = str(start["Pos"]).replace(".0", "")
+                start["Nr"] = str(start["Nr"]).replace(".0", "")
+                logging.debug(start["Nr"])
+                if str(start["Nr"]).isnumeric() and (int(start["Nr"]) > 0):
                     startliste.append(start)
+            logging.debug(startliste)
 
             _liste = await ResultatHeatService().get_resultatheat_by_klasse(
                 self.request.app["db"], valgt_klasse
             )
             # filter out garbage
             for res in _liste:
-                if str(res["Nr"]).isnumeric():
+                res["Plass"] = str(res["Plass"]).replace(".0", "")
+                res["Nr"] = str(res["Nr"]).replace(".0", "")
+                if str(res["Nr"]).isnumeric() and (int(res["Nr"]) > 0):
                     resultatliste.append(res)
 
         else:
