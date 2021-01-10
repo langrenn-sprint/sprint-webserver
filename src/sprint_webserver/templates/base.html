@@ -18,8 +18,8 @@
           <a href="/kjoreplan">Kjøreplan</a>
           <a href="deltakere">Deltakere</a>
           <a href="start">Startlister</a>
-          <a href="resultat">Resultater</a>
           <a href="live">Live scroll</a>
+          <a href="resultat">Resultater</a>
         </div>
       </li>
       {% block menu %}{% endblock %}
@@ -27,6 +27,6 @@
 
     {% block content %}{% endblock %}
 
-    <h2 id=headerblue>Testsprinten 2021</h2>
+    <h2 id=headerblue>{% block footer %}{% endblock %}</h2>
   </body>
 </html>

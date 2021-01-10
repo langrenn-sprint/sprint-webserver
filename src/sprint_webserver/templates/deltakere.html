@@ -13,7 +13,7 @@
     <div class=dropdown-content>
       <a href=deltakere>Alle</a>
       {% for klasse in klasser %}
-        <a href=deltakere?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+        <a href=deltakere?klasse={{ klasse.KlasseWeb }}>{{ klasse.Klasse }}</a>
       {% endfor %}
     </div>
   </li>
@@ -38,7 +38,7 @@
         <td>Krets</td>
       </tr>
       {% for deltaker in deltakere %}
-        {% if (deltaker.Løpsklasse == valgt_klasse) or (valgt_klasse == "") %}
+        {% if (deltaker.ÅrsKlasse == valgt_klasse) or (valgt_klasse == "") %}
           {% if ( valgt_klubb in deltaker.Klubb ) or (valgt_klubb == "") %}
             <tr>
               <td>{{ deltaker.Startnr }}</td>

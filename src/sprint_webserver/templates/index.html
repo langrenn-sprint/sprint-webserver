@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block titleheader %}
-  Velkommen
+  Velkommen - {{ lopsnavn }}
 {% endblock %}
 {% block titlemain %}
-  Velkommen
+  Velkommen - {{ lopsnavn }}
 {% endblock %}
 {% block content %}
  <div>Benytt valg i menyen for å gå til startlister, live scroll eller resultatlister.</div>
@@ -15,3 +15,6 @@
    <div><a href="live">Live scroll</a> - live oppdatering av startlister og resultater. Pr. klubb eller pr. løper.</div>
 
  {% endblock %}
+{% block footer %}
+  {{ lopsnavn }}
+{% endblock %}
