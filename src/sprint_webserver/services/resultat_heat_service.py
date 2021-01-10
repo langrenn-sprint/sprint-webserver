@@ -40,8 +40,8 @@ class ResultatHeatService:
                         {"Heat": str(resultat["Heat"])}
                     )
                     logging.debug(result)
-                    logging.debug(_heatliste)
                     _heatliste.append(str(resultat["Heat"]))
+            logging.info(_heatliste)
 
         result = await db.resultatheat_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
@@ -49,14 +49,15 @@ class ResultatHeatService:
         """Update kjoreplan - register that heat is completed."""
         _heat = ""
         for loper in body:
-            _startnr = str(loper["Nr"])
+            loper["Nr"] = str(loper["Nr"]).replace(".0", "")
             if (
                 (_heat != loper["Heat"])
-                and _startnr.isnumeric()
-                and (int(_startnr) > 0)
+                and str(loper["Nr"]).isnumeric()
+                and (int(loper["Nr"]) > 0)
             ):
                 _heat = loper["Heat"]
                 await KjoreplanService().update_registrer_resultat(db, _heat)
+                logging.info(_heat)
 
         return returncode
 

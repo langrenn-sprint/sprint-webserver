@@ -29,7 +29,12 @@ class KlasserService:
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
         return returncode
 
-    async def get_klasse_by_lopsklasse(self, db: Any, lopsklasse: str) -> dict:
+    async def get_klasse(self, db: Any, klasse: str) -> dict:
+        """Get one klass by klasse function."""
+        result = await db.klasser_collection.find_one({"Klasse": klasse})
+        return result
+
+    async def get_klasse_by_lopsklasse(self, db: Any, klasse: str) -> dict:
         """Get one klass by lopsklasse function."""
-        klasse = await db.klasser_collection.find_one({"Løpsklasse": lopsklasse})
-        return klasse
+        result = await db.klasser_collection.find_one({"Løpsklasse": klasse})
+        return result
