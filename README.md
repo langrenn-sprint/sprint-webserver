@@ -14,7 +14,7 @@ Her finner du en enkel webserver som generer html basert på csv-filer i test-da
 ### Installere programvare:
 ```
 % git clone https://github.com/heming-langrenn/sprint-excel.git
-% cd sprint-excel/webserver
+% cd sprint-webserver
 % pyenv install 3.9.0
 % pyenv local 3.9.0
 % pipx install poetry
