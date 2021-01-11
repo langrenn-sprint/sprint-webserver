@@ -35,6 +35,7 @@ class Live(web.View):
         deltakere = await DeltakereService().get_deltakere_by_lopsklasse(
             self.request.app["db"], valgt_klasse
         )
+        logging.debug(deltakere)
 
         kjoreplan = []
         startliste = []
@@ -72,10 +73,14 @@ class Live(web.View):
         else:
             # only selected racer
             valgt_startnr = valgt_startnr.replace(".0", "")
+            logging.debug(valgt_startnr)
+
             startliste = await StartListeService().get_startliste_by_nr(
                 self.request.app["db"],
                 valgt_startnr,
             )
+            logging.debug(startliste)
+
             for start in startliste:
                 _heat = await KjoreplanService().get_heat_by_index(
                     self.request.app["db"],

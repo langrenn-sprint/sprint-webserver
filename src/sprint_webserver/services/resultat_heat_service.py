@@ -41,7 +41,7 @@ class ResultatHeatService:
                     )
                     logging.debug(result)
                     _heatliste.append(str(resultat["Heat"]))
-            logging.info(_heatliste)
+            logging.debug(_heatliste)
 
         result = await db.resultatheat_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
@@ -57,7 +57,7 @@ class ResultatHeatService:
             ):
                 _heat = loper["Heat"]
                 await KjoreplanService().update_registrer_resultat(db, _heat)
-                logging.info(_heat)
+                logging.debug(_heat)
 
         return returncode
 

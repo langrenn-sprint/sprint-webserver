@@ -18,6 +18,16 @@ class DeltakereService:
     async def get_deltakere_by_lopsklasse(self, db: Any, klasse: str) -> List:
         """Get all deltakere function."""
         deltakere = []
+        cursor = db.deltakere_collection.find({"Løpsklasse": klasse})
+        for document in await cursor.to_list(length=100):
+            deltakere.append(document)
+            logging.debug(document)
+        return deltakere
+
+
+    async def get_deltakere_by_arsklasse(self, db: Any, klasse: str) -> List:
+        """Get all deltakere function."""
+        deltakere = []
         cursor = db.deltakere_collection.find({"ÅrsKlasse": klasse})
         for document in await cursor.to_list(length=100):
             deltakere.append(document)

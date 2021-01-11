@@ -60,5 +60,4 @@ class StartListeService:
         cursor = db.startliste_collection.find({"Nr": nr})
         for document in await cursor.to_list(length=100):
             startlister.append(document)
-            logging.debug(document)
         return startlister

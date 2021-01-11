@@ -17,7 +17,7 @@ class Main(web.View):
         _lopsnavn = await InnstillingerService().get_lopsnavn(
             self.request.app["db"],
         )
-        logging.info(_lopsnavn)
+        logging.debug(_lopsnavn)
 
         return await aiohttp_jinja2.render_template_async(
             "index.html",
