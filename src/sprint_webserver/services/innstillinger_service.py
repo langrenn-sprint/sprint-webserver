@@ -18,22 +18,30 @@ class InnstillingerService:
     async def get_lopsnavn(self, db: Any) -> str:
         """Get one innstilling."""
         result = await db.innstillinger_collection.find_one({"Parameter": "Løpsnavn"})
-        return result["Verdi"]
+        _lopsnavn = result["Verdi"] if getattr(result, "Verdi", None) else ""
+
+        return _lopsnavn
 
     async def get_arrangor(self, db: Any) -> str:
         """Get one innstilling."""
         result = await db.innstillinger_collection.find_one({"Parameter": "Arrangør"})
-        return result["Verdi"]
+        _arrangor = result["Verdi"] if getattr(result, "Verdi", None) else ""
+
+        return _arrangor
 
     async def get_dato(self, db: Any) -> str:
         """Get one innstilling."""
         result = await db.innstillinger_collection.find_one({"Parameter": "Dato"})
-        return result["Verdi"]
+        _dato = result["Verdi"] if getattr(result, "Verdi", None) else ""
+
+        return _dato
 
     async def get_parameter(self, db: Any, navn: str) -> str:
         """Get one innstilling."""
         result = await db.innstillinger_collection.find_one({"Parameter": navn})
-        return result["Verdi"]
+        _parameter = result["Verdi"] if getattr(result, "Verdi", None) else ""
+
+        return _parameter
 
     async def create_innstillinger(self, db: Any, body: Any) -> int:
         """Create innstillinger function. Delete existing innstillinger, if any."""
