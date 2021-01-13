@@ -24,7 +24,6 @@ class DeltakereService:
             logging.debug(document)
         return deltakere
 
-
     async def get_deltakere_by_arsklasse(self, db: Any, klasse: str) -> List:
         """Get all deltakere function."""
         deltakere = []
