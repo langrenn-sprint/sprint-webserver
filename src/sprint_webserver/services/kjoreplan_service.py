@@ -29,24 +29,36 @@ class KjoreplanService:
         returncode = 201
         collist = await db.list_collection_names()
         logging.debug(collist)
-        if "kjoreplan_collection" in collist:
-            returncode = 202
-            result = await db.kjoreplan_collection.delete_many({})
-            logging.debug(result)
 
         # format time
         for heat in body:
             # Format time from decimal to readable format hh:mm:ss:
             time = heat["Start"].replace(",", ".")
             heat["Start"] = _format_time(time)
-            logging.info(time)
-            logging.info(heat["Start"])
 
-        result = await db.kjoreplan_collection.insert_many(body)
-        logging.debug("inserted %d docs" % (len(result.inserted_ids),))
-        _newvalue = {"resultat_registrert": False}
-        result = await db.kjoreplan_collection.update_many({}, {"$set": _newvalue})
-        logging.debug(result)
+        # if kjøreplan is updated, only change the heats without resultat_registrert
+        if "kjoreplan_collection" in collist:
+            returncode = 202
+            for heat in body:
+                result = await db.kjoreplan_collection.find_one(
+                    {"Index": heat["Index"]}
+                )
+                logging.debug(heat["Index"])
+
+                if result["resultat_registrert"]:
+                    # resultat registrert - heat kan ikke endres
+                    logging.info("Ignorert: " + result["Index"])
+                else:
+                    result = await db.kjoreplan_collection.update_one(
+                        {"Index": heat["Index"]}, {"$set": heat}
+                    )
+                    logging.debug(result)
+        else:
+            result = await db.kjoreplan_collection.insert_many(body)
+            logging.debug("inserted %d docs" % (len(result.inserted_ids),))
+            _newvalue = {"resultat_registrert": False}
+            result = await db.kjoreplan_collection.update_many({}, {"$set": _newvalue})
+            logging.debug(result)
         return returncode
 
     async def update_registrer_resultat(self, db: Any, heat: str) -> None:
