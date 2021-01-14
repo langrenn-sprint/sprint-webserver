@@ -59,6 +59,12 @@ class KjoreplanService:
             _newvalue = {"resultat_registrert": False}
             result = await db.kjoreplan_collection.update_many({}, {"$set": _newvalue})
             logging.debug(result)
+
+        # update tidplan if kjøreplan exists
+        if "klasser_collection" in collist:
+            await KjoreplanService().update_tidplan(db)
+            logging.debug("Updating tidplan")
+
         return returncode
 
     async def update_registrer_resultat(self, db: Any, heat: str) -> None:
@@ -73,6 +79,95 @@ class KjoreplanService:
         heat = await db.kjoreplan_collection.find_one({"Index": index})
         logging.debug(heat)
         return heat
+
+    async def update_tidplan(self, db: Any) -> int:
+        """Update tidplan function. Will update klasser object, requires Kjøreplan created."""
+        returncode = 201
+
+        # get klasser
+        klasser = []
+        cursor = db.klasser_collection.find()
+        for document in await cursor.to_list(length=100):
+            klasser.append(document)
+
+        # get heat
+        kjoreplan = []
+        cursor = db.kjoreplan_collection.find()
+        for document in await cursor.to_list(length=500):
+            kjoreplan.append(document)
+
+        # loop through klasser and kjøreplan - update start time pr round
+        for klasse in klasser:
+            klasse["SemiC"] = False
+            klasse["FinaleC"] = False
+            klasse["FinaleB"] = False
+            for heat in kjoreplan:
+                if klasse["Løpsklasse"] == heat["Løpsklasse"]:
+                    if heat["Heat"] == "KA1":
+                        _myquery = {"Klasse": klasse["Klasse"]}
+                        _newvalue = {"TidKvart": heat["Start"]}
+                        result = await db.klasser_collection.update_one(
+                            _myquery, {"$set": _newvalue}
+                        )
+                        logging.debug(result)
+                        returncode = 202
+                    elif heat["Heat"] == "SC1":
+                        _myquery = {"Klasse": klasse["Klasse"]}
+                        _newvalue = {"TidSemi": heat["Start"]}
+                        result = await db.klasser_collection.update_one(
+                            _myquery, {"$set": _newvalue}
+                        )
+                        logging.debug(result)
+                        klasse["SemiC"] = True
+                    elif heat["Heat"] == "SA1":
+                        if klasse["SemiC"] is False:
+                            _myquery = {"Klasse": klasse["Klasse"]}
+                            _newvalue = {"TidSemi": heat["Start"]}
+                            result = await db.klasser_collection.update_one(
+                                _myquery, {"$set": _newvalue}
+                            )
+                            logging.debug(result)
+                    elif heat["Heat"] == "FC":
+                        _myquery = {"Klasse": klasse["Klasse"]}
+                        _newvalue = {"TidFinale": heat["Start"]}
+                        result = await db.klasser_collection.update_one(
+                            _myquery, {"$set": _newvalue}
+                        )
+                        klasse["FinaleC"] = True
+                        logging.debug(result)
+                    elif heat["Heat"] == "FB":
+                        klasse["FinaleB"] = True
+                        if klasse["FinaleC"] is False:
+                            _myquery = {"Klasse": klasse["Klasse"]}
+                            _newvalue = {"TidFinale": heat["Start"]}
+                            result = await db.klasser_collection.update_one(
+                                _myquery, {"$set": _newvalue}
+                            )
+                            logging.debug(result)
+                    elif heat["Heat"] == "FA":
+                        if (klasse["FinaleC"] or klasse["FinaleB"]) is False:
+                            _myquery = {"Klasse": klasse["Klasse"]}
+                            _newvalue = {"TidFinale": heat["Start"]}
+                            result = await db.klasser_collection.update_one(
+                                _myquery, {"$set": _newvalue}
+                            )
+                            logging.debug(result)
+                    elif heat["Heat"] == "F1":
+                        _myquery = {"Klasse": klasse["Klasse"]}
+                        _newvalue = {"TidKvart": heat["Start"]}
+                        result = await db.klasser_collection.update_one(
+                            _myquery, {"$set": _newvalue}
+                        )
+                        logging.debug(result)
+                    elif heat["Heat"] == "A1":
+                        _myquery = {"Klasse": klasse["Klasse"]}
+                        _newvalue = {"TidSemi": heat["Start"]}
+                        result = await db.klasser_collection.update_one(
+                            _myquery, {"$set": _newvalue}
+                        )
+                        logging.debug(result)
+
+        return returncode
 
 
 def _format_time(decimal_time: str) -> str:
