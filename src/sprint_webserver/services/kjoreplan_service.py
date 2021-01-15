@@ -80,7 +80,8 @@ class KjoreplanService:
         logging.debug(heat)
         return heat
 
-    async def update_tidplan(self, db: Any) -> int:
+    # TODO: reduser kompleksistet i denne funksjonen
+    async def update_tidplan(self, db: Any) -> int:  # noqa: C901
         """Update tidplan function. Will update klasser object, requires Kjøreplan created."""
         returncode = 201
 

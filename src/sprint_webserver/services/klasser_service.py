@@ -47,7 +47,8 @@ class KlasserService:
         result = await db.klasser_collection.find_one({"Løpsklasse": klasse})
         return result
 
-    async def update_tidplan(self, db: Any) -> int:
+    # TODO: reduser kompleksistet i denne funksjonen
+    async def update_tidplan(self, db: Any) -> int:  # noqa: C901
         """Update tidplan function. Will update klasser object, requires Kjøreplan created."""
         returncode = 201
 
