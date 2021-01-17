@@ -34,14 +34,14 @@ Start lokal webserver mha aiohttp-devtools(adev):
 ## Running the API in a wsgi-server (gunicorn)
 ```
 % cd src
-% poetry run gunicorn sprint_webserver:create_app --bind localhost:8000 --worker-class aiohttp.GunicornWebWorker
+% poetry run gunicorn sprint_webserver:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
 ```
 ### Teste manuelt
-Enten åpne din nettleser på http://localhost:8000/
+Enten åpne din nettleser på http://localhost:8080/
 
 Eller via curl:
 ```
-% curl -i http://localhost:8000/
+% curl -i http://localhost:8080/
 ```
 
 Når du endrer koden i webserver.py, vil webserveren laste applikasjonen på nytt autoamtisk ved lagring.
