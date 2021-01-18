@@ -22,6 +22,16 @@ Her finner du en enkel webserver som generer html basert på csv-filer i test-da
 % pipx inject nox nox-poetry
 % poetry install
 ```
+## Miljøvariable
+Du kan sette opp ei .env fil med miljøvariable. Eksempel:
+```
+HOST_PORT=8080
+DB_HOST=localhost
+DB_USER=<brukernavn>     # sett inn korrekt brukernavn her
+DB_PASSWORD=<passord>    # sett inn korrekt passord her
+DB_NAME=sprint_db
+```
+Denne fila _skal_ ligge i .dockerignore og .gitignore
 ### Kjøre webserver lokalt
 Start en mongodb instans, feks i docker:
 ```
@@ -29,12 +39,18 @@ Start en mongodb instans, feks i docker:
 ```
 Start lokal webserver mha aiohttp-devtools(adev):
 ```
-% cd src && poetry run adev runserver sprint_webserver
+% source .env
+% cd src && poetry run adev runserver -p 8080 sprint_webserver
 ```
 ## Running the API in a wsgi-server (gunicorn)
 ```
+% source .env
 % cd src
 % poetry run gunicorn sprint_webserver:create_app --bind localhost:8080 --worker-class aiohttp.GunicornWebWorker
+```
+## Running the API in docker with docker-compose
+```
+% docker-compose up --build
 ```
 ### Teste manuelt
 Enten åpne din nettleser på http://localhost:8080/
@@ -43,7 +59,6 @@ Eller via curl:
 ```
 % curl -i http://localhost:8080/
 ```
-
 Når du endrer koden i webserver.py, vil webserveren laste applikasjonen på nytt autoamtisk ved lagring.
 
 # Referanser
@@ -58,8 +73,8 @@ aiohttp: https://docs.aiohttp.org/
 
 (pri 2) Startliste pr Heat
 6 kolonner: Pos Nr Navn Klubb Plass "Videre til"
-
 (pri 3) Resultatliste pr Heat
+
 5 kolonner: Plass "Videre til" Nr Navn Klubb
 
 (pri 5) Resultatliste pr Klasse
