@@ -20,6 +20,7 @@ class Main(web.View):
         _lopsdato = await InnstillingerService().get_dato(
             self.request.app["db"],
         )
+        logging.debug(_lopsdato)
 
         return await aiohttp_jinja2.render_template_async(
             "index.html",

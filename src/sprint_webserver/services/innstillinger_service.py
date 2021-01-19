@@ -17,7 +17,7 @@ class InnstillingerService:
 
     async def get_lopsnavn(self, db: Any) -> str:
         """Get one innstilling."""
-        result = await db.innstillinger_collection.find_one({ "Parameter": "Løpsnavn" })
+        result = await db.innstillinger_collection.find_one({"Parameter": "Løpsnavn"})
         logging.debug(result)
         try:
             _lopsnavn = result["Verdi"]
