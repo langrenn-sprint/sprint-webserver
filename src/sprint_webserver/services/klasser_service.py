@@ -69,10 +69,10 @@ class KlasserService:
             klasse["SemiC"] = False
             klasse["FinaleC"] = False
             klasse["FinaleB"] = False
+            _myquery = {"Klasse": klasse["Klasse"]}
             for heat in kjoreplan:
                 if klasse["Løpsklasse"] == heat["Løpsklasse"]:
                     if heat["Heat"] == "KA1":
-                        _myquery = {"Klasse": klasse["Klasse"]}
                         _newvalue = {"TidKvart": heat["Start"]}
                         result = await db.klasser_collection.update_one(
                             _myquery, {"$set": _newvalue}
@@ -80,7 +80,6 @@ class KlasserService:
                         logging.debug(result)
                         returncode = 202
                     elif heat["Heat"] == "SC1":
-                        _myquery = {"Klasse": klasse["Klasse"]}
                         _newvalue = {"TidSemi": heat["Start"]}
                         result = await db.klasser_collection.update_one(
                             _myquery, {"$set": _newvalue}
@@ -89,14 +88,12 @@ class KlasserService:
                         klasse["SemiC"] = True
                     elif heat["Heat"] == "SA1":
                         if klasse["SemiC"] is False:
-                            _myquery = {"Klasse": klasse["Klasse"]}
                             _newvalue = {"TidSemi": heat["Start"]}
                             result = await db.klasser_collection.update_one(
                                 _myquery, {"$set": _newvalue}
                             )
                             logging.debug(result)
                     elif heat["Heat"] == "FC":
-                        _myquery = {"Klasse": klasse["Klasse"]}
                         _newvalue = {"TidFinale": heat["Start"]}
                         result = await db.klasser_collection.update_one(
                             _myquery, {"$set": _newvalue}
@@ -106,7 +103,6 @@ class KlasserService:
                     elif heat["Heat"] == "FB":
                         klasse["FinaleB"] = True
                         if klasse["FinaleC"] is False:
-                            _myquery = {"Klasse": klasse["Klasse"]}
                             _newvalue = {"TidFinale": heat["Start"]}
                             result = await db.klasser_collection.update_one(
                                 _myquery, {"$set": _newvalue}
@@ -114,21 +110,18 @@ class KlasserService:
                             logging.debug(result)
                     elif heat["Heat"] == "FA":
                         if (klasse["FinaleC"] or klasse["FinaleB"]) is False:
-                            _myquery = {"Klasse": klasse["Klasse"]}
                             _newvalue = {"TidFinale": heat["Start"]}
                             result = await db.klasser_collection.update_one(
                                 _myquery, {"$set": _newvalue}
                             )
                             logging.debug(result)
                     elif heat["Heat"] == "F1":
-                        _myquery = {"Klasse": klasse["Klasse"]}
                         _newvalue = {"TidKvart": heat["Start"]}
                         result = await db.klasser_collection.update_one(
                             _myquery, {"$set": _newvalue}
                         )
                         logging.debug(result)
                     elif heat["Heat"] == "A1":
-                        _myquery = {"Klasse": klasse["Klasse"]}
                         _newvalue = {"TidSemi": heat["Start"]}
                         result = await db.klasser_collection.update_one(
                             _myquery, {"$set": _newvalue}

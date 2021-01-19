@@ -17,12 +17,15 @@ class Main(web.View):
         _lopsnavn = await InnstillingerService().get_lopsnavn(
             self.request.app["db"],
         )
-        logging.debug(_lopsnavn)
+        _lopsdato = await InnstillingerService().get_dato(
+            self.request.app["db"],
+        )
 
         return await aiohttp_jinja2.render_template_async(
             "index.html",
             self.request,
             {
                 "lopsnavn": _lopsnavn,
+                "lopsdato": _lopsdato,
             },
         )

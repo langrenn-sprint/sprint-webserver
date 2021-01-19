@@ -47,6 +47,7 @@
      <td>Klasse</td>
      <td>Runde</td>
      <td>Resultat</td>
+     <td></td>
     </tr>
       {% for heat in kjoreplan %}
       <tr>
@@ -54,6 +55,7 @@
         <td><a href=live?klasse={{ heat.Løpsklasse }}>{{ heat.Løpsklasse }}</a></td>
         <td>{{ heat.Runde }}</td>
         <td>{{ heat.Resultat }}</td>
+        <td>{{ heat.resultat_registrert }}</td>
       </tr>
       {% endfor %}
     </table>

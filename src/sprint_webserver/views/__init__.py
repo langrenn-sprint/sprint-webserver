@@ -1,5 +1,6 @@
 """Package for all views."""
 from .deltakere import Deltaker, Deltakere
+from .innstillinger import Innstillinger
 from .kjoreplan import Kjoreplan
 from .klasser import Klasse, Klasser
 from .live import Live

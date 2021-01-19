@@ -17,22 +17,36 @@ class InnstillingerService:
 
     async def get_lopsnavn(self, db: Any) -> str:
         """Get one innstilling."""
-        result = await db.innstillinger_collection.find_one({"Parameter": "Løpsnavn"})
-        _lopsnavn = result["Verdi"] if getattr(result, "Verdi", None) else ""
+        result = await db.innstillinger_collection.find_one({ "Parameter": "Løpsnavn" })
+        logging.debug(result)
+        try:
+            _lopsnavn = result["Verdi"]
+        except Exception:
+            _lopsnavn = ""
+
+        logging.debug(_lopsnavn)
 
         return _lopsnavn
 
     async def get_arrangor(self, db: Any) -> str:
         """Get one innstilling."""
         result = await db.innstillinger_collection.find_one({"Parameter": "Arrangør"})
-        _arrangor = result["Verdi"] if getattr(result, "Verdi", None) else ""
+        try:
+            _arrangor = result["Verdi"]
+        except Exception:
+            _arrangor = ""
+        logging.debug(_arrangor)
 
         return _arrangor
 
     async def get_dato(self, db: Any) -> str:
         """Get one innstilling."""
         result = await db.innstillinger_collection.find_one({"Parameter": "Dato"})
-        _dato = result["Verdi"] if getattr(result, "Verdi", None) else ""
+        try:
+            _dato = result["Verdi"]
+        except Exception:
+            _dato = ""
+        logging.debug(_dato)
 
         return _dato
 

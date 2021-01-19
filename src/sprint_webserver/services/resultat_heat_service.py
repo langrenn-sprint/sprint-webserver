@@ -49,7 +49,7 @@ class ResultatHeatService:
         """Update kjoreplan - register that heat is completed."""
         _heat = ""
         for loper in body:
-            loper["Nr"] = str(loper["Nr"]).replace(".0", "")
+            logging.debug(loper["Heat"])
             if (
                 (_heat != loper["Heat"])
                 and str(loper["Nr"]).isnumeric()

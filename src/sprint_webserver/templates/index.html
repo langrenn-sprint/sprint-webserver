@@ -3,18 +3,17 @@
   Velkommen - {{ lopsnavn }}
 {% endblock %}
 {% block titlemain %}
-  Velkommen - {{ lopsnavn }}
+  Velkommen
 {% endblock %}
 {% block content %}
- <div>Benytt valg i menyen for å gå til startlister, live scroll eller resultatlister.</div>
-
-   <div><a href="/kjoreplan">Kjøreplan</a> - Oversikt over alle heat og informasjon om kvalifisering til finaler.</div>
-   <div><a href="deltakere">Deltakere</a> - Alle påmeldte løpere (pr. klasse eller pr. klubb)</div>
-   <div><a href="start">Startlister</a> - for alle heat.</div>
-   <div><a href="resultat">Resultater</a> - sluttresultater pr klasse.</div>
-   <div><a href="live">Live scroll</a> - live oppdatering av startlister og resultater. Pr. klubb eller pr. løper.</div>
+<br> <div>Benytt valg i menyen for å gå til startlister, live scroll eller resultatlister.</div>
+   <div> - <a href="/kjoreplan">Kjøreplan</a> - Oversikt over alle heat og informasjon om kvalifisering til finaler.</div>
+   <div> - <a href="deltakere">Deltakere</a> - Alle påmeldte løpere (pr. klasse eller pr. klubb)</div>
+   <div> - <a href="start">Startlister</a> - for alle heat.</div>
+   <div> - <a href="resultat">Resultater</a> - sluttresultater pr klasse.</div>
+   <div> - <a href="live">Live scroll</a> - live oppdatering av startlister og resultater. Pr. klubb eller pr. løper.</div>
 
  {% endblock %}
 {% block footer %}
-  {{ lopsnavn }}
+  {{ lopsnavn }}, {{ lopsdato }}
 {% endblock %}
