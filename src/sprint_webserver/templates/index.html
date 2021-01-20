@@ -1,19 +1,59 @@
 {% extends "base.html" %}
 {% block titleheader %}
-  Velkommen - {{ lopsnavn }}
+  Live, {{ lopsnavn }}
 {% endblock %}
 {% block titlemain %}
-  Velkommen
+  Live oppdatering
 {% endblock %}
 {% block content %}
-<br> <div>Benytt valg i menyen for å gå til startlister, live scroll eller resultatlister.</div>
-   <div> - <a href="/kjoreplan">Kjøreplan</a> - Oversikt over alle heat og informasjon om kvalifisering til finaler.</div>
-   <div> - <a href="deltakere">Deltakere</a> - Alle påmeldte løpere (pr. klasse eller pr. klubb)</div>
-   <div> - <a href="start">Startlister</a> - for alle heat.</div>
-   <div> - <a href="resultat">Resultater</a> - sluttresultater pr klasse.</div>
-   <div> - <a href="live">Live scroll</a> - live oppdatering av startlister og resultater. Pr. klubb eller pr. løper.</div>
-
- {% endblock %}
+  <div class="w3-container">
+    <br>Velkommen til {{ lopsnavn }}! Benytt valg i menyen for å gå til startlister, live scroll eller resultatlister.
+    <table>
+      <tr id=spacer></tr>
+      <tr>
+        <td>
+          <a href="/kjoreplan">Kjøreplan</a>
+        </td>
+        <td>
+          Oversikt over alle heat og informasjon om kvalifisering til finaler.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a href="deltakere">Deltakere</a>
+        </td>
+        <td>
+          Alle påmeldte løpere (pr. klasse eller pr. klubb).
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a href="start">Startlister</a>
+        </td>
+        <td>
+          For alle heat.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a href="resultat">Resultater</a>
+        </td>
+        <td>
+          Sluttresultater pr klasse.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a href="live">Live scroll</a>
+        </td>
+        <td>
+          Live oppdatering av startlister og resultater. Pr. klubb eller pr. løper.
+        </td>
+      </tr>
+      <tr id=spacer></tr>
+    </table>
+  </div>
+{% endblock %}
 {% block footer %}
   {{ lopsnavn }}, {{ lopsdato }}
 {% endblock %}

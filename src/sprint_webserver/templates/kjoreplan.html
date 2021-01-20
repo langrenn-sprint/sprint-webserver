@@ -18,45 +18,47 @@
   </li>
 {% endblock %}
 
-
 {% block content %}
-<table>
-   <tr id=headerblue>
-     <td>Årsklasse</td>
-     <td>Løpsklasse</td>
-     <td>Kvartfinaler</td>
-     <td>Semifinaler</td>
-     <td>Finaler</td>
-    </tr>
-    {% for klasse in klasser %}
-      {% if (klasse.Klasse == valgt_klasse) or (valgt_klasse == "") %}
-        <tr>
-          <td><a href=kjoreplan?klasse={{ klasse.KlasseWeb }}>{{ klasse.Klasse }}</a></td>
-          <td>{{ klasse.Løpsklasse }}</td>
-          <td>{{ klasse.TidKvart }}</td>
-          <td>{{ klasse.TidSemi }}</td>
-          <td>{{ klasse.TidFinale }}</td>
-        </tr>
-      {% endif %}
-    {% endfor %}
- </table>
-
- <table>
-   <tr id=headerblue>
-     <td>Starttid</td>
-     <td>Klasse</td>
-     <td>Runde</td>
-     <td>Resultat</td>
-     <td></td>
-    </tr>
-      {% for heat in kjoreplan %}
-      <tr>
-        <td>{{ heat.Start }}</td>
-        <td><a href=live?klasse={{ heat.Løpsklasse }}>{{ heat.Løpsklasse }}</a></td>
-        <td>{{ heat.Runde }}</td>
-        <td>{{ heat.Resultat }}</td>
-        <td>{{ heat.resultat_registrert }}</td>
+<div class="w3-container">
+  <table>
+     <tr id=headerblue>
+       <td>Årsklasse</td>
+       <td>Løpsklasse</td>
+       <td>Kvartfinaler</td>
+       <td>Semifinaler</td>
+       <td>Finaler</td>
       </tr>
+      {% for klasse in klasser %}
+        {% if (klasse.Klasse == valgt_klasse) or (valgt_klasse == "") %}
+          <tr>
+            <td><a href=kjoreplan?klasse={{ klasse.KlasseWeb }}>{{ klasse.Klasse }}</a></td>
+            <td>{{ klasse.Løpsklasse }}</td>
+            <td>{{ klasse.TidKvart }}</td>
+            <td>{{ klasse.TidSemi }}</td>
+            <td>{{ klasse.TidFinale }}</td>
+          </tr>
+        {% endif %}
       {% endfor %}
-    </table>
+   </table>
+
+   <table>
+     <tr id=headerblue>
+       <td>Starttid</td>
+       <td>Klasse</td>
+       <td>Runde</td>
+       <td>Resultat</td>
+      </tr>
+        {% for heat in kjoreplan %}
+        <tr>
+          <td>{{ heat.Start }}</td>
+          <td><a href=live?klasse={{ heat.Løpsklasse }}>{{ heat.Løpsklasse }}</a></td>
+          <td>{{ heat.Runde }}</td>
+          <td>{{ heat.Resultat }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+  </div>
+{% endblock %}
+{% block footer %}
+  2021
 {% endblock %}

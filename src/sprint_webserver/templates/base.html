@@ -7,26 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <h2 id=headerblue>{% block titlemain %}{% endblock %}</h2>
+    <div class="w3-container">
+      <h2 id=headerblue>{% block titlemain %}{% endblock %}</h2>
 
-    <!-- Top Navigation Menu -->
-    <ul>
-      <li class=dropdown id=topborder>
-        <a href=javascript:void(0) class=dropbtn>...</a>
-        <div class=dropdown-content>
-          <a href="/">Hovedside</a>
-          <a href="/kjoreplan">Kjøreplan</a>
-          <a href="deltakere">Deltakere</a>
-          <a href="start">Startlister</a>
-          <a href="live">Live scroll</a>
-          <a href="resultat">Resultater</a>
-        </div>
-      </li>
-      {% block menu %}{% endblock %}
-    </ul>
+      <!-- Top Navigation Menu -->
+      <ul>
+        <li class=dropdown id=topborder>
+          <a href=javascript:void(0) class=dropbtn>...</a>
+          <div class=dropdown-content>
+            <a href="/">Hovedside</a>
+            <a href="/kjoreplan">Kjøreplan</a>
+            <a href="deltakere">Deltakere</a>
+            <a href="start">Startlister</a>
+            <a href="live">Live scroll</a>
+            <a href="resultat">Resultater</a>
+          </div>
+        </li>
+        {% block menu %}{% endblock %}
+      </ul>
+    </div>
 
     {% block content %}{% endblock %}
 
-    <h2 id=headerblue>{% block footer %}{% endblock %}</h2>
+    <div class="w3-container">
+      <h2 id=headerblue>{% block footer %}{% endblock %}</h2>
+    </div>
   </body>
 </html>

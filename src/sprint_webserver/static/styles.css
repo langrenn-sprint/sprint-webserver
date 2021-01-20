@@ -29,36 +29,8 @@ body {
   display: table;
 }
 
-[class*="col-"] {
-  padding: 4px;
-  margin: auto;
-}
-
-/* For mobile phones: */
-[class*="col-"] {
-  width: 100%;
-  margin: auto;
-}
-
-@media only screen and (min-width: 800px) {
-    /* For tablets: */
-    .col-1 {width: 8.33%;}
-    .col-2 {width: 16.66%;}
-    .col-3 {width: 25%;}
-    .col-4 {width: 33.33%;}
-    .col-5 {width: 41.66%;}
-    .col-6 {width: 50%;}
-    .col-7 {width: 58.33%;}
-    .col-8 {width: 66.66%;}
-    .col-9 {width: 75%;}
-    .col-10 {width: 83.33%;}
-    .col-11 {width: 91.66%;}
-    .col-12 {width: 100%;}
-}
-
 ul {
   	list-style-type: none;
-    top: 0;
     margin: 0;
     padding: 0;
 		background-color: #75000e;
@@ -75,7 +47,6 @@ li a, .dropbtn {
   text-align: center;
   padding: 4px 4px;
   text-decoration: none;
-  font-size: 120%;
 }
 
 li a:hover, .dropdown:hover .dropbtn {
@@ -111,7 +82,9 @@ li.dropdown {
   text-align: left;
 }
 
-.dropdown-content a:hover {background-color: #f0f0f0;}
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
 
 .dropdown:hover .dropdown-content {
   display: block;
@@ -119,31 +92,18 @@ li.dropdown {
 
 h1 {
   text-align: center;
-  padding: 4px 4px 4px 4px;
 }
+
 h2 {
   text-align: center;
-  padding: 4px 4px 4px 4px;
 }
 
 table {
   width: 100%;
-  outline: 1px solid lightgrey;
-  border: 2px solid #999ca5;
 	border-spacing: 0;
-  padding: 4px 4px 4px 4px;
 }
 
 tr:nth-child(even){background-color: #f2f2f2;}
-
-td {
-  padding-left: 5px;
-  padding: 4px 2px 2px 2px;
-}
-
-a {
-  color: #3D3D3D;
-}
 
 #headerblue {
     color: white;
@@ -171,47 +131,29 @@ a {
     background-color: lightgrey;
 }
 
-/*********************************
-* stiler for mobil navbar        *
-*********************************/
-/* Style the navigation menu */
-.topnav {
-  overflow: hidden;
-  background-color: #999ca5;
-  position: relative;
+function naviger(id) {
+  var elmnt = document.getElementById(id);
+  elmnt.scrollIntoView();
 }
 
-/* Hide the links inside the navigation menu (except for logo/home) */
-.topnav #myLinks {
-  display: none;
+/**** Responsivt design ****/
+.w3-container,.w3-third {
+  padding:0.01em 8px
+}
+.w3-container:after,.w3-container:before,.w3-row-padding:after,.w3-row-padding:before {
+  content:"";
+  display:table;
+  clear:both;
 }
 
-/* Style navigation menu links */
-.topnav a {
-  font-size: 120%;
-  color: white;
-  padding: 4px 4px;
-  text-decoration: none;
-  display: block;
+.w3-third {
+  float:left;width:100%;
+  width:33.33333%;
 }
 
-/* Style the hamburger menu */
-.topnav a.icon {
-  background: #A30013;
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-/* Add a grey background color on mouse-over */
-.topnav a:hover {
-  background-color: #f1f2f7;
-  color: black;
-}
-
-/* Style the active link (or home/logo) */
-.active {
-  background-color: #75000e;
-  color: white;
+/* Use a media query to add a breakpoint at 1200px: */
+@media screen and (max-width: 1200px) {
+  .w3-third {
+    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+  }
 }

@@ -40,70 +40,82 @@
 {% endblock %}
 
 {% block content %}
-    <script>
-      function naviger(id) {
-        var elmnt = document.getElementById(id);
-        elmnt.scrollIntoView();
-      }
-    </script>
-    <table>
-      {% for heat in kjoreplan %}
-          {% if heat.resultat_registrert %}
-            <tr id=headerblack>
-              <td colspan=3>{{ heat.Runde }}</td>
-              <td colspan=2>Resultater</td>
-            </tr>
-            <tr id=subheader>
-              <td><div id={{ heat.Heat[0] }} >Plass</div></td>
-              <td>Nr</td>
-              <td>Navn</td>
-              <td>Klubb</td>
-              {% if heat.Heat[0] == "F" %}
-                <td></td>
-              {% else %}
-                <td>Videre til</td>
-              {% endif %}
-            </tr>
-            {% for loper in resultatliste %}
-              {% if heat.Index == loper.Heat %}
-                  <tr>
-                    <td>{{ loper.Plass }}</td>
-                    <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
-                    <td>{{ loper.Navn }}</td>
-                    <td>{{ loper.Klubb }}</td>
-                    <td>{{ loper.Videre_til }}</td>
-                  </tr>
+  <div id=spacer></div>
+  <div class="w3-row-padding">
+    <div class="w3-third">
+      <table>
+
+        {% for heat in kjoreplan %}
+
+            {% if (heat.Heat == "SC1") or (heat.Heat == "FC") %}
+                </table>
+              </div>
+              <div class="w3-third">
+                <table>
+            {% endif %}
+
+            {% if heat.resultat_registrert %}
+              <tr id=headerblack>
+                <td colspan=3>{{ heat.Runde }}</td>
+                <td colspan=2>Resultater</td>
+              </tr>
+              <tr id=subheader>
+                <td><div id={{ heat.Heat[0] }} >Plass</div></td>
+                <td>Nr</td>
+                <td>Navn</td>
+                <td>Klubb</td>
+                {% if heat.Heat[0] == "F" %}
+                  <td></td>
+                {% else %}
+                  <td>Videre til</td>
                 {% endif %}
-            {% endfor %}
-          {% else %}
-            <tr id=headerblue>
-              <td colspan=3>{{ heat.Runde }}</td>
-              <td colspan=2>Start kl. {{ heat.Start }}</td>
-            </tr>
-            <tr id=subheader>
-              <td><div id={{ heat.Heat[0] }} >Pos</div></td>
-              <td>Nr</td>
-              <td>Navn</td>
-              <td>Klubb</td>
-              <td></td>
-             </tr>
-             {% for loper in startliste %}
-               {% if heat.Index == loper.Heat %}
-                   <tr>
-                     <td>{{ loper.Pos }}</td>
-                     <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
-                     <td>{{ loper.Navn }}</td>
-                     <td>{{ loper.Klubb }}</td>
-                     <td></td>
-                   </tr>
-                 {% endif %}
-             {% endfor %}
-          {% endif %}
+              </tr>
+              {% for loper in resultatliste %}
+                {% if heat.Index == loper.Heat %}
+                    <tr>
+                      <td>{{ loper.Plass }}</td>
+                      <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
+                      <td>{{ loper.Navn }}</td>
+                      <td>{{ loper.Klubb }}</td>
+                      <td>{{ loper.Videre_til }}</td>
+                    </tr>
+                  {% endif %}
+              {% endfor %}
+            {% else %}
+              <tr id=headerblue>
+                <td colspan=3>{{ heat.Runde }}</td>
+                <td colspan=2>Kl. {{ heat.Start }}</td>
+              </tr>
+              <tr id=subheader>
+                <td><div id={{ heat.Heat[0] }} >Pos</div></td>
+                <td>Nr</td>
+                <td>Navn</td>
+                <td>Klubb</td>
+                <td></td>
+               </tr>
+               {% for loper in startliste %}
+                 {% if heat.Index == loper.Heat %}
+                     <tr>
+                       <td>{{ loper.Pos }}</td>
+                       <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
+                       <td>{{ loper.Navn }}</td>
+                       <td>{{ loper.Klubb }}</td>
+                       <td></td>
+                     </tr>
+                   {% endif %}
+               {% endfor %}
+            {% endif %}
 
-        <tr>
-          <td id=spacer colspan=5> </td>
-        </tr>
+          <tr>
+            <td id=spacer colspan=5> </td>
+          </tr>
 
-      {% endfor %}
-    </table>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  2021
 {% endblock %}

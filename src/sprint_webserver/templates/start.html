@@ -27,12 +27,8 @@
 {% endblock %}
 
 {% block content %}
-    <script>
-      function naviger(id) {
-        var elmnt = document.getElementById(id);
-        elmnt.scrollIntoView();
-      }
-    </script>
+  <div id=spacer></div>
+  <div class="w3-container">
     {{ informasjon }}
     <table>
       {% for heat in kjoreplan %}
@@ -61,4 +57,9 @@
         </tr>
       {% endfor %}
     </table>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  2021
 {% endblock %}

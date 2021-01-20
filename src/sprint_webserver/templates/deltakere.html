@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block titleheader %}
-  Påmeldte {{ valgt_klubb }}{{ valgt_klasse }}
+  Deltakere {{ valgt_klubb }}{{ valgt_klasse }}
 {% endblock %}
 
 {% block titlemain %}
-  Påmeldte {{ valgt_klubb }}{{ valgt_klasse }}
+  Deltakere {{ valgt_klubb }}{{ valgt_klasse }}
 {% endblock %}
 
 {% block menu %}
@@ -29,9 +29,11 @@
 {% endblock %}
 
 {% block content %}
+  <div id=spacer></div>
+  <div class="w3-container">
     <table>
       <tr id=headerblue>
-        <td>Startnr</td>
+        <td>Nr</td>
         <td>Navn</td>
         <td>Klubb</td>
         <td>Klasse</td>
@@ -41,7 +43,7 @@
         {% if (deltaker.ÅrsKlasse == valgt_klasse) or (valgt_klasse == "") %}
           {% if ( valgt_klubb in deltaker.Klubb ) or (valgt_klubb == "") %}
             <tr>
-              <td>{{ deltaker.Startnr }}</td>
+              <td align=right>{{ deltaker.Startnr }}</td>
               <td><a href=live?klasse={{ deltaker.Løpsklasse }}&startnr={{ deltaker.Startnr }}>{{ deltaker.Navn }}</a></td>
               <td>{{ deltaker.Klubb }}</td>
               <td>{{ deltaker.ÅrsKlasse }}</td>
@@ -50,8 +52,10 @@
             {% endif %}
         {% endif %}
       {% endfor %}
-      <tr>
-        <td id=spacer colspan=6> </td>
-      </tr>
     </table>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  2021
 {% endblock %}
