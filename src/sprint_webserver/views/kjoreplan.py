@@ -41,11 +41,7 @@ class Kjoreplan(web.View):
         return await aiohttp_jinja2.render_template_async(
             "kjoreplan.html",
             self.request,
-            {
-                "valgt_klasse": valgt_klasse,
-                "klasser": klasser,
-                "kjoreplan": kjoreplan
-            },
+            {"valgt_klasse": valgt_klasse, "klasser": klasser, "kjoreplan": kjoreplan},
         )
 
     async def post(self) -> web.Response:

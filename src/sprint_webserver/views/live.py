@@ -23,8 +23,8 @@ class Live(web.View):
             valgt_klasse = self.request.rel_url.query["klasse"]
             logging.debug(valgt_klasse)
         except Exception:
-
             valgt_klasse = ""
+
         try:
             valgt_startnr = self.request.rel_url.query["startnr"]
         except Exception:
@@ -40,11 +40,30 @@ class Live(web.View):
         kjoreplan = []
         startliste = []
         resultatliste = []
+        colseparators = []
+        colclass = "w3-third"
         if valgt_startnr == "":
 
-            kjoreplan = await KjoreplanService().get_heat_by_klasse(
+            kjoreplan = await KjoreplanService().get_heat_for_live_scroll(
                 self.request.app["db"], valgt_klasse
             )
+
+            # responsive design - determine column-arrangement
+            colseparators = ["KA1", "KA5", "SC1", "SA1", "F1", "F5", "A1", "A5"]
+            icolcount = 0
+            for heat in kjoreplan:
+                if heat["Heat"] in colseparators:
+                    icolcount += 1
+                    if (heat["Heat"] == "SC1") and heat["resultat_registrert"]:
+                        colseparators.remove("SC1")
+                elif heat["Heat"] in {"FA", "FB", "FC"}:
+                    icolcount += 1
+                    colseparators.append(heat["Heat"])
+                    break
+            if icolcount == 4:
+                colclass = "w3-quart"
+            colseparators.remove("KA1")
+            colseparators.remove("F1")
 
             _liste = await StartListeService().get_startliste_by_lopsklasse(
                 self.request.app["db"], valgt_klasse
@@ -53,8 +72,6 @@ class Live(web.View):
 
             # filter out garbage and clean data
             for start in _liste:
-                start["Pos"] = str(start["Pos"]).replace(".0", "")
-                start["Nr"] = str(start["Nr"]).replace(".0", "")
                 logging.debug(start["Nr"])
                 if str(start["Nr"]).isnumeric() and (int(start["Nr"]) > 0):
                     startliste.append(start)
@@ -65,14 +82,11 @@ class Live(web.View):
             )
             # filter out garbage
             for res in _liste:
-                res["Plass"] = str(res["Plass"]).replace(".0", "")
-                res["Nr"] = str(res["Nr"]).replace(".0", "")
                 if str(res["Nr"]).isnumeric() and (int(res["Nr"]) > 0):
                     resultatliste.append(res)
 
         else:
             # only selected racer
-            valgt_startnr = valgt_startnr.replace(".0", "")
             logging.debug(valgt_startnr)
 
             startliste = await StartListeService().get_startliste_by_nr(
@@ -103,6 +117,8 @@ class Live(web.View):
             {
                 "valgt_klasse": valgt_klasse,
                 "valgt_startnr": valgt_startnr,
+                "colseparators": colseparators,
+                "colclass": colclass,
                 "klasser": klasser,
                 "deltakere": deltakere,
                 "kjoreplan": kjoreplan,

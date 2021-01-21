@@ -42,15 +42,15 @@
 {% block content %}
   <div id=spacer></div>
   <div class="w3-row-padding">
-    <div class="w3-third">
+    <div class="{{ colclass }}">
       <table>
 
         {% for heat in kjoreplan %}
 
-            {% if (heat.Heat == "SC1") or (heat.Heat == "FC") %}
+            {% if heat.Heat in colseparators %}
                 </table>
               </div>
-              <div class="w3-third">
+              <div class="{{ colclass }}">
                 <table>
             {% endif %}
 

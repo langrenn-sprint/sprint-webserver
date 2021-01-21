@@ -137,7 +137,11 @@ function naviger(id) {
 }
 
 /**** Responsivt design ****/
-.w3-container,.w3-third {
+.w3-container {
+  padding:0.01em 16px
+}
+
+.w3-third,.w3-quart,.w3-row-padding {
   padding:0.01em 8px
 }
 .w3-container:after,.w3-container:before,.w3-row-padding:after,.w3-row-padding:before {
@@ -151,9 +155,14 @@ function naviger(id) {
   width:33.33333%;
 }
 
+.w3-quart {
+  float:left;width:100%;
+  width:25%;
+}
+
 /* Use a media query to add a breakpoint at 1200px: */
-@media screen and (max-width: 1200px) {
-  .w3-third {
-    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+@media screen and (max-width: 1500px) {
+  .w3-third,.w3-quart {
+    width: 100%; /* The width is 100%, when the viewport is 1200px or smaller */
   }
 }

@@ -24,6 +24,37 @@ class KjoreplanService:
             logging.debug(document)
         return kjoreplan
 
+    async def get_heat_for_live_scroll(self, db: Any, lopsklasse: str) -> List:
+        """Get heat / kjøreplan for live scroll."""
+        # This method will reduce number of heat to dislpay in live view
+        # If number of 1/4 finals 4 or less -> show all heat
+        # Elif semifinal result registered -> show semi and finals
+        # Else -> show quarter and semi finals
+        kvart_fem = False
+        semi_result = False
+        semi_not_started = True
+        kjoreplan = []
+        tmp_kjoreplan = []
+        cursor = db.kjoreplan_collection.find({"Løpsklasse": lopsklasse})
+        for document in await cursor.to_list(length=500):
+            tmp_kjoreplan.append(document)
+            if document["Heat"] == "KA5":
+                kvart_fem = True
+            elif (document["Heat"] == "SA1") and (document["resultat_registrert"]):
+                semi_result = True
+                semi_not_started = False
+
+        for heat in tmp_kjoreplan:
+            if kvart_fem and semi_result and heat["Heat"][0] == "K":
+                logging.debug("Ignored kvart - " + heat["Heat"])
+            elif kvart_fem and semi_not_started and heat["Heat"][0] == "F":
+                logging.debug("Ignored finale - " + heat["Heat"])
+            else:
+                kjoreplan.append(heat)
+                logging.debug(heat)
+
+        return kjoreplan
+
     async def create_kjoreplan(self, db: Any, body: Any) -> int:
         """Create kjoreplan function. After deletion of existing instances, if any."""
         returncode = 201
