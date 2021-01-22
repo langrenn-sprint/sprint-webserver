@@ -10,8 +10,10 @@ class StartListeService:
         """Get all startlister function."""
         startlister = []
         cursor = db.startliste_collection.find()
-        for document in await cursor.to_list(length=2000):
-            startlister.append(document)
+        for document in await cursor.to_list(length=100):
+            # filter out garbage and clean data
+            if str(document["Nr"]).isnumeric() and (int(document["Nr"]) > 0):
+                startlister.append(document)
             logging.debug(document)
         return startlister
 
@@ -20,7 +22,9 @@ class StartListeService:
         startlister = []
         cursor = db.startliste_collection.find({"Klasse": klasse})
         for document in await cursor.to_list(length=1000):
-            startlister.append(document)
+            # filter out garbage and clean data
+            if str(document["Nr"]).isnumeric() and (int(document["Nr"]) > 0):
+                startlister.append(document)
             logging.debug(document)
         return startlister
 
@@ -29,7 +33,9 @@ class StartListeService:
         startlister = []
         cursor = db.startliste_collection.find({"Løpsklasse": klasse})
         for document in await cursor.to_list(length=1000):
-            startlister.append(document)
+            # filter out garbage and clean data
+            if str(document["Nr"]).isnumeric() and (int(document["Nr"]) > 0):
+                startlister.append(document)
             logging.debug(document)
         return startlister
 

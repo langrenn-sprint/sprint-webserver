@@ -141,13 +141,18 @@ function naviger(id) {
   padding:0.01em 16px
 }
 
-.w3-third,.w3-quart,.w3-row-padding {
+.w3-third,.w3-quart,.w3-row-padding,.w3-half {
   padding:0.01em 8px
 }
 .w3-container:after,.w3-container:before,.w3-row-padding:after,.w3-row-padding:before {
   content:"";
   display:table;
   clear:both;
+}
+
+.w3-half {
+  float:left;width:100%;
+  width:50%;
 }
 
 .w3-third {
@@ -160,9 +165,21 @@ function naviger(id) {
   width:25%;
 }
 
-/* Use a media query to add a breakpoint at 1200px: */
-@media screen and (max-width: 1500px) {
-  .w3-third,.w3-quart {
-    width: 100%; /* The width is 100%, when the viewport is 1200px or smaller */
+/* Use a media query to add a breakpoint */
+@media screen and (max-width: 1200px) {
+  .w3-third {
+    width: 100%; /* The width is 100%, when the viewport is x px or smaller */
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .w3-quart {
+    width: 50%; /* The width is 100%, when the viewport is x px or smaller */
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .w3-quart, .w3-half {
+    width: 100%; /* The width is 100%, when the viewport is x px or smaller */
   }
 }

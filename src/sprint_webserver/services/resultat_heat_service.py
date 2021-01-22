@@ -13,7 +13,9 @@ class ResultatHeatService:
         resultatheat = []
         cursor = db.resultatheat_collection.find()
         for document in await cursor.to_list(length=2000):
-            resultatheat.append(document)
+            # filter out garbage and clean data
+            if str(document["Nr"]).isnumeric() and (int(document["Nr"]) > 0):
+                resultatheat.append(document)
             logging.debug(document)
         return resultatheat
 
@@ -22,7 +24,9 @@ class ResultatHeatService:
         resultatheat = []
         cursor = db.resultatheat_collection.find({"Løpsklasse": klasse})
         for document in await cursor.to_list(length=1000):
-            resultatheat.append(document)
+            # filter out garbage and clean data
+            if str(document["Nr"]).isnumeric() and (int(document["Nr"]) > 0):
+                resultatheat.append(document)
             logging.debug(document)
         return resultatheat
 
@@ -63,7 +67,13 @@ class ResultatHeatService:
 
     async def get_resultatheat_by_heat(self, db: Any, heat: str) -> List:
         """Get one resultatheat by heat function."""
-        resultatheat = await db.resultatheat_collection.find({"Heat": heat})
+        resultatheat = []
+        cursor = await db.resultatheat_collection.find({"Heat": heat})
+        for document in await cursor.to_list(length=100):
+            # filter out garbage and clean data
+            if str(document["Nr"]).isnumeric() and (int(document["Nr"]) > 0):
+                resultatheat.append(document)
+            logging.debug(document)
         return resultatheat
 
     async def get_resultatheat_by_nr(self, db: Any, nr: str) -> List:

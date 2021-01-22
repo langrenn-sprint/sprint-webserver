@@ -65,25 +65,14 @@ class Live(web.View):
             colseparators.remove("KA1")
             colseparators.remove("F1")
 
-            _liste = await StartListeService().get_startliste_by_lopsklasse(
+            startliste = await StartListeService().get_startliste_by_lopsklasse(
                 self.request.app["db"], valgt_klasse
             )
-            logging.debug(_liste)
-
-            # filter out garbage and clean data
-            for start in _liste:
-                logging.debug(start["Nr"])
-                if str(start["Nr"]).isnumeric() and (int(start["Nr"]) > 0):
-                    startliste.append(start)
             logging.debug(startliste)
 
-            _liste = await ResultatHeatService().get_resultatheat_by_klasse(
+            resultatliste = await ResultatHeatService().get_resultatheat_by_klasse(
                 self.request.app["db"], valgt_klasse
             )
-            # filter out garbage
-            for res in _liste:
-                if str(res["Nr"]).isnumeric() and (int(res["Nr"]) > 0):
-                    resultatliste.append(res)
 
         else:
             # only selected racer

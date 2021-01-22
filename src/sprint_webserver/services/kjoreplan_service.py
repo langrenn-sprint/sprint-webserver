@@ -36,6 +36,7 @@ class KjoreplanService:
         kjoreplan = []
         tmp_kjoreplan = []
         cursor = db.kjoreplan_collection.find({"Løpsklasse": lopsklasse})
+        # loop throgh heat and determine size and status
         for document in await cursor.to_list(length=500):
             tmp_kjoreplan.append(document)
             if document["Heat"] == "KA5":
@@ -44,6 +45,7 @@ class KjoreplanService:
                 semi_result = True
                 semi_not_started = False
 
+        # filter out non relevant heat for live view
         for heat in tmp_kjoreplan:
             if kvart_fem and semi_result and heat["Heat"][0] == "K":
                 logging.debug("Ignored kvart - " + heat["Heat"])

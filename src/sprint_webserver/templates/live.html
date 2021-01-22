@@ -17,14 +17,6 @@
     </div>
   </li>
   <li class=dropdown id=topborder>
-    <a href=javascript:void(0) class=dropbtn>Velg Runde</a>
-    <div class=dropdown-content>
-        <a href=javascript:naviger("K")>Kvartfinaler</a>
-        <a href=javascript:naviger("S")>Semifinaler</a>
-        <a href=javascript:naviger("F")>Finaler</a>
-    </div>
-  </li>
-  <li class=dropdown id=topborder>
     <a href=javascript:void(0) class=dropbtn>Velg løper</a>
     <div class=dropdown-content>
       {% if valgt_klasse == "" %}
@@ -74,9 +66,9 @@
                 {% if heat.Index == loper.Heat %}
                     <tr>
                       <td>{{ loper.Plass }}</td>
-                      <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
-                      <td>{{ loper.Navn }}</td>
-                      <td>{{ loper.Klubb }}</td>
+                      <td>{{ loper.Nr }}</td>
+                      <td>{{ loper.Navn[:25] }}</td>
+                      <td>{{ loper.Klubb[:12] }}</td>
                       <td>{{ loper.Videre_til }}</td>
                     </tr>
                   {% endif %}
@@ -97,9 +89,9 @@
                  {% if heat.Index == loper.Heat %}
                      <tr>
                        <td>{{ loper.Pos }}</td>
-                       <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
-                       <td>{{ loper.Navn }}</td>
-                       <td>{{ loper.Klubb }}</td>
+                       <td>{{ loper.Nr }}</td>
+                       <td>{{ loper.Navn[:25] }}</td>
+                       <td>{{ loper.Klubb[:12] }}</td>
                        <td></td>
                      </tr>
                    {% endif %}

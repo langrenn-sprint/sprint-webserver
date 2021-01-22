@@ -5,6 +5,7 @@ from aiohttp import web
 import aiohttp_jinja2
 
 from sprint_webserver.services import (
+    KjoreplanService,
     KlasserService,
     ResultatHeatService,
     ResultatService,
@@ -26,12 +27,14 @@ klubber = [
 
 
 class Resultat(web.View):
-    """Class representing the resultat view."""
+    """Class representing the resultat view. Both sluttresultat and heatresultat."""
 
     async def get(self) -> web.Response:
         """Get route function."""
         informasjon = ""
         resultatliste = []
+        heatliste = []
+        resultatheatliste = []
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
             logging.debug(valgt_klasse)
@@ -55,20 +58,25 @@ class Resultat(web.View):
                 self.request.app["db"],
                 valgt_klubb,
             )
-            # clean data
-            for loper in resultatliste:
-                loper["Nr"] = str(loper["Nr"]).replace(".0", "")
-                loper["Plass"] = str(loper["Plass"]).replace(".0", "")
         else:
-            # get resultat by klasse
+            # get resultat by klasse - sluttresultat
             resultatliste = await ResultatService().get_resultatliste_by_klasse(
                 self.request.app["db"],
                 valgt_klasse,
             )
-            # clean data
-            for loper in resultatliste:
-                loper["Nr"] = str(loper["Nr"]).replace(".0", "")
-                loper["Plass"] = str(loper["Plass"]).replace(".0", "")
+            # heatresultater
+            lopsklasse = await KlasserService().get_lopsklasse_for_klasse(
+                self.request.app["db"],
+                valgt_klasse,
+            )
+            heatliste = await KjoreplanService().get_heat_by_klasse(
+                self.request.app["db"],
+                lopsklasse,
+            )
+            resultatheatliste = await ResultatHeatService().get_resultatheat_by_klasse(
+                self.request.app["db"],
+                lopsklasse,
+            )
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(
@@ -81,6 +89,8 @@ class Resultat(web.View):
                 "klasser": klasser,
                 "klubber": klubber,
                 "resultatliste": resultatliste,
+                "heatliste": heatliste,
+                "resultatheatliste": resultatheatliste,
             },
         )
 

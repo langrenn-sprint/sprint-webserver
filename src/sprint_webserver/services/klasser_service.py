@@ -43,9 +43,14 @@ class KlasserService:
         return result
 
     async def get_klasse_by_lopsklasse(self, db: Any, klasse: str) -> dict:
-        """Get one klass by lopsklasse function."""
-        result = await db.klasser_collection.find_one({"Løpsklasse": klasse})
+        """Get klasser in same lopsklasse function."""
+        result = await db.klasser_collection.find({"Løpsklasse": klasse})
         return result
+
+    async def get_lopsklasse_for_klasse(self, db: Any, klasse: str) -> str:
+        """Get one klass by klasse function."""
+        result = await db.klasser_collection.find_one({"Klasse": klasse})
+        return result["Løpsklasse"]
 
     # TODO: reduser kompleksistet i denne funksjonen
     async def update_tidplan(self, db: Any) -> int:  # noqa: C901

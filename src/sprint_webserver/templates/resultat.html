@@ -30,31 +30,66 @@
 
 {% block content %}
   <div id=spacer></div>
-  <div class="w3-container">
+  <div class="w3-row-padding">
     {{ informasjon }}
-    <table>
-      <tr id=headerblue>
-        <td>Plass</td>
-        <td>Startnr</td>
-        <td>Navn</td>
-        <td>Klubb</td>
-        <td>Klasse</td>
-      </tr>
-      {% for deltaker in resultatliste %}
-        {% if (deltaker.Navn != "-") %}
-              <tr>
-                <td>{{ deltaker.Plass }}</td>
-                <td>{{ deltaker.Nr }}</td>
-                <td><a alt="Heat resultater" href=live?startnr={{ deltaker.Startnr }}>{{ deltaker.Navn }}</a></td>
-                <td>{{ deltaker.Klubb }}</td>
-                <td>{{ deltaker.Klasse }}</td>
-              </tr>
-        {% endif %}
-      {% endfor %}
-      <tr>
-        <td id=spacer colspan=6> </td>
-      </tr>
-    </table>
+    <div class="w3-half">
+      <h2>Resultatliste sammenlagt</h2>
+      <table>
+        <tr id=headerblack>
+          <td>Plass</td>
+          <td>Startnr</td>
+          <td>Navn</td>
+          <td>Klubb</td>
+          <td>Klasse</td>
+        </tr>
+        {% for deltaker in resultatliste %}
+          {% if (deltaker.Navn != "-") %}
+                <tr>
+                  <td>{{ deltaker.Plass }}</td>
+                  <td>{{ deltaker.Nr }}</td>
+                  <td><a alt="Heat resultater" href=live?startnr={{ deltaker.Startnr }}>{{ deltaker.Navn }}</a></td>
+                  <td>{{ deltaker.Klubb }}</td>
+                  <td>{{ deltaker.Klasse }}</td>
+                </tr>
+          {% endif %}
+        {% endfor %}
+        <tr>
+          <td id=spacer colspan=6> </td>
+        </tr>
+      </table>
+    </div>
+    <div class="w3-half">
+      <h2>Heat resultater</h2>
+      <table>
+        {% for heat in heatliste %}
+          <tr id=headerblack>
+            <td colspan=3>{{ heat.Runde }}</td>
+            <td colspan=2>Resultater</td>
+          </tr>
+          <tr id=subheader>
+            <td>Plass</td>
+            <td>Nr</td>
+            <td>Navn</td>
+            <td>Klubb</td>
+            {% if heat.Heat[0] == "F" %}
+              <td></td>
+            {% else %}
+              <td>Videre til</td>
+            {% endif %}
+          </tr>
+          {% for loper in resultatheatliste %}
+            {% if heat.Index == loper.Heat %}
+                <tr>
+                  <td>{{ loper.Plass }}</td>
+                  <td>{{ loper.Nr }}</td>
+                  <td>{{ loper.Navn }}</td>
+                  <td>{{ loper.Klubb }}</td>
+                  <td>{{ loper.Videre_til }}</td>
+                </tr>
+              {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </table>
   </div>
 {% endblock %}
 {% block footer %}
