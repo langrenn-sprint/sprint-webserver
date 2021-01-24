@@ -18,6 +18,9 @@ class Start(web.View):
         """Get route function that return the startlister page."""
         informasjon = ""
         startliste = []
+        kjoreplan = []
+        colseparators = []
+        colclass = "w3-half"
 
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
@@ -29,23 +32,37 @@ class Start(web.View):
         except Exception:
             valgt_heat = ""  # noqa: F841
 
-        kjoreplan = await KjoreplanService().get_heat_by_klasse(
-            self.request.app["db"], valgt_klasse
-        )
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
 
-        _liste = await StartListeService().get_startliste_by_lopsklasse(
-            self.request.app["db"], valgt_klasse
-        )
-        logging.debug(_liste)
-
-        # filter out garbage
-        for start in _liste:
-            start["Pos"] = str(start["Pos"]).replace(".0", "")
-            start["Nr"] = str(start["Nr"]).replace(".0", "")
-            logging.debug(start["Nr"])
-            if str(start["Nr"]).isnumeric() and (int(start["Nr"]) > 0):
-                startliste.append(start)
+        if valgt_klasse == "live":
+            # vis heat som starter nå
+            iantallheat = 8
+            isplitt = [4]
+            kjoreplan = await KjoreplanService().get_upcoming_heat(
+                self.request.app["db"], iantallheat
+            )
+            i = 0
+            for heat in kjoreplan:
+                logging.debug(heat["Index"])
+                _liste = await StartListeService().get_startliste_by_heat(
+                    self.request.app["db"], heat["Index"]
+                )
+                if i in isplitt:
+                    colseparators.append(heat["Index"])
+                    logging.info(colseparators)
+                i += 1
+                for loper in _liste:
+                    startliste.append(loper)
+                logging.debug(startliste)
+        else:
+            # get startlister for klasse
+            kjoreplan = await KjoreplanService().get_heat_by_klasse(
+                self.request.app["db"], valgt_klasse
+            )
+            startliste = await StartListeService().get_startliste_by_lopsklasse(
+                self.request.app["db"], valgt_klasse
+            )
+        logging.debug(startliste)
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(
@@ -55,6 +72,8 @@ class Start(web.View):
                 "informasjon": informasjon,
                 "valgt_klasse": valgt_klasse,
                 "valgt_heat": valgt_heat,
+                "colseparators": colseparators,
+                "colclass": colclass,
                 "klasser": klasser,
                 "kjoreplan": kjoreplan,
                 "startliste": startliste,

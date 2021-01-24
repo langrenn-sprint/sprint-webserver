@@ -60,6 +60,16 @@ class StartListeService:
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
         return returncode
 
+    async def get_startliste_by_heat(self, db: Any, heat: str) -> List:
+        """Get startlister by startnumber function."""
+        startlister = []
+        cursor = db.startliste_collection.find({"Heat": heat})
+        for document in await cursor.to_list(length=100):
+            # filter out garbage and clean data
+            if str(document["Nr"]).isnumeric() and (int(document["Nr"]) > 0):
+                startlister.append(document)
+        return startlister
+
     async def get_startliste_by_nr(self, db: Any, nr: str) -> List:
         """Get startlister by startnumber function."""
         startlister = []

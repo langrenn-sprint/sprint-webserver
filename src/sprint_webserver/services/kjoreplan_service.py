@@ -1,4 +1,5 @@
 """Module for kjoreplan service."""
+import datetime
 import logging
 from typing import Any, List
 
@@ -13,6 +14,22 @@ class KjoreplanService:
         for document in await cursor.to_list(length=500):
             kjoreplan.append(document)
             logging.debug(document)
+        return kjoreplan
+
+    async def get_upcoming_heat(self, db: Any, count: int) -> List:
+        """Get the next upcoming heat (count)."""
+        kjoreplan = []
+        i = 0
+
+        timenow = datetime.datetime.now().strftime("%X")
+        logging.debug(timenow)
+
+        cursor = db.kjoreplan_collection.find()
+        for document in await cursor.to_list(length=500):
+            if (document["Start"] > timenow) and (i < count):
+                i = i + 1
+                kjoreplan.append(document)
+                logging.debug(document)
         return kjoreplan
 
     async def get_heat_by_klasse(self, db: Any, lopsklasse: str) -> List:
