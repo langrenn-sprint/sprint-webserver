@@ -26,6 +26,28 @@
     <div class="w3-row-padding">
       <div class="{{ colclass }}">
         {{ informasjon }}
+
+        {% if valgt_klasse != "live" %}
+          <table>
+             <tr id=headerblue>
+               <td>Starttider</td>
+               <td>Kvartfinaler</td>
+               <td>Semifinaler</td>
+               <td>Finaler</td>
+            </tr>
+            <tr>
+              <td>{{ klassetider.Løpsklasse }}</td>
+              <td>{{ klassetider.TidKvart }}</td>
+              <td>{{ klassetider.TidSemi }}</td>
+              <td>{{ klassetider.TidFinale }}</td>
+            </tr>
+            <tr>
+              <td id=spacer colspan=4> </td>
+            </tr>
+          </table>
+        {% endif %}
+
+
         <table>
           {% for heat in kjoreplan %}
 
@@ -51,7 +73,7 @@
               <tr>
                 <td>{{ loper.Pos }}</td>
                 <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
-                <td><a href=live?startnr={{ loper.Nr }}>{{ loper.Navn }}</a></td>
+                <td><a href=live?klasse={{ heat.Løpsklasse }}&startnr={{ loper.Nr }}>{{ loper.Navn }}</a></td>
                 <td>{{ loper.Klubb }}</td>
               </tr>
             {% endif %}

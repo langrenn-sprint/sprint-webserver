@@ -44,7 +44,7 @@ class KlasserService:
 
     async def get_klasse_by_lopsklasse(self, db: Any, klasse: str) -> dict:
         """Get klasser in same lopsklasse function."""
-        result = await db.klasser_collection.find({"Løpsklasse": klasse})
+        result = await db.klasser_collection.find_one({"Løpsklasse": klasse})
         return result
 
     async def get_lopsklasse_for_klasse(self, db: Any, klasse: str) -> str:

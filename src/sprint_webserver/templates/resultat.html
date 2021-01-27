@@ -47,7 +47,7 @@
                 <tr>
                   <td>{{ deltaker.Plass }}</td>
                   <td>{{ deltaker.Nr }}</td>
-                  <td><a alt="Heat resultater" href=live?startnr={{ deltaker.Startnr }}>{{ deltaker.Navn }}</a></td>
+                  <td><a alt="Heat resultater" href=live?startnr={{ deltaker.Nr }}>{{ deltaker.Navn }}</a></td>
                   <td>{{ deltaker.Klubb }}</td>
                   <td>{{ deltaker.Klasse }}</td>
                 </tr>
@@ -88,6 +88,9 @@
                 </tr>
               {% endif %}
           {% endfor %}
+          <tr>
+            <td id=spacer colspan=4> </td>
+          </tr>
         {% endfor %}
       </table>
   </div>

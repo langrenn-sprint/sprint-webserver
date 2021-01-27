@@ -4,18 +4,22 @@
 * Lyn farger: Rød vanlig:  #A30013
 *             Rød mørk (hover) #75000e
               Grå mørk #3D3D3D
-              Grå #999ca5
               Grå lys #f1f2f7
               Blå #1f3d8e
 *
 * Kjelsås farger:
-              Blå
+              Kongeblå (PMS 280) - #00247d
+              Orange PMS 1365 - #ffb549
+              Lys blå PMS 278 - #94b5e0
+              Grå mørk #3D3D3D
+              Grå lys #f1f2f7
+              Font: Verdana
 *********************************/
 
 
 body {
     background-color: #f1f2f7;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     margin: auto;
 }
 
@@ -33,7 +37,7 @@ ul {
   	list-style-type: none;
     margin: 0;
     padding: 0;
-		background-color: #75000e;
+		background-color: #94b5e0;
 }
 
 #topborder {
@@ -41,16 +45,26 @@ ul {
 	 	right: 0;
 }
 
-li a, .dropbtn {
+a {
+  color: black;
+}
+
+a:hover {
+  background-color: #f1f2f7;
+}
+
+
+
+li, .dropbtn {
   display: inline-block;
   color: white;
   text-align: center;
-  padding: 4px 4px;
+  padding: 2px 2px;
   text-decoration: none;
 }
 
-li a:hover, .dropdown:hover .dropbtn {
-  background-color: grey;
+li:hover, .dropdown:hover, .dropbtn:hover {
+  background-color: #00247d;
 }
 
 .dropbtnactive {
@@ -107,12 +121,12 @@ tr:nth-child(even){background-color: #f2f2f2;}
 
 #headerblue {
     color: white;
-    background-color: #A30013;
+    background-color: #00247d;
 }
 
 #headerblack {
-    color: white;
-    background-color: #3D3D3D;
+    color: black;
+    background-color: #ffb549;
 }
 
 #fremhev {
@@ -166,19 +180,19 @@ function naviger(id) {
 }
 
 /* Use a media query to add a breakpoint */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1500px) {
   .w3-third {
     width: 100%; /* The width is 100%, when the viewport is x px or smaller */
   }
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 2000px) {
   .w3-quart {
     width: 50%; /* The width is 100%, when the viewport is x px or smaller */
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
   .w3-quart, .w3-half {
     width: 100%; /* The width is 100%, when the viewport is x px or smaller */
   }

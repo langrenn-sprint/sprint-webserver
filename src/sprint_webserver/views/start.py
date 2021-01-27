@@ -19,8 +19,9 @@ class Start(web.View):
         informasjon = ""
         startliste = []
         kjoreplan = []
+        klassetider = ""
         colseparators = []
-        colclass = "w3-half"
+        colclass = "w3-third"
 
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
@@ -36,8 +37,8 @@ class Start(web.View):
 
         if valgt_klasse == "live":
             # vis heat som starter nå
-            iantallheat = 8
-            isplitt = [4]
+            iantallheat = 10
+            isplitt = [3, 6]
             kjoreplan = await KjoreplanService().get_upcoming_heat(
                 self.request.app["db"], iantallheat
             )
@@ -49,13 +50,16 @@ class Start(web.View):
                 )
                 if i in isplitt:
                     colseparators.append(heat["Index"])
-                    logging.info(colseparators)
+                    logging.debug(colseparators)
                 i += 1
                 for loper in _liste:
                     startliste.append(loper)
                 logging.debug(startliste)
         else:
             # get startlister for klasse
+            klassetider = await KlasserService().get_klasse_by_lopsklasse(
+                self.request.app["db"], valgt_klasse
+            )
             kjoreplan = await KjoreplanService().get_heat_by_klasse(
                 self.request.app["db"], valgt_klasse
             )
@@ -75,6 +79,7 @@ class Start(web.View):
                 "colseparators": colseparators,
                 "colclass": colclass,
                 "klasser": klasser,
+                "klassetider": klassetider,
                 "kjoreplan": kjoreplan,
                 "startliste": startliste,
             },
