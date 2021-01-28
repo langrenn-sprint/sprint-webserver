@@ -19,7 +19,7 @@ class Start(web.View):
         informasjon = ""
         startliste = []
         kjoreplan = []
-        klassetider = ""
+        klassetider = {}
         colseparators = []
         colclass = "w3-third"
 
