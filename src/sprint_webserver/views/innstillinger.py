@@ -1,8 +1,8 @@
 """Resource module for resultat view."""
-import json
 import logging
 
 from aiohttp import web
+import aiohttp_jinja2
 
 from sprint_webserver.services import InnstillingerService
 
@@ -15,12 +15,30 @@ class Innstillinger(web.View):
         innstillinger = await InnstillingerService().get_all_innstillinger(
             self.request.app["db"]
         )
-        body = json.dumps(innstillinger, default=str, ensure_ascii=False)
-        logging.debug(body)
-        return web.Response(
-            status=200,
-            body=body,
-            content_type="application/json",
+
+        # check for updates
+        try:
+            oppdater = self.request.rel_url.query["Update"]
+        except Exception:
+            oppdater = ""  # noqa: F841
+
+        # update and store to db
+        if oppdater == "Oppdater":
+            for innstilling in innstillinger:
+                parameter = innstilling["Parameter"]
+                innstilling["Verdi"] = self.request.rel_url.query[parameter]
+            result = await InnstillingerService().create_innstillinger(
+                self.request.app["db"], innstillinger
+            )
+            logging.debug(result)
+
+        """Get route function."""
+        return await aiohttp_jinja2.render_template_async(
+            "innstillinger.html",
+            self.request,
+            {
+                "innstillinger": innstillinger,
+            },
         )
 
     async def post(self) -> web.Response:

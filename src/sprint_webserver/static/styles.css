@@ -180,19 +180,19 @@ function naviger(id) {
 }
 
 /* Use a media query to add a breakpoint */
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1200px) {
   .w3-third {
     width: 100%; /* The width is 100%, when the viewport is x px or smaller */
   }
 }
 
-@media screen and (max-width: 2000px) {
+@media screen and (max-width: 1600px) {
   .w3-quart {
     width: 50%; /* The width is 100%, when the viewport is x px or smaller */
   }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 800px) {
   .w3-quart, .w3-half {
     width: 100%; /* The width is 100%, when the viewport is x px or smaller */
   }

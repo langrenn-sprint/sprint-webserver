@@ -7,18 +7,18 @@
 {% endblock %}
 {% block content %}
   <div class="w3-container">
-    <br>Velkommen til {{ lopsnavn }}! Benytt valg i menyen for å gå til startlister, live scroll eller resultatlister.
-    <table>
+    <br>Velkommen til {{ lopsnavn }}! Her kan du holde deg oppdatert før, under og etter løpet.
+    <table cellpadding=5px>
       <tr id=spacer></tr>
       <tr>
-        <td>
+        <td width=120>
           <a href="/kjoreplan">Kjøreplan</a>
         </td>
         <td>
           Oversikt over alle heat og informasjon om kvalifisering til finaler.
         </td>
       </tr>
-      <tr>
+      <tr id=headerblack>
         <td>
           <a href="deltakere">Deltakere</a>
         </td>
@@ -34,20 +34,20 @@
           For alle heat.
         </td>
       </tr>
+      <tr id=headerblack>
+        <td>
+          <a href="live">Live scroll</a>
+        </td>
+        <td>
+          Live oppdatering av startlister og resultater. Pr. klubb eller pr. løper.
+        </td>
+      </tr>
       <tr>
         <td>
           <a href="resultat">Resultater</a>
         </td>
         <td>
           Sluttresultater pr klasse.
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="live">Live scroll</a>
-        </td>
-        <td>
-          Live oppdatering av startlister og resultater. Pr. klubb eller pr. løper.
         </td>
       </tr>
       <tr id=spacer></tr>

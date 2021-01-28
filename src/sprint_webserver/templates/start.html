@@ -17,7 +17,7 @@
     </div>
   </li>
   <li class=dropdown id=topborder>
-    <a href="start?klasse=live" alt="Se hvem som starter nå, viser de neste 8 heat">Starter nå</a>
+    <a href="start?klasse=live" class=dropbtn alt="Se hvem som starter nå, viser de neste 8 heat">Starter nå</a>
   </li>
 {% endblock %}
 
@@ -60,7 +60,7 @@
 
             <tr id=headerblue>
               <td colspan=3>{{ heat.Løpsklasse }} {{ heat.Runde }}</td>
-              <td colspan=1>Start kl. {{ heat.Start }}</td>
+              <td colspan=1>Kl. {{ heat.Start }}</td>
             </tr>
             <tr id=subheader>
               <td><div id={{ heat.Heat[0] }} >Pos</div></td>
@@ -73,8 +73,14 @@
               <tr>
                 <td>{{ loper.Pos }}</td>
                 <td><div id={{ loper.Nr }}>{{ loper.Nr }}</div></td>
-                <td><a href=live?klasse={{ heat.Løpsklasse }}&startnr={{ loper.Nr }}>{{ loper.Navn }}</a></td>
-                <td>{{ loper.Klubb }}</td>
+                <td>
+                  {% if valgt_klasse != "live" %}
+                    <a href=live?klasse={{ heat.Løpsklasse }}&startnr={{ loper.Nr }}>{{ loper.Navn }}</a>
+                  {% else %}
+                    {{ loper.Navn[:24] }}
+                  {% endif %}
+                </td>
+                <td>{{ loper.Klubb[:12] }}</td>
               </tr>
             {% endif %}
           {% endfor %}
