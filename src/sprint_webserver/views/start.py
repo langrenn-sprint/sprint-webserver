@@ -5,6 +5,7 @@ from aiohttp import web
 import aiohttp_jinja2
 
 from sprint_webserver.services import (
+    InnstillingerService,
     KjoreplanService,
     KlasserService,
     StartListeService,
@@ -16,6 +17,11 @@ class Start(web.View):
 
     async def get(self) -> web.Response:
         """Get route function that return the startlister page."""
+        _lopsinfo = await InnstillingerService().get_header_footer_info(
+            self.request.app["db"],
+        )
+        logging.debug(_lopsinfo)
+
         informasjon = ""
         startliste = []
         kjoreplan = []
@@ -28,10 +34,6 @@ class Start(web.View):
         except Exception:
             valgt_klasse = ""  # noqa: F841
             informasjon = "Velg klasse for å se startlister."
-        try:
-            valgt_heat = self.request.rel_url.query["heat"]
-        except Exception:
-            valgt_heat = ""  # noqa: F841
 
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
 
@@ -74,8 +76,8 @@ class Start(web.View):
             self.request,
             {
                 "informasjon": informasjon,
+                "lopsinfo": _lopsinfo,
                 "valgt_klasse": valgt_klasse,
-                "valgt_heat": valgt_heat,
                 "colseparators": colseparators,
                 "colclass": colclass,
                 "klasser": klasser,

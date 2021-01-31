@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% block titleheader %}
-  Deltakere {{ valgt_klubb }}{{ valgt_klasse }}
+  Deltakere {{ valgt_klubb }}{{ valgt_klasse }}, {{ lopsinfo[0] }}
 {% endblock %}
 
+{% block refresh %}300{% endblock %}
+
 {% block titlemain %}
-  Deltakere {{ valgt_klubb }}{{ valgt_klasse }}
+  Deltakere {{ valgt_klubb }}{{ valgt_klasse }}, {{ lopsinfo[0] }}
 {% endblock %}
 
 {% block menu %}
@@ -54,8 +56,4 @@
       {% endfor %}
     </table>
   </div>
-{% endblock %}
-
-{% block footer %}
-  2021
 {% endblock %}

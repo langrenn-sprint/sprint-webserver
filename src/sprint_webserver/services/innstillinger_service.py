@@ -50,12 +50,33 @@ class InnstillingerService:
 
         return _dato
 
-    async def get_parameter(self, db: Any, navn: str) -> str:
-        """Get one innstilling."""
-        result = await db.innstillinger_collection.find_one({"Parameter": navn})
-        _parameter = result["Verdi"] if getattr(result, "Verdi", None) else ""
+    async def get_header_footer_info(self, db: Any) -> List:
+        """Get innstillinger for header/footer - navn, dato, arrangør."""
+        _retvalue = []
+        _parameter = ""
+        result = await db.innstillinger_collection.find_one({"Parameter": "Løpsnavn"})
+        try:
+            _parameter = result["Verdi"]
+        except Exception:
+            _parameter = ""
+        logging.debug(_parameter)
+        _retvalue.append(_parameter)
+        result = await db.innstillinger_collection.find_one({"Parameter": "Arrangør"})
+        try:
+            _parameter = result["Verdi"]
+        except Exception:
+            _parameter = ""
+        logging.debug(_parameter)
+        _retvalue.append(_parameter)
+        result = await db.innstillinger_collection.find_one({"Parameter": "Dato"})
+        try:
+            _parameter = result["Verdi"]
+        except Exception:
+            _parameter = ""
+        logging.debug(_parameter)
+        _retvalue.append(_parameter)
 
-        return _parameter
+        return _retvalue
 
     async def create_innstillinger(self, db: Any, body: Any) -> int:
         """Create innstillinger function. Delete existing innstillinger, if any."""

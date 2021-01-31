@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block titleheader %}
-  Resultater {{ valgt_klubb }}{{ valgt_klasse }}
+  Resultater {{ valgt_klubb }}{{ valgt_klasse }}, {{ lopsinfo[0] }}
 {% endblock %}
+
+{% block refresh %}300{% endblock %}
 
 {% block titlemain %}
   Resultater {{ valgt_klubb }}{{ valgt_klasse }}
@@ -93,8 +95,6 @@
           </tr>
         {% endfor %}
       </table>
+    </div>
   </div>
-{% endblock %}
-{% block footer %}
-  2021
 {% endblock %}

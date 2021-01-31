@@ -6,6 +6,7 @@ import aiohttp_jinja2
 
 from sprint_webserver.services import (
     DeltakereService,
+    InnstillingerService,
     KjoreplanService,
     KlasserService,
     ResultatHeatService,
@@ -19,6 +20,11 @@ class Live(web.View):
     # TODO: reduser kompleksistet i denne funksjonen
     async def get(self) -> web.Response:  # noqa: C901
         """Get route function that return the live result page."""
+        _lopsinfo = await InnstillingerService().get_header_footer_info(
+            self.request.app["db"],
+        )
+        logging.debug(_lopsinfo)
+
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
             logging.debug(valgt_klasse)
@@ -104,6 +110,7 @@ class Live(web.View):
             "live.html",
             self.request,
             {
+                "lopsinfo": _lopsinfo,
                 "valgt_klasse": valgt_klasse,
                 "valgt_startnr": valgt_startnr,
                 "colseparators": colseparators,

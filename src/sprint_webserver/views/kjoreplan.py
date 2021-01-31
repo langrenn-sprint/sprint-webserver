@@ -4,7 +4,11 @@ import logging
 from aiohttp import web
 import aiohttp_jinja2
 
-from sprint_webserver.services import KjoreplanService, KlasserService
+from sprint_webserver.services import (
+    InnstillingerService,
+    KjoreplanService,
+    KlasserService,
+)
 
 
 class Kjoreplan(web.View):
@@ -12,6 +16,11 @@ class Kjoreplan(web.View):
 
     async def get(self) -> web.Response:
         """Get route function that return the kjøreplan page."""
+        _lopsinfo = await InnstillingerService().get_header_footer_info(
+            self.request.app["db"],
+        )
+        logging.debug(_lopsinfo)
+
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
         except Exception:
@@ -41,7 +50,12 @@ class Kjoreplan(web.View):
         return await aiohttp_jinja2.render_template_async(
             "kjoreplan.html",
             self.request,
-            {"valgt_klasse": valgt_klasse, "klasser": klasser, "kjoreplan": kjoreplan},
+            {
+                "lopsinfo": _lopsinfo,
+                "valgt_klasse": valgt_klasse,
+                "klasser": klasser,
+                "kjoreplan": kjoreplan,
+            },
         )
 
     async def post(self) -> web.Response:

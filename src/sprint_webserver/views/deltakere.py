@@ -4,7 +4,11 @@ import logging
 from aiohttp import web
 import aiohttp_jinja2
 
-from sprint_webserver.services import DeltakereService, KlasserService
+from sprint_webserver.services import (
+    DeltakereService,
+    InnstillingerService,
+    KlasserService,
+)
 
 klubber = [
     "Bækkelaget",
@@ -34,10 +38,11 @@ class Deltakere(web.View):
             valgt_klubb = self.request.rel_url.query["klubb"]
         except Exception:
             valgt_klubb = ""
-        try:
-            valgt_heat = self.request.rel_url.query["heat"]
-        except Exception:
-            valgt_heat = ""  # noqa: F841
+
+        _lopsinfo = await InnstillingerService().get_header_footer_info(
+            self.request.app["db"],
+        )
+        logging.debug(_lopsinfo)
 
         deltakere = await DeltakereService().get_all_deltakere(self.request.app["db"])
 
@@ -51,6 +56,7 @@ class Deltakere(web.View):
             "deltakere.html",
             self.request,
             {
+                "lopsinfo": _lopsinfo,
                 "valgt_klubb": valgt_klubb,
                 "valgt_klasse": valgt_klasse,
                 "klasser": klasser,

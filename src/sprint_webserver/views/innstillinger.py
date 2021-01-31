@@ -12,6 +12,11 @@ class Innstillinger(web.View):
 
     async def get(self) -> web.Response:
         """Get route function that returns all klasses."""
+        _lopsinfo = await InnstillingerService().get_header_footer_info(
+            self.request.app["db"],
+        )
+        logging.debug(_lopsinfo)
+
         innstillinger = await InnstillingerService().get_all_innstillinger(
             self.request.app["db"]
         )
@@ -37,6 +42,7 @@ class Innstillinger(web.View):
             "innstillinger.html",
             self.request,
             {
+                "lopsinfo": _lopsinfo,
                 "innstillinger": innstillinger,
             },
         )

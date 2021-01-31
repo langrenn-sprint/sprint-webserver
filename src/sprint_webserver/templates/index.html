@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block titleheader %}
-  {{ lopsnavn }}
+  {{ lopsinfo[0] }}
 {% endblock %}
+{% block refresh %}300{% endblock %}
 {% block titlemain %}
-  {{ lopsnavn }}
+  {{ lopsinfo[0] }}
 {% endblock %}
 {% block content %}
   <div class="w3-container">
-    <br>Velkommen til {{ lopsnavn }}! Her kan du holde deg oppdatert før, under og etter løpet.
+    <br>Velkommen til {{ lopsinfo[0] }}! Her kan du holde deg oppdatert før, under og etter løpet.
     <table cellpadding=5px>
       <tr id=spacer></tr>
       <tr>
@@ -53,7 +54,4 @@
       <tr id=spacer></tr>
     </table>
   </div>
-{% endblock %}
-{% block footer %}
-  {{ lopsnavn }}, {{ lopsdato }}
 {% endblock %}

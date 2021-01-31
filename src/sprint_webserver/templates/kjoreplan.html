@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block titleheader %}
-  Kjøreplan {{ valgt_klasse }}
+  Kjøreplan {{ valgt_klasse }}, {{ lopsinfo[0] }}
 {% endblock %}
+{% block refresh %}300{% endblock %}
 {% block titlemain %}
-  Kjøreplan {{ valgt_klasse }}
+  Kjøreplan {{ valgt_klasse }}, {{ lopsinfo[0] }}
 {% endblock %}
 
 {% block menu %}
@@ -58,7 +59,4 @@
         {% endfor %}
       </table>
   </div>
-{% endblock %}
-{% block footer %}
-  2021
 {% endblock %}

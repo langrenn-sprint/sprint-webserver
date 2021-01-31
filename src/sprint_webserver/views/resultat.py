@@ -5,6 +5,7 @@ from aiohttp import web
 import aiohttp_jinja2
 
 from sprint_webserver.services import (
+    InnstillingerService,
     KjoreplanService,
     KlasserService,
     ResultatHeatService,
@@ -31,6 +32,11 @@ class Resultat(web.View):
 
     async def get(self) -> web.Response:
         """Get route function."""
+        _lopsinfo = await InnstillingerService().get_header_footer_info(
+            self.request.app["db"],
+        )
+        logging.debug(_lopsinfo)
+
         informasjon = ""
         resultatliste = []
         heatliste = []
@@ -84,6 +90,7 @@ class Resultat(web.View):
             self.request,
             {
                 "informasjon": informasjon,
+                "lopsinfo": _lopsinfo,
                 "valgt_klasse": valgt_klasse,
                 "valgt_klubb": valgt_klubb,
                 "klasser": klasser,

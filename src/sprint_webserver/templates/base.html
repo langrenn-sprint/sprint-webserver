@@ -3,7 +3,7 @@
   <head>
     <title>{% block titleheader %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="static/styles.css">
-    <meta http-equiv="refresh" content="60">
+    <meta http-equiv="refresh" content="{% block refresh %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
@@ -30,7 +30,7 @@
     {% block content %}{% endblock %}
 
     <div class="w3-container">
-      <h2 id=headerblue>{% block footer %}{% endblock %}</h2>
+      <h2 id=headerblue>{{ lopsinfo[1] }}, {{ lopsinfo[2] }}</h2>
     </div>
   </body>
 </html>

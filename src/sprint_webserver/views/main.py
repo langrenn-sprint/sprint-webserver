@@ -14,19 +14,15 @@ class Main(web.View):
 
     async def get(self) -> web.Response:
         """Get route function that return the index page."""
-        _lopsnavn = await InnstillingerService().get_lopsnavn(
+        _lopsinfo = await InnstillingerService().get_header_footer_info(
             self.request.app["db"],
         )
-        _lopsdato = await InnstillingerService().get_dato(
-            self.request.app["db"],
-        )
-        logging.debug(_lopsdato)
+        logging.debug(_lopsinfo)
 
         return await aiohttp_jinja2.render_template_async(
             "index.html",
             self.request,
             {
-                "lopsnavn": _lopsnavn,
-                "lopsdato": _lopsdato,
+                "lopsinfo": _lopsinfo,
             },
         )
