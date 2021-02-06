@@ -2,7 +2,7 @@ version: '3'
 services:
   sprint-webserver:
     build: .
-    image: sprint-webserver:test
+    image: gcr.io/langrenn-sprint/sprint-webserver:test
     ports:
       - "8080:8080"
     environment:

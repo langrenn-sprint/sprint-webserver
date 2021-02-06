@@ -23,7 +23,7 @@ jobs:
 
       - name: Configure docker to use the gcloud command-line tool as a credential helper
         run: |-
-          gcloud auth configure-docker eu.gcr.io
+          gcloud auth configure-docker gcr.io
 
       - name: Set up Python 3.7
         uses: actions/setup-python@v1
@@ -43,6 +43,7 @@ jobs:
 
       - name: Tag and publish docker image to Google Cloud
         run: |-
-          docker tag eu.gcr.io/$PROJECT_ID/sprint-webserver:test eu.gcr.io/$PROJECT_ID/sprint-webserver:$GITHUB_SHA
-          docker rmi eu.gcr.io/$PROJECT_ID/sprint-webserver:test
-          docker -- push eu.gcr.io/$PROJECT_ID/sprint-webserver:$GITHUB_SHA
+          docker tag gcr.io/$PROJECT_ID/sprint-webserver:test gcr.io/$PROJECT_ID/sprint-webserver:$GITHUB_SHA
+          docker tag gcr.io/$PROJECT_ID/sprint-webserver:test gcr.io/$PROJECT_ID/sprint-webserver:latest
+          docker rmi gcr.io/$PROJECT_ID/sprint-webserver:test
+          docker -- push gcr.io/$PROJECT_ID/sprint-webserver
