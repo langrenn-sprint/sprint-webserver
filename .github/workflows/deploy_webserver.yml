@@ -1,0 +1,50 @@
+name: Test, build and deploy webserver
+on:
+  # Trigger the workflow on push,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.9']
+    name: Python ${{ matrix.python-version }}
+
+    steps:
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+          architecture: x64
+
+      - name: Install dependencies
+        run: |-
+          pip install poetry==1.1.4
+          pip install nox==2020.12.31
+          pip install nox-poetry==0.7.1
+
+      - name: Build image and test with nox
+        run: |-
+          nox
+
+      - name: Tag and publish docker image to Google Cloud
+        run: |-
+          docker tag eu.gcr.io/$PROJECT_ID/sprint-webserver:test eu.gcr.io/$PROJECT_ID/sprint-webserver:$GITHUB_SHA
+          docker rmi eu.gcr.io/$PROJECT_ID/sprint-webserver:test
+          docker -- push eu.gcr.io/$PROJECT_ID/sprint-webserver:$GITHUB_SHA
+
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          job_name: Test, build and deploy webserver
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # selectable (default: repo,message)
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
