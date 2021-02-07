@@ -23,11 +23,12 @@
 <div class="w3-container">
   <table>
      <tr id=headerblue>
-       <td>Årsklasse</td>
-       <td>Løpsklasse</td>
-       <td>Kvartfinaler</td>
-       <td>Semifinaler</td>
-       <td>Finaler</td>
+        <td>Årsklasse</td>
+        <td>Løpsklasse</td>
+        <td>Kvartfinaler</td>
+        <td>Semifinaler</td>
+        <td>Finaler</td>
+        <td></td>
       </tr>
       {% for klasse in klasser %}
         {% if (klasse.Klasse == valgt_klasse) or (valgt_klasse == "") %}
@@ -37,6 +38,7 @@
             <td>{{ klasse.TidKvart }}</td>
             <td>{{ klasse.TidSemi }}</td>
             <td>{{ klasse.TidFinale }}</td>
+            <td><a href=live?klasse={{ klasse.Løpsklasse }}>Live scroll</a></td>
           </tr>
         {% endif %}
       {% endfor %}

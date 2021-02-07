@@ -65,18 +65,17 @@ Når du endrer koden i webserver.py, vil webserveren laste applikasjonen på nyt
 aiohttp: https://docs.aiohttp.org/
 
 # Datamodell
-(pri 1) Lopsklasser
-4 Kolonner: Klasse  Løpsklasse (nøkkel)  Rekkefølge  "Antall deltakere"
-
-(pri 4) Kjoreplan (heat lagt ut i tid)
-    5 kolonner: Lopsklasse  Heat    Index (unik nøkkel for heat)  Runde   Start
-
-(pri 2) Startliste pr Heat
-6 kolonner: Pos Nr Navn Klubb Plass "Videre til"
-(pri 3) Resultatliste pr Heat
-
-5 kolonner: Plass "Videre til" Nr Navn Klubb
-
-(pri 5) Resultatliste pr Klasse
-
-(pri 6) Innstillinger for renn (nøkkelparametre som navn, dato ..)
+Deltakere
+  Startnr;Navn;Klubb;ÅrsKlasse;Krets;Løpsklasse
+Innstillinger for renn (nøkkelparametre som navn, dato ..)
+  Parameter;Verdi;Eksempel
+Kjoreplan (heat lagt ut i tid)
+  Løpsklasse;Heat;Index;Runde;Start;Start;Speaker;Oppslag;Kontroll;Resultat
+Klasser
+  Klasse;Løpsklasse;Rekkefølge;;Row Labels;Antall av Løpsklasse
+Resultatliste pr Heat
+  Heat;Plass;Videre_til;Nr;Navn;Klubb;Løpsklasse
+Resultatliste pr Klasse
+  Plass;Nr;Navn;Klubb
+Startliste pr Heat
+  Heat;Pos;Nr;Navn ;Klubb;S;Reskode;Plass;Videre til
