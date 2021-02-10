@@ -96,6 +96,9 @@ class Live(web.View):
                     start["Heat"],
                 )
                 kjoreplan.append(_heat)
+                if valgt_klasse == "":
+                    valgt_klasse = start["Løpsklasse"]
+                    logging.info(valgt_klasse)
 
             # check for resultat
             resultatliste = await ResultatHeatService().get_resultatheat_by_nr(
