@@ -46,4 +46,4 @@ jobs:
           docker tag gcr.io/$PROJECT_ID/sprint-webserver:test gcr.io/$PROJECT_ID/sprint-webserver:$GITHUB_SHA
           docker tag gcr.io/$PROJECT_ID/sprint-webserver:test gcr.io/$PROJECT_ID/sprint-webserver:latest
           docker rmi gcr.io/$PROJECT_ID/sprint-webserver:test
-          docker -- push gcr.io/$PROJECT_ID/sprint-webserver
+          docker -- push gcr.io/$PROJECT_ID/sprint-webserver -a
