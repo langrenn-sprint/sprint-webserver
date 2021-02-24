@@ -10,6 +10,7 @@ import motor.motor_asyncio
 from .views import (
     Deltaker,
     Deltakere,
+    Foto,
     Innstillinger,
     Kjoreplan,
     Klasse,
@@ -63,6 +64,7 @@ async def create_app() -> web.Application:
             web.static("/static", static_path),
             web.view("/deltakere", Deltakere),
             web.view("/deltakere/{startnr}", Deltaker),
+            web.view("/foto", Foto),
             web.view("/innstillinger", Innstillinger),
             web.view("/klasser", Klasser),
             web.view("/klasser/{lopsklasse}", Klasse),
