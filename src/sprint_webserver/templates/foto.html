@@ -8,19 +8,31 @@
 {% endblock %}
 {% block content %}
   <div class="w3-container">
-      <table cellpadding=5px>
+      <table>
         <tr id=spacer></tr>
         <tr>
-            <td colspan=2>
-                {{ foto }}
-              </td>
-          </tr>
-        <tr>
-            <td colspan=2 align=right>
-              langrenn-sprint (GitHub) - utviklet av Lyn ski og Kjelsås langrenn
+          {% for bilde in foto %}
+            <td>
+              <a href={{ bilde.Url_photo }}>
+                <img src="{{ bilde.Url_thumb }}">
+              </a>
+              <br>{{ bilde.DateTime}}
+              <br>{{ bilde.Location}}
+              <br>{{ bilde.Filename}}
             </td>
+            {% if (loop.index % 8) == 0 %}
+              </tr><tr>
+            {% endif %}
+          {% endfor %}
+        </tr>
+        <tr id=spacer></tr>
+        <tr>
+          <td colspan=2 align=right>
+            langrenn-sprint (GitHub) - utviklet av Lyn ski og Kjelsås langrenn
+          </td>
         </tr>
         <tr id=spacer></tr>
       </table>
   </div>
+  {{ foto }}
 {% endblock %}

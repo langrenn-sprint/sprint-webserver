@@ -16,6 +16,7 @@ class Foto(web.View):
             self.request.app["db"],
         )
         foto = await FotoService().get_all_foto(self.request.app["db"])
+        logging.debug(len(foto))
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(
