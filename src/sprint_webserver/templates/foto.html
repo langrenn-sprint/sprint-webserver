@@ -4,8 +4,21 @@
 {% endblock %}
 {% block refresh %}3600{% endblock %}
 {% block titlemain %}
-  Sprint foto
+Sprint foto {{ valgt_klasse }}, {{ lopsinfo[0] }}
 {% endblock %}
+
+{% block menu %}
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
+    <div class=dropdown-content>
+      <a href=foto>Alle</a>
+      {% for klasse in klasser %}
+        <a href=foto?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+      {% endfor %}
+    </div>
+  </li>
+{% endblock %}
+
 {% block content %}
   <div class="w3-container">
       <table>
@@ -16,9 +29,6 @@
               <a href={{ bilde.Url_photo }}>
                 <img src="{{ bilde.Url_thumb }}">
               </a>
-              <br>{{ bilde.DateTime}}
-              <br>{{ bilde.Location}}
-              <br>{{ bilde.Filename}}
             </td>
             {% if (loop.index % 8) == 0 %}
               </tr><tr>

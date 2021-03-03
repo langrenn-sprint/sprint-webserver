@@ -20,6 +20,15 @@ class FotoService:
             logging.debug(document)
         return foto
 
+    async def get_foto_by_klasse(self, db: Any, lopsklasse: str) -> List:
+        """Get all heat / kjøreplan for a given klasse."""
+        foto = []
+        cursor = db.foto_collection.find({"Løpsklasse": lopsklasse})
+        for document in await cursor.to_list(length=500):
+            foto.append(document)
+            logging.debug(document)
+        return foto
+
     async def create_foto(self, db: Any, body: Any) -> int:
         """Create foto function. Delete existing foto, if any."""
         returncode = 201
