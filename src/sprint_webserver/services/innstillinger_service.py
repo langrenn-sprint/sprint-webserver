@@ -15,19 +15,6 @@ class InnstillingerService:
             logging.debug(document)
         return innstillinger
 
-    async def get_lopsnavn(self, db: Any) -> str:
-        """Get one innstilling."""
-        result = await db.innstillinger_collection.find_one({"Parameter": "Løpsnavn"})
-        logging.debug(result)
-        try:
-            _lopsnavn = result["Verdi"]
-        except Exception:
-            _lopsnavn = ""
-
-        logging.debug(_lopsnavn)
-
-        return _lopsnavn
-
     async def get_arrangor(self, db: Any) -> str:
         """Get one innstilling."""
         result = await db.innstillinger_collection.find_one({"Parameter": "Arrangør"})
@@ -49,6 +36,34 @@ class InnstillingerService:
         logging.debug(_dato)
 
         return _dato
+
+    async def get_lopsnavn(self, db: Any) -> str:
+        """Get one innstilling."""
+        result = await db.innstillinger_collection.find_one({"Parameter": "Løpsnavn"})
+        logging.debug(result)
+        try:
+            _lopsnavn = result["Verdi"]
+        except Exception:
+            _lopsnavn = ""
+
+        logging.debug(_lopsnavn)
+
+        return _lopsnavn
+
+    async def get_lopsvarighet(self, db: Any) -> str:
+        """Get one innstilling."""
+        result = await db.innstillinger_collection.find_one(
+            {"Parameter": "Løpsvarighet"}
+        )
+        logging.debug(result)
+        try:
+            _lopsvarighet = result["Verdi"]
+        except Exception:
+            _lopsvarighet = ""
+
+        logging.debug(_lopsvarighet)
+
+        return _lopsvarighet
 
     async def get_header_footer_info(self, db: Any) -> List:
         """Get innstillinger for header/footer - navn, dato, arrangør."""
