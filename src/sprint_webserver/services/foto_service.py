@@ -3,7 +3,6 @@ import datetime
 import logging
 from typing import Any, List
 
-from .deltakere_service import DeltakereService
 from .innstillinger_service import InnstillingerService
 from .kjoreplan_service import KjoreplanService
 from .klasser_service import KlasserService
@@ -48,9 +47,9 @@ class FotoService:
         # analyze tags and link in event information
         tags_fromnumbers = await find_startnummer(db, body)
         body.update(tags_fromnumbers)
-        if not "Heat" in body.keys():
+        if "Heat" not in body.keys():
             body["Heat"] = await find_heat(db, body)
-        if not "Løpsklasse" in body.keys():
+        if "Løpsklasse" not in body.keys():
             body["Løpsklasse"] = await find_klasse(db, body)
         logging.debug(body)
 
@@ -106,13 +105,13 @@ async def find_startnummer(db: Any, tags: dict) -> dict:
                 starter = await StartListeService().get_startliste_by_nr(db, nummer)
                 if len(starter) > 0:
                     funnetstartnummer = funnetstartnummer + nummer + ";"
-                    #try to identify more information
+                    # try to identify more information
                     for start in starter:
                         logging.debug(f"Start funnet: {start}")
                         nye_tags["Løpsklasse"] = start["Løpsklasse"]
                         if start["Klubb"] not in funnetklubber:
                             funnetklubber = funnetklubber + start["Klubb"]
-                        #TODO - check time to identify heat
+                        # TODO - check time to identify heat
             nye_tags["Startnummer"] = funnetstartnummer
             nye_tags["Klubb"] = funnetklubber
 

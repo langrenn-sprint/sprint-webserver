@@ -20,6 +20,7 @@ klubber = [
     "Årvoll",
 ]
 
+
 class Foto(web.View):
     """Class representing the Foto resource."""
 
