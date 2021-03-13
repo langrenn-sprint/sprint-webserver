@@ -3,9 +3,11 @@ import datetime
 import logging
 from typing import Any, List
 
+from .deltakere_service import DeltakereService
 from .innstillinger_service import InnstillingerService
 from .kjoreplan_service import KjoreplanService
 from .klasser_service import KlasserService
+from .start_service import StartListeService
 
 
 class FotoService:
@@ -21,9 +23,19 @@ class FotoService:
         return foto
 
     async def get_foto_by_klasse(self, db: Any, lopsklasse: str) -> List:
-        """Get all heat / kjøreplan for a given klasse."""
+        """Get all foto for a given klasse."""
         foto = []
         cursor = db.foto_collection.find({"Løpsklasse": lopsklasse})
+        for document in await cursor.to_list(length=500):
+            foto.append(document)
+            logging.debug(document)
+        return foto
+
+    async def get_foto_by_klubb(self, db: Any, klubb: str) -> List:
+        """Get all foto for a given klubb."""
+        foto = []
+        myquery = ".*" + klubb + ".*"
+        cursor = db.foto_collection.find({"Klubb": {"$regex": myquery}})
         for document in await cursor.to_list(length=500):
             foto.append(document)
             logging.debug(document)
@@ -34,8 +46,12 @@ class FotoService:
         returncode = 201
 
         # analyze tags and link in event information
-        body["Heat"] = await find_heat(db, body)
-        body["Løpsklasse"] = await find_klasse(db, body)
+        tags_fromnumbers = await find_startnummer(db, body)
+        body.update(tags_fromnumbers)
+        if not "Heat" in body.keys():
+            body["Heat"] = await find_heat(db, body)
+        if not "Løpsklasse" in body.keys():
+            body["Løpsklasse"] = await find_klasse(db, body)
         logging.debug(body)
 
         result = await db.foto_collection.insert_one(body)
@@ -74,6 +90,33 @@ def get_seconds_diff(time1: str, time2: str) -> int:
     seconds_diff = int((t1 - t2).total_seconds())
 
     return seconds_diff
+
+
+async def find_startnummer(db: Any, tags: dict) -> dict:
+    """Analyse photo tags and identify startnummer."""
+    nye_tags = {}
+    funnetstartnummer = ""
+    funnetklubber = ""
+    nummere = tags["Numbers"]
+    personer = tags["Persons"]
+    if personer.isnumeric():
+        if int(personer) > 0:
+            nummerliste = nummere.split(";")
+            for nummer in nummerliste:
+                starter = await StartListeService().get_startliste_by_nr(db, nummer)
+                if len(starter) > 0:
+                    funnetstartnummer = funnetstartnummer + nummer + ";"
+                    #try to identify more information
+                    for start in starter:
+                        logging.debug(f"Start funnet: {start}")
+                        nye_tags["Løpsklasse"] = start["Løpsklasse"]
+                        if start["Klubb"] not in funnetklubber:
+                            funnetklubber = funnetklubber + start["Klubb"]
+                        #TODO - check time to identify heat
+            nye_tags["Startnummer"] = funnetstartnummer
+            nye_tags["Klubb"] = funnetklubber
+
+    return nye_tags
 
 
 async def find_heat(db: Any, tags: dict) -> str:

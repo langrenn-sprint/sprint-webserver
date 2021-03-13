@@ -4,7 +4,7 @@
 {% endblock %}
 {% block refresh %}3600{% endblock %}
 {% block titlemain %}
-Sprint foto {{ valgt_klasse }}, {{ lopsinfo[0] }}
+Sprint foto {{ valgt_klasse }}{{ valgt_klubb }}, {{ lopsinfo[0] }}
 {% endblock %}
 
 {% block menu %}
@@ -14,6 +14,15 @@ Sprint foto {{ valgt_klasse }}, {{ lopsinfo[0] }}
       <a href=foto>Alle</a>
       {% for klasse in klasser %}
         <a href=foto?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+      {% endfor %}
+    </div>
+  </li>
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg klubb</a>
+    <div class=dropdown-content>
+      <a href=foto>Alle</a>
+      {% for klubb in klubber %}
+        <a href=foto?klubb={{ klubb }}>{{ klubb }}</a>
       {% endfor %}
     </div>
   </li>

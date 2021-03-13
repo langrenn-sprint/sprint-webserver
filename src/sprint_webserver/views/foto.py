@@ -6,6 +6,19 @@ import aiohttp_jinja2
 
 from sprint_webserver.services import FotoService, InnstillingerService, KlasserService
 
+klubber = [
+    "Bækkelaget",
+    "Heming",
+    "Kjelsås",
+    "Koll",
+    "Lillomarka",
+    "Lyn",
+    "Njård",
+    "Rustad",
+    "Røa",
+    "Try",
+    "Årvoll",
+]
 
 class Foto(web.View):
     """Class representing the Foto resource."""
@@ -20,11 +33,19 @@ class Foto(web.View):
             valgt_klasse = self.request.rel_url.query["klasse"]
         except Exception:
             valgt_klasse = ""  # noqa: F841
+        try:
+            valgt_klubb = self.request.rel_url.query["klubb"]
+        except Exception:
+            valgt_klubb = ""
 
         # hente valgte foto
         foto = []
-        if valgt_klasse == "":
+        if (valgt_klasse == "") and (valgt_klubb == ""):
             foto = await FotoService().get_all_foto(self.request.app["db"])
+        elif valgt_klasse == "":
+            foto = await FotoService().get_foto_by_klubb(
+                self.request.app["db"], valgt_klubb
+            )
         else:
             foto = await FotoService().get_foto_by_klasse(
                 self.request.app["db"], valgt_klasse
@@ -45,7 +66,9 @@ class Foto(web.View):
             {
                 "lopsinfo": _lopsinfo,
                 "valgt_klasse": valgt_klasse,
+                "valgt_klubb": valgt_klubb,
                 "klasser": klasser,
+                "klubber": klubber,
                 "foto": foto,
             },
         )
@@ -53,7 +76,7 @@ class Foto(web.View):
     async def post(self) -> web.Response:
         """Post route function that creates a collection of klasses."""
         body = await self.request.json()
-        logging.info(f"Got request-body {body} of type {type(body)}")
+        logging.debug(f"Got request-body {body} of type {type(body)}")
         result = await FotoService().create_foto(self.request.app["db"], body)
         return web.Response(status=result)
 
