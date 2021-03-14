@@ -110,7 +110,7 @@ async def find_startnummer(db: Any, tags: dict) -> dict:
                         logging.debug(f"Start funnet: {start}")
                         nye_tags["Løpsklasse"] = start["Løpsklasse"]
                         if start["Klubb"] not in funnetklubber:
-                            funnetklubber = funnetklubber + start["Klubb"]
+                            funnetklubber = funnetklubber + start["Klubb"] + ";"
                         # TODO - check time to identify heat
             nye_tags["Startnummer"] = funnetstartnummer
             nye_tags["Klubb"] = funnetklubber
@@ -121,6 +121,8 @@ async def find_startnummer(db: Any, tags: dict) -> dict:
 async def find_heat(db: Any, tags: dict) -> str:
     """Analyse photo tags and identify heat."""
     funnetheat = ""
+
+
     alleheat = await KjoreplanService().get_all_heat(db)
     lopsdato = await InnstillingerService().get_dato(db)
     tmplopsvarighet = await InnstillingerService().get_lopsvarighet(db)
@@ -133,18 +135,23 @@ async def find_heat(db: Any, tags: dict) -> str:
         if tags["Filename"].find(heat["Index"]) > -1:
             funnetheat = heat["Index"]
         else:
-            seconds = get_seconds_diff(tags["DateTime"], lopsdato + " " + heat["Start"])
+
+            datetime = tags.get("DateTime")
+            location = tags.get("Location")
+            seconds = 1000
+            if not datetime == None:
+                seconds = get_seconds_diff(datetime, lopsdato + " " + heat["Start"])
             logging.debug(f"Diff: {seconds}")
 
-            if tags["Location"] == "start":
+            if location == "start":
                 # photo taken at start
                 if -60 < seconds < 30:
                     funnetheat = heat["Index"]
-            elif tags["Location"] == "race":
+            elif location == "race":
                 # photo taken during race
                 if 0 < seconds < lopsvarighet:
                     funnetheat = heat["Index"]
-            elif tags["Location"] == "finish":
+            elif location == "finish":
                 # photo taken at finish
                 if lopsvarighet - 90 < seconds < lopsvarighet + 90:
                     funnetheat = heat["Index"]
@@ -162,9 +169,6 @@ async def find_klasse(db: Any, tags: dict) -> str:
     for klasse in alleklasser:
         logging.debug(klasse)
         if tags["Filename"].find(klasse["Løpsklasse"]) > -1:
-            funnetklasse = klasse["Løpsklasse"]
-            logging.debug(f"Found klasse: {funnetklasse}")
-        elif tags["Heat"].find(klasse["Løpsklasse"]) > -1:
             funnetklasse = klasse["Løpsklasse"]
             logging.debug(f"Found klasse: {funnetklasse}")
 
