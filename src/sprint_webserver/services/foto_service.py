@@ -8,6 +8,20 @@ from .kjoreplan_service import KjoreplanService
 from .klasser_service import KlasserService
 from .start_service import StartListeService
 
+klubber = [
+    "Bækkelaget",
+    "Heming",
+    "Kjelsås",
+    "Koll",
+    "Lillomarka",
+    "Lyn",
+    "Njård",
+    "Rustad",
+    "Røa",
+    "Try",
+    "Årvoll",
+]
+
 
 class FotoService:
     """Class representing foto service."""
@@ -112,6 +126,14 @@ async def find_startnummer(db: Any, tags: dict) -> dict:
                         if start["Klubb"] not in funnetklubber:
                             funnetklubber = funnetklubber + start["Klubb"] + ";"
                         # TODO - check time to identify heat
+
+            texts = tags["Texts"]
+            liste = texts.split(";")
+            for text in liste:
+                if text in klubber:
+                    if text not in funnetklubber:
+                        funnetklubber = funnetklubber + text + ";"
+
             nye_tags["Startnummer"] = funnetstartnummer
             nye_tags["Klubb"] = funnetklubber
 
@@ -122,42 +144,36 @@ async def find_heat(db: Any, tags: dict) -> str:
     """Analyse photo tags and identify heat."""
     funnetheat = ""
 
-
     alleheat = await KjoreplanService().get_all_heat(db)
     lopsdato = await InnstillingerService().get_dato(db)
     tmplopsvarighet = await InnstillingerService().get_lopsvarighet(db)
     lopsvarighet = 0
     if tmplopsvarighet.isnumeric():
         lopsvarighet = int(tmplopsvarighet)
-    logging.debug(f"lopsvarighet: {lopsvarighet}")
 
     for heat in alleheat:
-        if tags["Filename"].find(heat["Index"]) > -1:
-            funnetheat = heat["Index"]
-        else:
+        datetime = tags.get("DateTime")
+        location = tags.get("Location")
+        seconds = 1000
+        if datetime is not None:
+            seconds = get_seconds_diff(datetime, lopsdato + " " + heat["Start"])
+        logging.debug(f"Diff: {seconds}")
 
-            datetime = tags.get("DateTime")
-            location = tags.get("Location")
-            seconds = 1000
-            if not datetime == None:
-                seconds = get_seconds_diff(datetime, lopsdato + " " + heat["Start"])
-            logging.debug(f"Diff: {seconds}")
+        if location == "start":
+            # photo taken at start
+            if -60 < seconds < 30:
+                funnetheat = heat["Index"]
+        elif location == "race":
+            # photo taken during race
+            if 0 < seconds < lopsvarighet:
+                funnetheat = heat["Index"]
+        elif location == "finish":
+            # photo taken at finish
+            if lopsvarighet - 90 < seconds < lopsvarighet + 90:
+                funnetheat = heat["Index"]
+                logging.debug(f"Found heat: {heat}")
 
-            if location == "start":
-                # photo taken at start
-                if -60 < seconds < 30:
-                    funnetheat = heat["Index"]
-            elif location == "race":
-                # photo taken during race
-                if 0 < seconds < lopsvarighet:
-                    funnetheat = heat["Index"]
-            elif location == "finish":
-                # photo taken at finish
-                if lopsvarighet - 90 < seconds < lopsvarighet + 90:
-                    funnetheat = heat["Index"]
-                    logging.debug(f"Found heat: {heat}")
-
-            logging.debug(f"Heat funnet: {funnetheat}")
+        logging.debug(f"Heat funnet: {funnetheat}")
 
     return funnetheat
 
