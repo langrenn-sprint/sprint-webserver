@@ -5,6 +5,7 @@ from aiohttp import web
 import aiohttp_jinja2
 
 from sprint_webserver.services import (
+    FotoService,
     InnstillingerService,
     KjoreplanService,
     KlasserService,
@@ -37,10 +38,14 @@ class Resultat(web.View):
         )
         logging.debug(_lopsinfo)
 
+        foto = []
         informasjon = ""
         resultatliste = []
         heatliste = []
         resultatheatliste = []
+        valgt_lopklasse = ""
+        valgt_bildevisning = ""
+
         try:
             valgt_klasse = self.request.rel_url.query["klasse"]
             logging.debug(valgt_klasse)
@@ -55,6 +60,8 @@ class Resultat(web.View):
         # ensure web safe urls
         for klasse in klasser:
             klasse["KlasseWeb"] = klasse["Klasse"].replace(" ", "%20")
+            if klasse["Klasse"] == valgt_klasse:
+                valgt_lopsklasse = klasse["Løpsklasse"]
 
         if (valgt_klasse == "") and (valgt_klubb == ""):
             informasjon = "Velg klasse eller klubb for å vise resultater"
@@ -64,6 +71,10 @@ class Resultat(web.View):
                 self.request.app["db"],
                 valgt_klubb,
             )
+            foto = await FotoService().get_foto_by_klubb(
+                self.request.app["db"], valgt_klubb
+            )
+            valgt_bildevisning = "klubb=" + valgt_klubb
         else:
             # get resultat by klasse - sluttresultat
             resultatliste = await ResultatService().get_resultatliste_by_klasse(
@@ -83,14 +94,21 @@ class Resultat(web.View):
                 self.request.app["db"],
                 lopsklasse,
             )
+            foto = await FotoService().get_foto_by_klasse(
+                self.request.app["db"],
+                valgt_lopsklasse
+            )
+            valgt_bildevisning = "klasse=" + valgt_lopsklasse
 
         """Get route function."""
         return await aiohttp_jinja2.render_template_async(
             "resultat.html",
             self.request,
             {
+                "foto": foto,
                 "informasjon": informasjon,
                 "lopsinfo": _lopsinfo,
+                "valgt_bildevisning": valgt_bildevisning,
                 "valgt_klasse": valgt_klasse,
                 "valgt_klubb": valgt_klubb,
                 "klasser": klasser,

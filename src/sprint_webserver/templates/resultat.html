@@ -37,6 +37,19 @@
     <div class="w3-half">
       <h2>Resultatliste sammenlagt</h2>
       <table>
+        <tr>
+          {% for bilde in foto %}
+            {% if (loop.index < 5) %}
+              <td>
+                <a href=foto?{{ valgt_bildevisning }}>
+                  <img src="{{ bilde.Url_thumb }}">
+                </a>
+              </td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      </table>
+      <table>
         <tr id=headerblack>
           <td>Plass</td>
           <td>Startnr</td>
