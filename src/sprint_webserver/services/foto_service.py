@@ -61,10 +61,8 @@ class FotoService:
         # analyze tags and link in event information
         tags_fromnumbers = await find_startnummer(db, body)
         body.update(tags_fromnumbers)
-        if "Heat" not in body.keys():
-            body["Heat"] = await find_heat(db, body)
         if "Løpsklasse" not in body.keys():
-            body["Løpsklasse"] = await find_klasse(db, body)
+            body["Løpsklasse"] = await find_lopsklasse(db, body)
         logging.debug(body)
 
         result = await db.foto_collection.insert_one(body)
@@ -118,14 +116,16 @@ async def find_startnummer(db: Any, tags: dict) -> dict:
             for nummer in nummerliste:
                 starter = await StartListeService().get_startliste_by_nr(db, nummer)
                 if len(starter) > 0:
-                    funnetstartnummer = funnetstartnummer + nummer + ";"
-                    # try to identify more information
                     for start in starter:
-                        logging.debug(f"Start funnet: {start}")
-                        nye_tags["Løpsklasse"] = start["Løpsklasse"]
+                        logging.info(f"Start funnet: {start}")
+                        funnetstartnummer = funnetstartnummer + nummer + ";"
+                        # add more information
+                        nye_tags["Heat"] = await verify_heat(
+                            db, str(tags.get("datetime")), start["Heat"]
+                        )
                         if start["Klubb"] not in funnetklubber:
                             funnetklubber = funnetklubber + start["Klubb"] + ";"
-                        # TODO - check time to identify heat
+                        nye_tags["Løpsklasse"] = start["Løpsklasse"]
 
             texts = tags["Texts"]
             liste = texts.split(";")
@@ -140,45 +140,25 @@ async def find_startnummer(db: Any, tags: dict) -> dict:
     return nye_tags
 
 
-async def find_heat(db: Any, tags: dict) -> str:
+async def verify_heat(db: Any, datetime_foto: str, heat_index: str) -> str:
     """Analyse photo tags and identify heat."""
     funnetheat = ""
-
-    alleheat = await KjoreplanService().get_all_heat(db)
     lopsdato = await InnstillingerService().get_dato(db)
     tmplopsvarighet = await InnstillingerService().get_lopsvarighet(db)
-    lopsvarighet = 0
+    lopsvarighet = 180
     if tmplopsvarighet.isnumeric():
         lopsvarighet = int(tmplopsvarighet)
 
-    for heat in alleheat:
-        datetime = tags.get("DateTime")
-        location = tags.get("Location")
-        seconds = 1000
-        if datetime is not None:
-            seconds = get_seconds_diff(datetime, lopsdato + " " + heat["Start"])
-        logging.debug(f"Diff: {seconds}")
-
-        if location == "start":
-            # photo taken at start
-            if -60 < seconds < 30:
-                funnetheat = heat["Index"]
-        elif location == "race":
-            # photo taken during race
-            if 0 < seconds < lopsvarighet:
-                funnetheat = heat["Index"]
-        elif location == "finish":
-            # photo taken at finish
-            if lopsvarighet - 90 < seconds < lopsvarighet + 90:
-                funnetheat = heat["Index"]
-                logging.debug(f"Found heat: {heat}")
-
-        logging.debug(f"Heat funnet: {funnetheat}")
+    if datetime_foto is not None:
+        heat = await KjoreplanService().get_heat_by_index(db, heat_index)
+        seconds = get_seconds_diff(datetime_foto, lopsdato + " " + heat["Start"])
+        if -300 < seconds < (300 + lopsvarighet):
+            funnetheat = heat["Index"]
 
     return funnetheat
 
 
-async def find_klasse(db: Any, tags: dict) -> str:
+async def find_lopsklasse(db: Any, tags: dict) -> str:
     """Analyse photo tags and identify løpsklasse."""
     funnetklasse = ""
     alleklasser = await KlasserService().get_all_klasser(db)

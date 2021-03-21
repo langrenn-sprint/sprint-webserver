@@ -43,7 +43,7 @@ class Resultat(web.View):
         resultatliste = []
         heatliste = []
         resultatheatliste = []
-        valgt_lopklasse = ""
+        valgt_lopsklasse = ""
         valgt_bildevisning = ""
 
         try:
@@ -95,8 +95,7 @@ class Resultat(web.View):
                 lopsklasse,
             )
             foto = await FotoService().get_foto_by_klasse(
-                self.request.app["db"],
-                valgt_lopsklasse
+                self.request.app["db"], valgt_lopsklasse
             )
             valgt_bildevisning = "klasse=" + valgt_lopsklasse
 

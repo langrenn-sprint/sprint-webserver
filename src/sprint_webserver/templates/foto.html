@@ -39,7 +39,14 @@ Sprint foto {{ valgt_klasse }}{{ valgt_klubb }}, {{ lopsinfo[0] }}
                 <img src="{{ bilde.Url_thumb }}">
               </a>
             </td>
-            {% if (loop.index % 8) == 0 %}
+            <td>
+              Personer: {{ bilde.Persons }}<br>
+              Startnr: {{ bilde.Startnummer }}<br>
+              Heat: {{ bilde.Heat }}<br>
+              Løpsklasse: {{ bilde.Løpsklasse }}<br>
+              Klubb: {{ bilde.Klubb }}
+            </td>
+            {% if (loop.index % 4) == 0 %}
               </tr><tr>
             {% endif %}
           {% endfor %}
