@@ -112,6 +112,16 @@ h2 {
   text-align: center;
 }
 
+.img_kvart {
+  width: 24%;
+  height: auto;
+}
+
+.img_tredje {
+  width: 32.5%;
+  height: auto;
+}
+
 table {
   width: 100%;
 	border-spacing: 0;
@@ -152,11 +162,11 @@ function naviger(id) {
 
 /**** Responsivt design ****/
 .w3-container {
-  padding:0.01em 16px
+  padding:0.01em 12px
 }
 
 .w3-third,.w3-quart,.w3-row-padding,.w3-half {
-  padding:0.01em 8px
+  padding:0.01em 6px
 }
 .w3-container:after,.w3-container:before,.w3-row-padding:after,.w3-row-padding:before {
   content:"";

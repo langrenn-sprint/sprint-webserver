@@ -29,38 +29,52 @@ Sprint foto {{ valgt_klasse }}{{ valgt_klubb }}, {{ lopsinfo[0] }}
 {% endblock %}
 
 {% block content %}
-  <div class="w3-container">
+    {% if foto|length > 4 %}
+      <div class="w3-row-padding">
+        <div class="w3-half">
+    {% else %}
+      <div class="w3-container">
+    {% endif %}
+
       <table>
         <tr id=spacer></tr>
         <tr>
-          {% for bilde in foto %}
-            <td>
+          <td>
+            {% for bilde in foto %}
               <a href={{ bilde.Url_photo }}>
-                <img src="{{ bilde.Url_thumb }}">
+                <img class="img_tredje" src="{{ bilde.Url_thumb }}">
               </a>
-            </td>
-            <td>
-              Personer: {{ bilde.Persons }}<br>
-              Startnr: {{ bilde.Startnummer }}<br>
-              Heat: {{ bilde.Heat }}<br>
-              Løpsklasse: {{ bilde.Løpsklasse }}<br>
-              Klubb: {{ bilde.Klubb }}
-            </td>
-            {% if (loop.index % 4) == 0 %}
-              </tr><tr>
-            {% endif %}
+              {% if foto|length > 4 %}
+                {% if (foto|length // 2) == loop.index %}
+                        </td></tr>
+                    </table>
+                  </div>
+                  <div class="w3-half">
+                    <table>
+                      <tr id=spacer></tr>
+                      <tr><td>
+                {% elif (loop.index % 3) == 0 %}
+                  </td></tr><tr><td>
+                {% endif %}
+              {% endif %}
           {% endfor %}
+          </td>
         </tr>
         <tr id=spacer></tr>
       </table>
       <table>
         <tr>
           <td align=right>
-            langrenn-sprint (GitHub) - utviklet av Lyn ski og Kjelsås langrenn
+            <a href="https://github.com/langrenn-sprint">langrenn-sprint (GitHub)</a> - utviklet av Lyn ski og Kjelsås langrenn
           </td>
         </tr>
         <tr id=spacer></tr>
       </table>
-  </div>
-  {{ foto }}
+
+    {% if foto|length > 4 %}
+      </div>
+    </div>
+    {% else %}
+      </div>
+    {% endif %}
 {% endblock %}
