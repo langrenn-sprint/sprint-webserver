@@ -42,17 +42,13 @@
         <td>Krets</td>
       </tr>
       {% for deltaker in deltakere %}
-        {% if (deltaker.ÅrsKlasse == valgt_klasse) or (valgt_klasse == "") %}
-          {% if ( valgt_klubb in deltaker.Klubb ) or (valgt_klubb == "") %}
             <tr>
-              <td align=right>{{ deltaker.Startnr }}</td>
+              <td align=center>{{ deltaker.Startnr }}</td>
               <td><a href=live?klasse={{ deltaker.Løpsklasse }}&startnr={{ deltaker.Startnr }}>{{ deltaker.Navn }}</a></td>
               <td>{{ deltaker.Klubb }}</td>
               <td>{{ deltaker.ÅrsKlasse }}</td>
               <td>{{ deltaker.Krets }}</td>
             </tr>
-            {% endif %}
-        {% endif %}
       {% endfor %}
     </table>
   </div>

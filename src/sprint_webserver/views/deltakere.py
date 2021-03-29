@@ -44,7 +44,16 @@ class Deltakere(web.View):
         )
         logging.debug(_lopsinfo)
 
-        deltakere = await DeltakereService().get_all_deltakere(self.request.app["db"])
+        deltakere = []
+        if (valgt_klasse == "") and (valgt_klubb == ""):
+            deltakere = await DeltakereService().get_all_deltakere(self.request.app["db"])
+        elif valgt_klasse == "":
+            # get deltakere by klubb
+            deltakere = await DeltakereService().get_deltakere_by_klubb(self.request.app["db"], valgt_klubb)
+        else:
+            # get deltakere by klasse - sluttresultat
+            deltakere = await DeltakereService().get_deltakere_by_arsklasse(self.request.app["db"], valgt_klasse)
+
 
         # get klasser
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
@@ -56,12 +65,12 @@ class Deltakere(web.View):
             "deltakere.html",
             self.request,
             {
-                "lopsinfo": _lopsinfo,
-                "valgt_klubb": valgt_klubb,
-                "valgt_klasse": valgt_klasse,
+                "deltakere": deltakere,
                 "klasser": klasser,
                 "klubber": klubber,
-                "deltakere": deltakere,
+                "lopsinfo": _lopsinfo,
+                "valgt_klasse": valgt_klasse,
+                "valgt_klubb": valgt_klubb,
             },
         )
 
