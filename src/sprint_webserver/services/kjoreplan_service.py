@@ -98,7 +98,7 @@ class KjoreplanService:
                 )
                 logging.debug(heat["Index"])
 
-                if result["resultat_registrert"]:
+                if result and "resultat_registrert" in result:
                     # resultat registrert - heat kan ikke endres
                     logging.debug("Ignorert: " + result["Index"])
                 else:
