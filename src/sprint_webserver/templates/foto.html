@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block titleheader %}
+  Sprint foto, {{ lopsinfo[0] }}
+{% endblock %}
+{% block refresh %}3600{% endblock %}
+{% block titlemain %}
+Sprint foto {{ valgt_klasse }}{{ valgt_klubb }}, {{ lopsinfo[0] }}
+{% endblock %}
+
+{% block menu %}
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
+    <div class=dropdown-content>
+      <a href=foto>Alle</a>
+      {% for klasse in klasser %}
+        <a href=foto?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+      {% endfor %}
+    </div>
+  </li>
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg klubb</a>
+    <div class=dropdown-content>
+      <a href=foto>Alle</a>
+      {% for klubb in klubber %}
+        <a href=foto?klubb={{ klubb }}>{{ klubb }}</a>
+      {% endfor %}
+    </div>
+  </li>
+{% endblock %}
+
+{% block content %}
+    {% if foto|length > 4 %}
+      <div class="w3-row-padding">
+        <div class="w3-half">
+    {% else %}
+      <div class="w3-container">
+    {% endif %}
+
+      <table>
+        <tr id=spacer></tr>
+        <tr>
+          <td>
+            {% for bilde in foto %}
+              <a href={{ bilde.Url_photo }}>
+                <img class="img_tredje" src="{{ bilde.Url_thumb }}">
+              </a>
+              {% if foto|length > 4 %}
+                {% if (foto|length // 2) == loop.index %}
+                        </td></tr>
+                    </table>
+                  </div>
+                  <div class="w3-half">
+                    <table>
+                      <tr id=spacer></tr>
+                      <tr><td>
+                {% elif (loop.index % 3) == 0 %}
+                  </td></tr><tr><td>
+                {% endif %}
+              {% endif %}
+          {% endfor %}
+          </td>
+        </tr>
+        <tr id=spacer></tr>
+      </table>
+      <table>
+        <tr>
+          <td align=right>
+            <a href="https://github.com/langrenn-sprint">langrenn-sprint (GitHub)</a> - utviklet av Lyn ski og Kjelsås langrenn
+          </td>
+        </tr>
+        <tr id=spacer></tr>
+      </table>
+
+    {% if foto|length > 4 %}
+      </div>
+    </div>
+    {% else %}
+      </div>
+    {% endif %}
+{% endblock %}
