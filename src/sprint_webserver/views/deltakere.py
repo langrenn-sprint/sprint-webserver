@@ -46,14 +46,19 @@ class Deltakere(web.View):
 
         deltakere = []
         if (valgt_klasse == "") and (valgt_klubb == ""):
-            deltakere = await DeltakereService().get_all_deltakere(self.request.app["db"])
+            deltakere = await DeltakereService().get_all_deltakere(
+                self.request.app["db"]
+            )
         elif valgt_klasse == "":
             # get deltakere by klubb
-            deltakere = await DeltakereService().get_deltakere_by_klubb(self.request.app["db"], valgt_klubb)
+            deltakere = await DeltakereService().get_deltakere_by_klubb(
+                self.request.app["db"], valgt_klubb
+            )
         else:
             # get deltakere by klasse - sluttresultat
-            deltakere = await DeltakereService().get_deltakere_by_arsklasse(self.request.app["db"], valgt_klasse)
-
+            deltakere = await DeltakereService().get_deltakere_by_arsklasse(
+                self.request.app["db"], valgt_klasse
+            )
 
         # get klasser
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])

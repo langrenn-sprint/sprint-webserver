@@ -106,3 +106,10 @@ class InnstillingerService:
         result = await db.innstillinger_collection.insert_many(body)
         logging.debug("inserted %d docs" % (len(result.inserted_ids),))
         return returncode
+
+    def get_global_setting(self, param_name: str) -> Any:
+        """Get global settings."""
+        sprint_settings = os.environ["SPRINT_SETTINGS"]
+        with open(sprint_settings) as json_file:
+            sprint_settings = json.load(json_file)
+        return sprint_settings[param_name]

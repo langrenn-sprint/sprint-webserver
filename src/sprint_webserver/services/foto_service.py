@@ -96,8 +96,6 @@ def get_seconds_diff(time1: str, time2: str) -> int:
             logging.debug(f"Got error parsing time {ValueError}")
             pass
 
-    logging.debug(t2)
-    logging.debug(t2)
     seconds_diff = int((t1 - t2).total_seconds())
 
     return seconds_diff
