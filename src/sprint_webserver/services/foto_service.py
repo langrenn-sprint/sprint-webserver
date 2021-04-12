@@ -104,6 +104,7 @@ def get_seconds_diff(time1: str, time2: str) -> int:
 async def find_startnummer(db: Any, tags: dict) -> dict:
     """Analyse photo tags and identify startnummer."""
     nye_tags = {}
+    funnetheat = ""
     funnetstartnummer = ""
     funnetklubber = ""
     nummere = tags["Numbers"]
@@ -115,12 +116,16 @@ async def find_startnummer(db: Any, tags: dict) -> dict:
                 starter = await StartListeService().get_startliste_by_nr(db, nummer)
                 if len(starter) > 0:
                     for start in starter:
-                        logging.info(f"Start funnet: {start}")
-                        funnetstartnummer = funnetstartnummer + nummer + ";"
-                        # add more information
-                        nye_tags["Heat"] = await verify_heat(
-                            db, str(tags.get("datetime")), start["Heat"]
-                        )
+                        # check startnummer
+                        logging.debug(f"Start funnet: {start}")
+                        if nummer not in funnetstartnummer:
+                            funnetstartnummer = funnetstartnummer + nummer + ";"
+                        # check heat (if not already found)
+                        if funnetheat == "":
+                            funnetheat = await verify_heat(
+                                db, str(tags.get("DateTime")), start["Heat"]
+                            )
+                        # check klubb
                         if start["Klubb"] not in funnetklubber:
                             funnetklubber = funnetklubber + start["Klubb"] + ";"
                         nye_tags["Løpsklasse"] = start["Løpsklasse"]
@@ -132,7 +137,8 @@ async def find_startnummer(db: Any, tags: dict) -> dict:
                     if text not in funnetklubber:
                         funnetklubber = funnetklubber + text + ";"
 
-            nye_tags["Startnummer"] = funnetstartnummer
+            nye_tags["Heat"] = funnetheat
+            nye_tags["Numbers"] = funnetstartnummer
             nye_tags["Klubb"] = funnetklubber
 
     return nye_tags
@@ -143,6 +149,7 @@ async def verify_heat(db: Any, datetime_foto: str, heat_index: str) -> str:
     funnetheat = ""
     lopsdato = await InnstillingerService().get_dato(db)
     tmplopsvarighet = await InnstillingerService().get_lopsvarighet(db)
+    ## # TODO: Move to properties
     lopsvarighet = 180
     if tmplopsvarighet.isnumeric():
         lopsvarighet = int(tmplopsvarighet)
@@ -150,7 +157,9 @@ async def verify_heat(db: Any, datetime_foto: str, heat_index: str) -> str:
     if datetime_foto is not None:
         heat = await KjoreplanService().get_heat_by_index(db, heat_index)
         seconds = get_seconds_diff(datetime_foto, lopsdato + " " + heat["Start"])
+        logging.debug(f"Verify heat, diff: {seconds}, heat: {lopsdato} {heat}, foto: {datetime_foto}")
         if -300 < seconds < (300 + lopsvarighet):
+            logging.info(f"Funnet heat: {heat}")
             funnetheat = heat["Index"]
 
     return funnetheat

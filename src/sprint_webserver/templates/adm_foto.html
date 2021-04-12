@@ -1,0 +1,52 @@
+{% extends "adm_base.html" %}
+{% block titleheader %}
+  Sprint foto, {{ lopsinfo[0] }}
+{% endblock %}
+{% block refresh %}3600{% endblock %}
+{% block titlemain %}
+Sprint foto {{ valgt_klasse }}, {{ lopsinfo[0] }}
+{% endblock %}
+
+{% block menu %}
+  <li class=dropdown id=topborder>
+    <a href=javascript:void(0) class=dropbtn>Velg klasse</a>
+    <div class=dropdown-content>
+      <a href=foto>Alle</a>
+      {% for klasse in klasser %}
+        <a href=foto?klasse={{ klasse.Løpsklasse }}>{{ klasse.Klasse }}</a>
+      {% endfor %}
+    </div>
+  </li>
+{% endblock %}
+
+{% block content %}
+  <div class="w3-container">
+    <table>
+      <tr id=spacer></tr>
+      {% for bilde in foto %}
+      <tr>
+        <td>
+            <img src="{{ bilde.Url_thumb }}">
+        </td>
+        <td>
+          Tid: {{ bilde.DateTime }} <br>
+          Numbers: {{ bilde.Numbers }} <br>
+          Løpsklasse: {{ bilde.Løpsklasse }} <br>
+          Heat: {{ bilde.Heat }} <br>
+          Klubb: {{ bilde.Klubb }} <br>
+          R: {{ bilde }} <br>
+        </td>
+      </tr>
+      {% endfor %}
+      <tr id=spacer></tr>
+    </table>
+    <table>
+      <tr>
+        <td align=right>
+          <a href="https://github.com/langrenn-sprint">langrenn-sprint (GitHub)</a> - utviklet av Lyn ski og Kjelsås langrenn
+        </td>
+      </tr>
+      <tr id=spacer></tr>
+    </table>
+  </div>
+{% endblock %}

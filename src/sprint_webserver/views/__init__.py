@@ -1,4 +1,5 @@
 """Package for all views."""
+from .adm_foto import AdminFoto
 from .deltakere import Deltaker, Deltakere
 from .foto import Foto
 from .innstillinger import Innstillinger

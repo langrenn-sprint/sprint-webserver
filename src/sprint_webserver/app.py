@@ -8,6 +8,7 @@ import jinja2
 import motor.motor_asyncio
 
 from .views import (
+    AdminFoto,
     Deltaker,
     Deltakere,
     Foto,
@@ -54,21 +55,22 @@ async def create_app() -> web.Application:
     app["db"] = db
     app.add_routes(
         [
-            web.view("/ping", Ping),
-            web.view("/ready", Ready),
             web.view("/", Main),
-            web.view("/start", Start),
-            web.view("/resultat", Resultat),
-            web.view("/resultat/heat", ResultatHeat),
-            web.view("/live", Live),
-            web.static("/static", static_path),
+            web.view("/admin/foto", AdminFoto),
             web.view("/deltakere", Deltakere),
             web.view("/deltakere/{startnr}", Deltaker),
             web.view("/foto", Foto),
             web.view("/innstillinger", Innstillinger),
+            web.view("/kjoreplan", Kjoreplan),
             web.view("/klasser", Klasser),
             web.view("/klasser/{lopsklasse}", Klasse),
-            web.view("/kjoreplan", Kjoreplan),
+            web.view("/live", Live),
+            web.view("/ping", Ping),
+            web.view("/ready", Ready),
+            web.view("/resultat", Resultat),
+            web.view("/resultat/heat", ResultatHeat),
+            web.view("/start", Start),
+            web.static("/static", static_path),
         ]
     )
     return app
