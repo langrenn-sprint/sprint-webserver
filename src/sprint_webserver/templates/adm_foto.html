@@ -20,33 +20,48 @@ Sprint foto {{ valgt_klasse }}, {{ lopsinfo[0] }}
 {% endblock %}
 
 {% block content %}
-  <div class="w3-container">
+<div class="w3-row-padding">
+  <div class="w3-half">
     <table>
+      <tr id=spacer></tr>
+      <tr id=headerblue>
+        <td>Foto</td>
+        <td colspan="3">Parametre registrert - redigering</td>
+      </tr>
       <tr id=spacer></tr>
       {% for bilde in foto %}
       <tr>
         <td>
-            <img src="{{ bilde.Url_thumb }}">
+          <a class="tooltip" href="">
+             <img class="img_desi" src="{{ bilde.Url_thumb }}">
+             <span><img id=tooltipimage src="{{ bilde.Url_photo }}"></span>
+          </a>
         </td>
-        <td>
-          Tid: {{ bilde.DateTime }} <br>
-          Numbers: {{ bilde.Numbers }} <br>
-          Løpsklasse: {{ bilde.Løpsklasse }} <br>
-          Heat: {{ bilde.Heat }} <br>
-          Klubb: {{ bilde.Klubb }} <br>
-          R: {{ bilde }} <br>
+        <td valign=top>
+          <table>
+            <tr><td>Tid:</td></tr>
+            <tr><td>Startnummer:</td></tr>
+            <tr><td>Løpsklasse:</td></tr>
+            <tr><td>Heat:</td></tr>
+            <tr><td>Lokasjon:</td></tr>
+          </table>
+        </td>
+        <td valign=top>
+          <form class="" action="/admin/foto?id={{ bilde._id }}" method="post">
+            <table>
+              <tr><td><input type=hidden name="Id" value="{{ bilde._id }}">{{ bilde.DateTime }}</td></tr>
+              <tr><td><input type=text name="Numbers" value="{{ bilde.Numbers }}"> {{ bilde.Numbers }}</td></tr>
+              <tr><td><input type=text name="Løpsklasse" value="{{ bilde.Løpsklasse }}"> {{ bilde.Løpsklasse }}</td></tr>
+              <tr><td><input type=text name="Heat" value="{{ bilde.Heat }}"> {{ bilde.Heat }}</td></tr>
+              <tr><td><input type=text name="{{ bilde.Lokasjon }}" value="{{ bilde.Lokasjon }}"> {{ bilde.Lokasjon }}</td></tr>
+              <tr><td><input type="submit" name="" value="Oppdater"></td></tr>
+            </table>
+          </form>
         </td>
       </tr>
+      <tr id=spacer></tr>
       {% endfor %}
-      <tr id=spacer></tr>
-    </table>
-    <table>
-      <tr>
-        <td align=right>
-          <a href="https://github.com/langrenn-sprint">langrenn-sprint (GitHub)</a> - utviklet av Lyn ski og Kjelsås langrenn
-        </td>
-      </tr>
-      <tr id=spacer></tr>
     </table>
   </div>
+</div>
 {% endblock %}

@@ -112,6 +112,11 @@ h2 {
   text-align: center;
 }
 
+.img_desi {
+  width: auto;
+  height: 100px;
+}
+
 .img_kvart {
   width: 24%;
   height: auto;
@@ -150,7 +155,7 @@ tr:nth-child(even){background-color: #f2f2f2;}
 }
 
 #spacer {
-  height: 10px;
+  height: 5px;
 }
 
 #bredde {
@@ -213,3 +218,34 @@ function naviger(id) {
     width: 100%; /* The width is 100%, when the viewport is x px or smaller */
   }
 }
+
+/* START: Tooltip - to show image - start */
+.tooltip {
+  position:relative;
+}
+
+.tooltip span {
+  display:none;
+}
+
+.tooltip span img {
+  float:left;
+}
+
+.tooltip:hover span {
+  display:block;
+  position:absolute;
+  top:105%;
+  left:105%;
+  z-index:1000;
+  width:auto;
+}
+
+#tooltipimage{
+  position:absolute;
+  border:#ff0;
+  width:900px;
+  height:600px;
+}
+
+/* END: Tooltip - to show image - END */

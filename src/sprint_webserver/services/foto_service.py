@@ -149,18 +149,21 @@ async def verify_heat(db: Any, datetime_foto: str, heat_index: str) -> str:
     funnetheat = ""
     lopsdato = await InnstillingerService().get_dato(db)
     tmplopsvarighet = await InnstillingerService().get_lopsvarighet(db)
-    ## # TODO: Move to properties
+    # TODO: Move to properties
     lopsvarighet = 180
     if tmplopsvarighet.isnumeric():
         lopsvarighet = int(tmplopsvarighet)
 
     if datetime_foto is not None:
         heat = await KjoreplanService().get_heat_by_index(db, heat_index)
-        seconds = get_seconds_diff(datetime_foto, lopsdato + " " + heat["Start"])
-        logging.debug(f"Verify heat, diff: {seconds}, heat: {lopsdato} {heat}, foto: {datetime_foto}")
-        if -300 < seconds < (300 + lopsvarighet):
-            logging.info(f"Funnet heat: {heat}")
-            funnetheat = heat["Index"]
+        if heat is not None:
+            seconds = get_seconds_diff(datetime_foto, lopsdato + " " + heat["Start"])
+            logging.debug(
+                f"Verify heat, diff: {seconds}, heat: {lopsdato} {heat}, foto: {datetime_foto}"
+            )
+            if -300 < seconds < (300 + lopsvarighet):
+                logging.debug(f"Funnet heat: {heat}")
+                funnetheat = heat["Index"]
 
     return funnetheat
 
