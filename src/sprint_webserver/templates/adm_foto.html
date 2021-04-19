@@ -1,10 +1,10 @@
 {% extends "adm_base.html" %}
 {% block titleheader %}
-  Sprint foto, {{ lopsinfo[0] }}
+  Manuell tagging av foto, {{ lopsinfo[0] }}
 {% endblock %}
 {% block refresh %}3600{% endblock %}
 {% block titlemain %}
-Sprint foto {{ valgt_klasse }}, {{ lopsinfo[0] }}
+Manuell tagging av foto {{ valgt_klasse }}, {{ lopsinfo[0] }}
 {% endblock %}
 
 {% block menu %}
@@ -34,27 +34,60 @@ Sprint foto {{ valgt_klasse }}, {{ lopsinfo[0] }}
         <td>
           <a class="tooltip" href="">
              <img class="img_desi" src="{{ bilde.Url_thumb }}">
-             <span><img id=tooltipimage src="{{ bilde.Url_photo }}"></span>
+             <span>
+               <table><tr>
+                 <td><img id=tooltipimage src="{{ bilde.Url_photo }}"></td>
+                 <td>
+                   {% if heatliste[bilde.Heat] %}
+                     {% for heat in heatliste[bilde.Heat] %}
+                       <nobr>{{ heat.Nr }} - {{ heat.Navn }} - {{ heat.Klubb }}</nobr><br>
+                     {% endfor %}
+                   {% endif %}
+                  </td>
+                </tr></table>
+             </span>
           </a>
         </td>
         <td valign=top>
           <table>
             <tr><td>Tid:</td></tr>
             <tr><td>Startnummer:</td></tr>
-            <tr><td>Løpsklasse:</td></tr>
-            <tr><td>Heat:</td></tr>
+            <tr><td>Klasse:</td></tr>
             <tr><td>Lokasjon:</td></tr>
           </table>
         </td>
         <td valign=top>
-          <form class="" action="/admin/foto?id={{ bilde._id }}" method="post">
+          <form name="Foto_Tags" action="/admin/foto" method="post">
             <table>
-              <tr><td><input type=hidden name="Id" value="{{ bilde._id }}">{{ bilde.DateTime }}</td></tr>
+              <tr><td><input type=hidden name="DateTime" value="{{ bilde.DateTime }}"><input type=hidden name="Filename" value="{{ bilde.Filename }}">{{ bilde.DateTime }}</td></tr>
               <tr><td><input type=text name="Numbers" value="{{ bilde.Numbers }}"> {{ bilde.Numbers }}</td></tr>
-              <tr><td><input type=text name="Løpsklasse" value="{{ bilde.Løpsklasse }}"> {{ bilde.Løpsklasse }}</td></tr>
-              <tr><td><input type=text name="Heat" value="{{ bilde.Heat }}"> {{ bilde.Heat }}</td></tr>
-              <tr><td><input type=text name="{{ bilde.Lokasjon }}" value="{{ bilde.Lokasjon }}"> {{ bilde.Lokasjon }}</td></tr>
-              <tr><td><input type="submit" name="" value="Oppdater"></td></tr>
+              <tr><td>
+                <select name="Løpsklasse">
+                  <option value=""></option>
+                  {% for klasse in klasser %}
+                    <option value="{{ klasse.Løpsklasse }}"
+                      {% if (klasse.Løpsklasse == bilde.Løpsklasse) %}
+                        selected
+                      {% endif %}
+                      >{{ klasse.Klasse }}
+                    </option>
+                  {% endfor %}
+                </select> Heat: {{ bilde.Heat }}
+              </td></tr>
+              <tr><td>
+                <select name="Lokasjon">
+                  <option value=""></option>
+                  {% for lokasjon in lokasjoner %}
+                    <option value="{{ lokasjon }}"
+                      {% if (lokasjon == bilde.Lokasjon) %}
+                        selected
+                      {% endif %}
+                      >{{ lokasjon }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </td></tr>
+              <tr><td align=center><input type=hidden name="OldNumbers" value="{{ bilde.Numbers }}"><input type="submit" name="" value="Oppdater"></td></tr>
             </table>
           </form>
         </td>

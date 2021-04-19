@@ -242,8 +242,6 @@ function naviger(id) {
 }
 
 #tooltipimage{
-  position:absolute;
-  border:#ff0;
   width:900px;
   height:600px;
 }

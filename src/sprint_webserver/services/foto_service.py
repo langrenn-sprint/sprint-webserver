@@ -3,6 +3,7 @@ import datetime
 import logging
 from typing import Any, List
 
+from .deltakere_service import DeltakereService
 from .innstillinger_service import InnstillingerService
 from .kjoreplan_service import KjoreplanService
 from .klasser_service import KlasserService
@@ -58,20 +59,52 @@ class FotoService:
         """Create foto function. Delete existing foto, if any."""
         returncode = 201
 
-        # analyze tags and link in event information
-        tags_fromnumbers = await find_startnummer(db, body)
+        # analyze tags and enrich with event information
+        tags_fromnumbers = await find_event_information(db, body)
         body.update(tags_fromnumbers)
         if "Løpsklasse" not in body.keys():
             body["Løpsklasse"] = await find_lopsklasse(db, body)
         logging.debug(body)
 
         result = await db.foto_collection.insert_one(body)
-        id = result.inserted_id
-        logging.info(f"inserted one foto with id {id}")
-
-        # add additional tags
+        logging.info(f"inserted one foto with id {result.inserted_id}")
 
         return returncode
+
+    async def update_tags(self, db: Any, tags: Any) -> None:
+        """Update tags for one photo."""
+        logging.debug(f"Got tags {tags} of type {type(tags)}")
+
+        newvalues = {}
+        for x, y in tags.items():
+            if x == "OldNumbers":
+                oldnumbers = y
+            elif x == "Filename":
+                myquery = {"Filename": y}
+
+            else:
+                newvalues[x] = y
+
+        # enrich data
+        nummere = tags["Numbers"]
+        if oldnumbers != nummere:
+            nummerliste = nummere.split(";")
+            for nummer in nummerliste:
+                tmp_tags = await find_info_from_startnummer(
+                    db, nummer, tags["DateTime"]
+                )
+                for x, y in tmp_tags.items():
+                    logging.debug(f"Found tag: {x}, {y}")
+                    if x not in newvalues.keys():
+                        newvalues[x] = y
+                    elif newvalues[x] == "":
+                        newvalues[x] = y
+                    elif y not in newvalues[x]:
+                        newvalues[x] = newvalues[x] + ";" + y
+
+        logging.debug(f"update tags {newvalues}")
+        result = await db.foto_collection.update_one(myquery, {"$set": newvalues})
+        logging.info(f"updated one {result}")
 
 
 def get_seconds_diff(time1: str, time2: str) -> int:
@@ -79,6 +112,7 @@ def get_seconds_diff(time1: str, time2: str) -> int:
     seconds_diff = 1000
     t1 = datetime.datetime.strptime("1", "%S")  # nitialize time to zero
     t2 = datetime.datetime.strptime("1", "%S")
+    # TODO: Move to properties
     date_patterns = [
         "%Y:%m:%d %H:%M:%S",
         "%d.%m.%Y %H:%M:%S",
@@ -101,47 +135,63 @@ def get_seconds_diff(time1: str, time2: str) -> int:
     return seconds_diff
 
 
-async def find_startnummer(db: Any, tags: dict) -> dict:
-    """Analyse photo tags and identify startnummer."""
+async def find_info_from_startnummer(db: Any, startnummer: str, tid: str) -> dict:
+    """Analyse photo tags and identify heat."""
     nye_tags = {}
     funnetheat = ""
-    funnetstartnummer = ""
-    funnetklubber = ""
+    funnetdeltaker = {}
+
+    starter = await StartListeService().get_startliste_by_nr(db, startnummer)
+    if len(starter) > 0:
+        nye_tags["Numbers"] = startnummer
+        for start in starter:
+            # check startnummer
+            logging.debug(f"Start funnet: {start}")
+            # check heat (if not already found)
+            if funnetheat == "":
+                funnetheat = await verify_heat(db, tid, start["Heat"])
+                if funnetheat != "":
+                    nye_tags["Heat"] = funnetheat
+        # Get klubb and klasse
+        funnetdeltaker = await DeltakereService().get_deltaker_by_startnr(
+            db, startnummer
+        )
+
+    if "Startnr" in funnetdeltaker:
+        nye_tags["Løpsklasse"] = funnetdeltaker["Løpsklasse"]
+        nye_tags["Klubb"] = funnetdeltaker["Klubb"]
+
+    return nye_tags
+
+
+async def find_event_information(db: Any, tags: dict) -> dict:
+    """Analyse photo tags and identify event information."""
+    newvalues = {}
     nummere = tags["Numbers"]
     personer = tags["Persons"]
     if personer.isnumeric():
         if int(personer) > 0:
             nummerliste = nummere.split(";")
             for nummer in nummerliste:
-                starter = await StartListeService().get_startliste_by_nr(db, nummer)
-                if len(starter) > 0:
-                    for start in starter:
-                        # check startnummer
-                        logging.debug(f"Start funnet: {start}")
-                        if nummer not in funnetstartnummer:
-                            funnetstartnummer = funnetstartnummer + nummer + ";"
-                        # check heat (if not already found)
-                        if funnetheat == "":
-                            funnetheat = await verify_heat(
-                                db, str(tags.get("DateTime")), start["Heat"]
-                            )
-                        # check klubb
-                        if start["Klubb"] not in funnetklubber:
-                            funnetklubber = funnetklubber + start["Klubb"] + ";"
-                        nye_tags["Løpsklasse"] = start["Løpsklasse"]
+                tmp_tags = {}
+                tmp_tags = find_info_from_startnummer(db, nummer, tags["DateTime"])
+                for x, y in tmp_tags.items():
+                    logging.debug(f"Found tag: {x}, {y}")
+                    if x not in newvalues.keys():
+                        newvalues[x] = y
+                    elif newvalues[x] == "":
+                        newvalues[x] = y
+                    elif y not in newvalues[x]:
+                        newvalues[x] = newvalues[x] + ";" + y
 
             texts = tags["Texts"]
             liste = texts.split(";")
             for text in liste:
                 if text in klubber:
-                    if text not in funnetklubber:
-                        funnetklubber = funnetklubber + text + ";"
+                    if text not in newvalues["Klubb"]:
+                        newvalues["Klubb"] = newvalues["Klubb"] + text + ";"
 
-            nye_tags["Heat"] = funnetheat
-            nye_tags["Numbers"] = funnetstartnummer
-            nye_tags["Klubb"] = funnetklubber
-
-    return nye_tags
+    return newvalues
 
 
 async def verify_heat(db: Any, datetime_foto: str, heat_index: str) -> str:

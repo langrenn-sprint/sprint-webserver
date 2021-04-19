@@ -4,7 +4,19 @@ import logging
 from aiohttp import web
 import aiohttp_jinja2
 
-from sprint_webserver.services import FotoService, InnstillingerService, KlasserService
+from sprint_webserver.services import (
+    FotoService,
+    InnstillingerService,
+    KlasserService,
+    StartListeService,
+)
+
+lokasjoner = [
+    "Start",
+    "Mål",
+    "Målfoto",
+    "Premie",
+]
 
 
 class AdminFoto(web.View):
@@ -34,6 +46,17 @@ class AdminFoto(web.View):
         # hente alle klasser
         klasser = await KlasserService().get_all_klasser(self.request.app["db"])
 
+        # hente heat-deltakere
+        heatliste = {}
+        for one_foto in foto:
+            if "Heat" in one_foto.keys():
+                if not one_foto["Heat"] == "":
+                    startliste = await StartListeService().get_startliste_by_heat(
+                        self.request.app["db"], one_foto["Heat"]
+                    )
+                    logging.debug(f"Hentet heat: {startliste}")
+                    heatliste[one_foto["Heat"]] = startliste
+
         # ensure web safe urls
         for klasse in klasser:
             klasse["KlasseWeb"] = klasse["Klasse"].replace(" ", "%20")
@@ -43,19 +66,35 @@ class AdminFoto(web.View):
             "adm_foto.html",
             self.request,
             {
+                "foto": foto,
+                "heatliste": heatliste,
+                "klasser": klasser,
+                "lokasjoner": lokasjoner,
                 "lopsinfo": _lopsinfo,
                 "valgt_klasse": valgt_klasse,
-                "klasser": klasser,
-                "foto": foto,
             },
         )
 
     async def post(self) -> web.Response:
-        """Post route function that creates a collection of klasses."""
-        body = await self.request.json()
-        logging.debug(f"Got request-body {body} of type {type(body)}")
-        result = await FotoService().create_foto(self.request.app["db"], body)
-        return web.Response(status=result)
+        """Post route function."""
+        tags = {}
+        try:
+            form_data = await self.request.post()
+            tags["DateTime"] = form_data["DateTime"]
+            tags["Filename"] = form_data["Filename"]
+            tags["Lokasjon"] = form_data["Lokasjon"]
+            tags["Løpsklasse"] = form_data["Løpsklasse"]
+            tags["Numbers"] = form_data["Numbers"]
+            tags["OldNumbers"] = form_data["OldNumbers"]
+
+        except Exception:
+            logging.error("Error parsing request parameters.")
+            raise web.HTTPBadRequest
+
+        logging.debug(f"Got tags: {tags}")
+        await FotoService().update_tags(self.request.app["db"], tags)
+
+        raise web.HTTPFound("/admin/foto?informasjon=Oppdatert")
 
     async def put(self) -> web.Response:
         """Post route function."""

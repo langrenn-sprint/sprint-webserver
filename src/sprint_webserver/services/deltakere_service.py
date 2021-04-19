@@ -15,6 +15,11 @@ class DeltakereService:
             logging.debug(document)
         return deltakere
 
+    async def get_deltaker_by_startnr(self, db: Any, startnummer: str) -> dict:
+        """Get deltaker function."""
+        result = await db.deltakere_collection.find_one({"Startnr": startnummer})
+        return result
+
     async def get_deltakere_by_klubb(self, db: Any, klubb: str) -> List:
         """Get all deltakere function."""
         deltakere = []
